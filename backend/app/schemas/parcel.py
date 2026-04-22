@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from typing import Optional
 from app.models.parcel import ParcelStatus
@@ -24,6 +24,8 @@ class ParcelUpdate(BaseModel):
 
 
 class ParcelOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     user_id: int
     store_name: str
@@ -34,6 +36,3 @@ class ParcelOut(BaseModel):
     expires_at: Optional[datetime] = None
     status: ParcelStatus
     created_at: datetime
-
-    class Config:
-        from_attributes = True

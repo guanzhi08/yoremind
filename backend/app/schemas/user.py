@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 from datetime import datetime
 from typing import Optional
 
@@ -14,13 +14,12 @@ class UserLogin(BaseModel):
 
 
 class UserOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     email: str
     fcm_token: Optional[str] = None
     created_at: datetime
-
-    class Config:
-        from_attributes = True
 
 
 class TokenOut(BaseModel):

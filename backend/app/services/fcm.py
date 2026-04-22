@@ -13,15 +13,21 @@ def _get_app():
         return _fcm_app
 
     from app.core.config import settings
-    if not settings.FIREBASE_CREDENTIALS_JSON:
-        logger.warning("FIREBASE_CREDENTIALS_JSON not set; FCM notifications disabled")
+    raw = settings.FIREBASE_CREDENTIALS_JSON.strip()
+
+    if not raw or raw in ("{}", "null", ""):
+        logger.warning("FIREBASE_CREDENTIALS_JSON not configured; FCM notifications disabled")
         return None
 
     try:
         import firebase_admin
         from firebase_admin import credentials
 
-        cred_dict = json.loads(settings.FIREBASE_CREDENTIALS_JSON)
+        cred_dict = json.loads(raw)
+        if not cred_dict.get("type"):
+            logger.warning("FIREBASE_CREDENTIALS_JSON missing 'type' field; FCM disabled")
+            return None
+
         cred = credentials.Certificate(cred_dict)
         _fcm_app = firebase_admin.initialize_app(cred)
     except Exception as exc:
@@ -34,7 +40,7 @@ def _get_app():
 def send_notification(fcm_token: str, title: str, body: str, data: Optional[dict] = None) -> bool:
     app = _get_app()
     if app is None:
-        logger.info("FCM disabled — would send: [%s] %s", title, body)
+        logger.info("FCM disabled — would send to %s: [%s] %s", fcm_token[:8] + "...", title, body)
         return False
 
     try:

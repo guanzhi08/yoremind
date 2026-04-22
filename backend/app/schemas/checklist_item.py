@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 
@@ -12,10 +12,9 @@ class ChecklistItemUpdate(BaseModel):
 
 
 class ChecklistItemOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     task_id: int
     label: str
     is_checked: bool
-
-    class Config:
-        from_attributes = True

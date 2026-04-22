@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from typing import Optional, List
 from app.models.task import TaskType
@@ -26,6 +26,8 @@ class TaskUpdate(BaseModel):
 
 
 class TaskOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     user_id: int
     title: str
@@ -39,6 +41,3 @@ class TaskOut(BaseModel):
     last_triggered_at: Optional[datetime] = None
     created_at: datetime
     items: List[ChecklistItemOut] = []
-
-    class Config:
-        from_attributes = True

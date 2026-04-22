@@ -1,23 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 
-const MAP8_SDK_URL = "https://api.map8.zone/maps/v1/js";
 const DEFAULT_CENTER = [25.0478, 121.5319]; // Taipei
+const OSM_TILE = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+const OSM_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const NOMINATIM_SEARCH = "https://nominatim.openstreetmap.org/search";
 
-let sdkLoaded = false;
-let sdkLoadPromise = null;
+let leafletLoaded = false;
+let leafletLoadPromise = null;
 
-function loadMap8SDK(apiKey) {
-  if (sdkLoaded) return Promise.resolve();
-  if (sdkLoadPromise) return sdkLoadPromise;
+function loadLeaflet() {
+  if (leafletLoaded) return Promise.resolve();
+  if (leafletLoadPromise) return leafletLoadPromise;
 
-  sdkLoadPromise = new Promise((resolve, reject) => {
+  leafletLoadPromise = new Promise((resolve, reject) => {
+    // CSS
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    document.head.appendChild(link);
+
+    // JS
     const script = document.createElement("script");
-    script.src = `${MAP8_SDK_URL}?key=${apiKey}`;
-    script.onload = () => { sdkLoaded = true; resolve(); };
+    script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    script.onload = () => { leafletLoaded = true; resolve(); };
     script.onerror = reject;
     document.head.appendChild(script);
   });
-  return sdkLoadPromise;
+  return leafletLoadPromise;
 }
 
 export default function Map8Picker({ lat, lng, onSelect }) {
@@ -26,34 +35,32 @@ export default function Map8Picker({ lat, lng, onSelect }) {
   const markerRef = useRef(null);
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
-  const [apiKey] = useState(() => import.meta.env.VITE_MAP8_API_KEY || "");
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (!apiKey) return;
+    loadLeaflet().then(() => setReady(true)).catch(() => {});
+  }, []);
 
-    loadMap8SDK(apiKey).then(() => {
-      if (!mapRef.current || mapInstanceRef.current) return;
-      const M = window.maplibregl || window.Map8;
-      if (!M) return;
+  useEffect(() => {
+    if (!ready || !mapRef.current || mapInstanceRef.current) return;
 
-      const center = lat && lng ? [lng, lat] : [DEFAULT_CENTER[1], DEFAULT_CENTER[0]];
-      mapInstanceRef.current = new M.Map({
-        container: mapRef.current,
-        style: `https://api.map8.zone/style/osm-style.json?key=${apiKey}`,
-        center,
-        zoom: 15,
-      });
+    const L = window.L;
+    const center = lat && lng ? [lat, lng] : DEFAULT_CENTER;
 
-      mapInstanceRef.current.on("click", (e) => {
-        const { lat: clickLat, lng: clickLng } = e.lngLat;
-        placeMarker(clickLng, clickLat);
-        onSelect(clickLat, clickLng);
-      });
+    mapInstanceRef.current = L.map(mapRef.current).setView(center, 15);
 
-      if (lat && lng) placeMarker(lng, lat);
-    }).catch(() => {
-      // SDK load failed — map will be unavailable
+    L.tileLayer(OSM_TILE, {
+      attribution: OSM_ATTRIBUTION,
+      maxZoom: 19,
+    }).addTo(mapInstanceRef.current);
+
+    mapInstanceRef.current.on("click", (e) => {
+      const { lat: clickLat, lng: clickLng } = e.latlng;
+      placeMarker(clickLat, clickLng);
+      onSelect(clickLat, clickLng);
     });
+
+    if (lat && lng) placeMarker(lat, lng);
 
     return () => {
       if (mapInstanceRef.current) {
@@ -61,67 +68,66 @@ export default function Map8Picker({ lat, lng, onSelect }) {
         mapInstanceRef.current = null;
       }
     };
-  }, [apiKey]);
+  }, [ready]);
 
-  const placeMarker = (lng, lat) => {
-    const M = window.maplibregl || window.Map8;
-    if (!M || !mapInstanceRef.current) return;
+  const placeMarker = (lat, lng) => {
+    const L = window.L;
+    if (!L || !mapInstanceRef.current) return;
     if (markerRef.current) markerRef.current.remove();
-    markerRef.current = new M.Marker({ color: "#6366f1" })
-      .setLngLat([lng, lat])
-      .addTo(mapInstanceRef.current);
-    mapInstanceRef.current.flyTo({ center: [lng, lat], zoom: 16 });
+    markerRef.current = L.marker([lat, lng]).addTo(mapInstanceRef.current);
+    mapInstanceRef.current.setView([lat, lng], 16);
   };
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (!search.trim() || !apiKey) return;
+    if (!search.trim()) return;
     try {
       const res = await fetch(
-        `https://api.map8.zone/place/textsearch/json?query=${encodeURIComponent(search)}&key=${apiKey}&language=zh-TW`
+        `${NOMINATIM_SEARCH}?q=${encodeURIComponent(search)}&format=json&limit=5&addressdetails=1`,
+        { headers: { "Accept-Language": "zh-TW,zh;q=0.9" } }
       );
       const data = await res.json();
-      setResults(data.results || []);
+      setResults(data);
     } catch {
       setResults([]);
     }
   };
 
   const selectResult = (place) => {
-    const { lat: rLat, lng: rLng } = place.geometry.location;
-    placeMarker(rLng, rLat);
-    onSelect(rLat, rLng);
+    const lat = parseFloat(place.lat);
+    const lng = parseFloat(place.lon);
+    placeMarker(lat, lng);
+    onSelect(lat, lng);
     setResults([]);
-    setSearch(place.name);
+    setSearch(place.display_name.split(",")[0]);
   };
-
-  if (!apiKey) {
-    return (
-      <div style={styles.placeholder}>
-        <p style={styles.noKey}>未設定 VITE_MAP8_API_KEY</p>
-        <p style={styles.noKeyHint}>請在 .env 中設定地圖 API Key</p>
-      </div>
-    );
-  }
 
   return (
     <div style={styles.wrapper}>
       <form onSubmit={handleSearch} style={styles.searchRow}>
-        <input style={styles.searchInput} value={search} onChange={(e) => setSearch(e.target.value)} placeholder="搜尋地標…" />
+        <input
+          style={styles.searchInput}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="搜尋地標（OpenStreetMap）…"
+        />
         <button style={styles.searchBtn} type="submit">搜尋</button>
       </form>
+
       {results.length > 0 && (
         <ul style={styles.resultList}>
-          {results.slice(0, 5).map((r) => (
+          {results.map((r) => (
             <li key={r.place_id} style={styles.resultItem} onClick={() => selectResult(r)}>
-              <strong>{r.name}</strong>
-              <span style={{ color: "#64748b", fontSize: 12 }}> {r.formatted_address}</span>
+              <strong>{r.display_name.split(",")[0]}</strong>
+              <span style={{ color: "#64748b", fontSize: 12 }}> {r.display_name.split(",").slice(1, 3).join(",")}</span>
             </li>
           ))}
         </ul>
       )}
-      <div ref={mapRef} style={styles.map} />
-      <p style={styles.hint}>點擊地圖選取位置</p>
+
+      {!ready && <div style={styles.loading}>地圖載入中…</div>}
+      <div ref={mapRef} style={{ ...styles.map, display: ready ? "block" : "none" }} />
+      <p style={styles.hint}>點擊地圖選取位置 · OpenStreetMap · 無需 API Key</p>
     </div>
   );
 }
@@ -133,9 +139,7 @@ const styles = {
   searchBtn: { padding: "8px 14px", borderRadius: 8, border: "none", background: "#6366f1", color: "#fff", cursor: "pointer", fontSize: 14 },
   resultList: { listStyle: "none", margin: 0, padding: "4px 0", maxHeight: 160, overflowY: "auto", borderBottom: "1px solid #f1f5f9" },
   resultItem: { padding: "8px 12px", cursor: "pointer", fontSize: 14, lineHeight: 1.4 },
+  loading: { height: 220, display: "flex", alignItems: "center", justifyContent: "center", color: "#94a3b8" },
   map: { height: 220, width: "100%" },
   hint: { textAlign: "center", color: "#94a3b8", fontSize: 12, padding: 6 },
-  placeholder: { background: "#f8fafc", borderRadius: 12, border: "1.5px dashed #cbd5e1", padding: 24, textAlign: "center" },
-  noKey: { color: "#64748b", fontWeight: 600 },
-  noKeyHint: { color: "#94a3b8", fontSize: 13, marginTop: 4 },
 };

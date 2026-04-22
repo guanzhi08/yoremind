@@ -15,7 +15,7 @@
 | 後端 | Python FastAPI + PostgreSQL + SQLAlchemy |
 | 認證 | JWT (python-jose) + bcrypt |
 | 推播 | Firebase Cloud Messaging |
-| 地圖 | Map8（台灣地圖服務）|
+| 地圖 | OpenStreetMap + Leaflet.js + Nominatim（免費，無需 API Key）|
 | 前端 | React 18 + Vite PWA |
 | 部署 | Render.com（後端）+ 靜態托管（前端）|
 
@@ -48,7 +48,7 @@ API 文件：http://localhost:8000/docs
 cd frontend
 npm install
 
-cp .env.example .env            # 填入 VITE_MAP8_API_KEY
+cp .env.example .env            # 填入 VITE_API_URL（無需 Map API Key）
 
 npm run dev                     # http://localhost:5173
 ```
@@ -63,7 +63,6 @@ npm run dev                     # http://localhost:5173
 |------|------|
 | `DATABASE_URL` | PostgreSQL 連線字串，例：`postgresql://user:pass@host/dbname`；本地開發可用 `sqlite:///./yoremind.db` |
 | `SECRET_KEY` | JWT 簽名金鑰（建議 32 字元以上隨機字串） |
-| `MAP8_API_KEY` | [Map8 API](https://www.map8.zone/) 金鑰 |
 | `FIREBASE_CREDENTIALS_JSON` | Firebase service account JSON（單行字串） |
 
 ### 前端 (`frontend/.env`)
@@ -71,7 +70,6 @@ npm run dev                     # http://localhost:5173
 | 變數 | 說明 |
 |------|------|
 | `VITE_API_URL` | 後端 API base URL，例：`https://yoremind-api.onrender.com` |
-| `VITE_MAP8_API_KEY` | Map8 API 金鑰（前端地圖用） |
 
 ---
 
@@ -110,7 +108,8 @@ npm run build
 | GET | `/parcels` | 取得取貨提醒 |
 | POST | `/parcels` | 建立取貨提醒 |
 | POST | `/location/update` | 上傳 GPS 位置（觸發地理圍欄）|
-| GET | `/map8/search` | 代理 Map8 地標搜尋 |
+| GET | `/nominatim/search` | 代理 Nominatim 地標搜尋 |
+| GET | `/nominatim/reverse` | 代理 Nominatim 反向地理編碼 |
 | GET | `/health` | 健康檢查 |
 
 ---

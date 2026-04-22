@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 import httpx
 
-from app.core.config import settings
 from app.core.security import get_current_user
 from app.models.user import User
 
 router = APIRouter()
 
-MAP8_BASE = "https://api.map8.zone"
+NOMINATIM_BASE = "https://nominatim.openstreetmap.org"
+HEADERS = {"User-Agent": "YoRemind/1.0 (contact@yoremind.app)"}
 
 
 @router.get("/search")
@@ -16,35 +16,31 @@ async def search_places(
     limit: int = Query(10, le=20),
     current_user: User = Depends(get_current_user),
 ):
-    if not settings.MAP8_API_KEY:
-        raise HTTPException(status_code=503, detail="MAP8_API_KEY not configured")
-
     async with httpx.AsyncClient() as client:
         resp = await client.get(
-            f"{MAP8_BASE}/place/textsearch/json",
-            params={"query": q, "key": settings.MAP8_API_KEY, "language": "zh-TW"},
+            f"{NOMINATIM_BASE}/search",
+            params={"q": q, "format": "json", "limit": limit, "addressdetails": 1},
+            headers=HEADERS,
             timeout=10.0,
         )
         if resp.status_code != 200:
-            raise HTTPException(status_code=502, detail="Map8 API error")
+            raise HTTPException(status_code=502, detail="Nominatim API error")
         return resp.json()
 
 
-@router.get("/geocode")
+@router.get("/reverse")
 async def reverse_geocode(
     lat: float = Query(...),
     lng: float = Query(...),
     current_user: User = Depends(get_current_user),
 ):
-    if not settings.MAP8_API_KEY:
-        raise HTTPException(status_code=503, detail="MAP8_API_KEY not configured")
-
     async with httpx.AsyncClient() as client:
         resp = await client.get(
-            f"{MAP8_BASE}/geocode/json",
-            params={"latlng": f"{lat},{lng}", "key": settings.MAP8_API_KEY, "language": "zh-TW"},
+            f"{NOMINATIM_BASE}/reverse",
+            params={"lat": lat, "lon": lng, "format": "json"},
+            headers=HEADERS,
             timeout=10.0,
         )
         if resp.status_code != 200:
-            raise HTTPException(status_code=502, detail="Map8 API error")
+            raise HTTPException(status_code=502, detail="Nominatim API error")
         return resp.json()

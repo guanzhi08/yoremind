@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import client from "../api/client";
 
 const DEFAULT_CENTER = [25.0478, 121.5319]; // Taipei
 const OSM_TILE = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const OSM_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-const NOMINATIM_SEARCH = "https://nominatim.openstreetmap.org/search";
 
 let leafletLoaded = false;
 let leafletLoadPromise = null;
@@ -13,13 +13,11 @@ function loadLeaflet() {
   if (leafletLoadPromise) return leafletLoadPromise;
 
   leafletLoadPromise = new Promise((resolve, reject) => {
-    // CSS
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
     document.head.appendChild(link);
 
-    // JS
     const script = document.createElement("script");
     script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
     script.onload = () => { leafletLoaded = true; resolve(); };
@@ -82,11 +80,7 @@ export default function Map8Picker({ lat, lng, onSelect }) {
     e.preventDefault();
     if (!search.trim()) return;
     try {
-      const res = await fetch(
-        `${NOMINATIM_SEARCH}?q=${encodeURIComponent(search)}&format=json&limit=5&addressdetails=1`,
-        { headers: { "Accept-Language": "zh-TW,zh;q=0.9" } }
-      );
-      const data = await res.json();
+      const { data } = await client.get("/nominatim/search", { params: { q: search, limit: 5 } });
       setResults(data);
     } catch {
       setResults([]);
@@ -119,7 +113,9 @@ export default function Map8Picker({ lat, lng, onSelect }) {
           {results.map((r) => (
             <li key={r.place_id} style={styles.resultItem} onClick={() => selectResult(r)}>
               <strong>{r.display_name.split(",")[0]}</strong>
-              <span style={{ color: "#64748b", fontSize: 12 }}> {r.display_name.split(",").slice(1, 3).join(",")}</span>
+              <span style={{ color: "#64748b", fontSize: 12 }}>
+                {" "}{r.display_name.split(",").slice(1, 3).join(",")}
+              </span>
             </li>
           ))}
         </ul>

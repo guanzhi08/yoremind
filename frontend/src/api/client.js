@@ -20,8 +20,14 @@ client.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
+      const hadToken = !!getToken();
       clearAuth();
-      window.location.href = "/login";
+      // Only force-redirect if the user had a valid session that expired.
+      // If there was no token, the 401 is expected (e.g. GPS upload while logged out)
+      // and we should NOT redirect away from public pages like /register.
+      if (hadToken) {
+        window.location.href = "/login";
+      }
     }
     return Promise.reject(error);
   }

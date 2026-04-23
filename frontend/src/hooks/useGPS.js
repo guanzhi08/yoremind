@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import client from "../api/client";
+import { isLoggedIn } from "../store/auth";
 
 const UPLOAD_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -9,6 +10,7 @@ export function useGPS() {
 
   useEffect(() => {
     if (!navigator.geolocation) return;
+    if (!isLoggedIn()) return;
 
     const upload = async (lat, lng) => {
       const now = Date.now();

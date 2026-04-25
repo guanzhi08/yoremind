@@ -104,6 +104,12 @@ export default function TaskDetail() {
     }
   };
 
+  const handleToggleNotif = async (key) => {
+    const next = !task[key];
+    const { data } = await client.patch(`/tasks/${id}`, { [key]: next });
+    setTask((prev) => ({ ...prev, [key]: data[key] }));
+  };
+
   const handleDelete = async () => {
     if (!window.confirm(`確定刪除「${task.title}」？`)) return;
     setDeleting(true);
@@ -185,6 +191,32 @@ export default function TaskDetail() {
           </form>
         </div>
       )}
+
+      {/* Notification settings */}
+      <div style={styles.section}>
+        <div style={styles.sectionTitle}>通知設定</div>
+        <div style={{ display: "flex", gap: 8 }}>
+          {[
+            { key: "notif_sound", icon: "🔔", label: "音效" },
+            { key: "notif_vibrate", icon: "📳", label: "震動" },
+            { key: "notif_lights", icon: "💡", label: "LED" },
+          ].map(({ key, icon, label }) => (
+            <button
+              key={key}
+              onClick={() => handleToggleNotif(key)}
+              style={{
+                flex: 1, padding: "10px 4px", borderRadius: 10,
+                border: "1.5px solid", fontSize: 13, fontWeight: 600, cursor: "pointer",
+                ...(task[key] !== false
+                  ? { background: "#ede9fe", borderColor: "#6366f1", color: "#6366f1" }
+                  : { background: "#f8fafc", borderColor: "#cbd5e1", color: "#94a3b8" }),
+              }}
+            >
+              {icon} {label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Action buttons */}
       <div style={styles.actions}>

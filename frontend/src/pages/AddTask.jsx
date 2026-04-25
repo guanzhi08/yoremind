@@ -13,6 +13,9 @@ export default function AddTask() {
     radius_m: 200,
     time_start: "",
     time_end: "",
+    notif_sound: true,
+    notif_vibrate: true,
+    notif_lights: true,
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -69,6 +72,24 @@ export default function AddTask() {
           <input style={{ ...styles.input, flex: 1 }} type="time" value={form.time_end} onChange={(e) => setForm({ ...form, time_end: e.target.value })} />
         </div>
 
+        <label style={styles.label}>通知設定</label>
+        <div style={styles.notifBlock}>
+          {[
+            { key: "notif_sound", icon: "🔔", label: "音效" },
+            { key: "notif_vibrate", icon: "📳", label: "震動" },
+            { key: "notif_lights", icon: "💡", label: "LED" },
+          ].map(({ key, icon, label }) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setForm((f) => ({ ...f, [key]: !f[key] }))}
+              style={{ ...styles.notifBtn, ...(form[key] ? styles.notifBtnOn : styles.notifBtnOff) }}
+            >
+              {icon} {label}
+            </button>
+          ))}
+        </div>
+
         {error && <p style={styles.error}>{error}</p>}
         <button style={styles.btn} type="submit" disabled={loading}>
           {loading ? "儲存中…" : "儲存提醒"}
@@ -89,4 +110,8 @@ const styles = {
   coords: { color: "#6366f1", fontSize: 13 },
   error: { color: "#ef4444", fontSize: 14 },
   btn: { marginTop: 8, padding: 14, borderRadius: 12, border: "none", background: "#6366f1", color: "#fff", fontSize: 16, fontWeight: 600, cursor: "pointer" },
+  notifBlock: { display: "flex", gap: 8 },
+  notifBtn: { flex: 1, padding: "10px 4px", borderRadius: 10, border: "1.5px solid", fontSize: 13, fontWeight: 600, cursor: "pointer" },
+  notifBtnOn: { background: "#ede9fe", borderColor: "#6366f1", color: "#6366f1" },
+  notifBtnOff: { background: "#f8fafc", borderColor: "#cbd5e1", color: "#94a3b8" },
 };

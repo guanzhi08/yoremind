@@ -40,12 +40,6 @@ async function sendNotification(title, body) {
 
 // ── Capacitor native GPS path ────────────────────────────────────────────────
 
-function getNotifSettings() {
-  try {
-    return JSON.parse(localStorage.getItem("yoremind_notif_settings") || "{}");
-  } catch { return {}; }
-}
-
 async function startCapacitorGPS() {
   const { BackgroundGeolocation } = await import("@capacitor-community/background-geolocation");
   const { LocalNotifications } = await import("@capacitor/local-notifications");
@@ -66,18 +60,16 @@ async function startCapacitorGPS() {
       const { latitude: lat, longitude: lng } = position;
       try {
         const { data: tasks } = await client.get("/tasks/check-trigger", { params: { lat, lng } });
-        const s = getNotifSettings();
-        const sound = s.sound !== false;
-        const vibrate = s.vibrate !== false;
         for (const task of tasks) {
+          window.dispatchEvent(new CustomEvent("yoremind:alarm", { detail: task }));
           await LocalNotifications.schedule({
             notifications: [{
               id: task.id,
               title: "📍 YoRemind — " + task.title,
               body: "你已進入目標範圍！",
               schedule: { at: new Date(Date.now() + 500) },
-              sound: sound ? "default" : null,
-              vibrate,
+              sound: task.notif_sound !== false ? "default" : null,
+              vibrate: task.notif_vibrate !== false,
               importance: 5,
               visibility: 1,
               channelId: "yoremind_alerts",
@@ -108,6 +100,7 @@ function startWebGPS() {
         params: { lat: pos.lat, lng: pos.lng },
       });
       for (const task of tasks) {
+        window.dispatchEvent(new CustomEvent("yoremind:alarm", { detail: task }));
         await sendNotification(`YoRemind：${task.title}`, "你已抵達提醒地點！");
       }
     } catch { /* ignore */ }

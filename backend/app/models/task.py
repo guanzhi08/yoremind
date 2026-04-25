@@ -24,6 +24,9 @@ class Task(Base):
     time_start = Column(String, nullable=True)  # "HH:MM" format
     time_end = Column(String, nullable=True)    # "HH:MM" format
     is_active = Column(Boolean, default=True)
+    notif_sound = Column(Boolean, default=True, server_default="1")
+    notif_vibrate = Column(Boolean, default=True, server_default="1")
+    notif_lights = Column(Boolean, default=True, server_default="1")
     last_triggered_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

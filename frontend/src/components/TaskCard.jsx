@@ -1,13 +1,27 @@
-export default function TaskCard({ task, onClick, onDelete }) {
+import { fmtDistance } from "../utils/geo";
+
+export default function TaskCard({ task, onClick, onDelete, distance, inRange }) {
   const checkedCount = task.items?.filter((i) => i.is_checked).length ?? 0;
   const totalCount = task.items?.length ?? 0;
+
+  let rangeBadge = null;
+  if (distance !== null && distance !== undefined) {
+    if (inRange) {
+      rangeBadge = <span style={styles.inRange}>📍 範圍內</span>;
+    } else {
+      rangeBadge = <span style={styles.outRange}>📍 距 {fmtDistance(distance)}</span>;
+    }
+  }
 
   return (
     <div style={styles.card} onClick={onClick}>
       <div style={styles.left}>
-        <span style={{ ...styles.badge, background: task.type === "checklist" ? "#dbeafe" : "#ede9fe", color: task.type === "checklist" ? "#2563eb" : "#7c3aed" }}>
-          {task.type === "checklist" ? "清單" : "提醒"}
-        </span>
+        <div style={styles.titleRow}>
+          <span style={{ ...styles.badge, background: task.type === "checklist" ? "#dbeafe" : "#ede9fe", color: task.type === "checklist" ? "#2563eb" : "#7c3aed" }}>
+            {task.type === "checklist" ? "清單" : "提醒"}
+          </span>
+          {rangeBadge}
+        </div>
         <div style={styles.title}>{task.title}</div>
         {task.lat && (
           <div style={styles.meta}>
@@ -37,7 +51,10 @@ export default function TaskCard({ task, onClick, onDelete }) {
 const styles = {
   card: { background: "#fff", borderRadius: 14, padding: "14px 16px", marginBottom: 12, boxShadow: "0 1px 4px rgba(0,0,0,0.06)", display: "flex", justifyContent: "space-between", alignItems: "flex-start", cursor: "pointer" },
   left: { flex: 1 },
-  badge: { display: "inline-block", fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, marginBottom: 6 },
+  titleRow: { display: "flex", alignItems: "center", gap: 6, marginBottom: 6, flexWrap: "wrap" },
+  badge: { fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20 },
+  inRange: { fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: "#d1fae5", color: "#065f46" },
+  outRange: { fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: "#f1f5f9", color: "#64748b" },
   title: { fontWeight: 600, fontSize: 16, color: "#1e293b", marginBottom: 4 },
   meta: { color: "#64748b", fontSize: 12, marginTop: 2 },
   progress: { marginTop: 6, fontSize: 12, color: "#6366f1", fontWeight: 600 },

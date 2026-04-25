@@ -58,12 +58,9 @@ export default function AddTask() {
         <Map8Picker
           lat={form.lat}
           lng={form.lng}
-          onSelect={(lat, lng) => setForm({ ...form, lat, lng })}
+          onSelect={({ lat, lng, radius }) => setForm((f) => ({ ...f, lat, lng, radius_m: radius }))}
         />
         {form.lat && <p style={styles.coords}>{form.lat.toFixed(6)}, {form.lng.toFixed(6)}</p>}
-
-        <label style={styles.label}>觸發半徑（公尺）</label>
-        <input style={styles.input} type="number" min={50} max={5000} value={form.radius_m} onChange={(e) => setForm({ ...form, radius_m: e.target.value })} />
 
         <label style={styles.label}>時間範圍（可選）</label>
         <div style={{ display: "flex", gap: 8 }}>

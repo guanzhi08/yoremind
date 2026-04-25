@@ -1,83 +1,91 @@
 import { useEffect, useRef, useState } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 import client from "../api/client";
 
-const DEFAULT_CENTER = [25.0478, 121.5319]; // Taipei
+// Vite bundles break Leaflet's default icon URL resolution
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+});
+
+const DEFAULT_CENTER = [25.0478, 121.5319];
 const OSM_TILE = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const OSM_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-
-let leafletLoaded = false;
-let leafletLoadPromise = null;
-
-function loadLeaflet() {
-  if (leafletLoaded) return Promise.resolve();
-  if (leafletLoadPromise) return leafletLoadPromise;
-
-  leafletLoadPromise = new Promise((resolve, reject) => {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-    document.head.appendChild(link);
-
-    const script = document.createElement("script");
-    script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
-    script.onload = () => { leafletLoaded = true; resolve(); };
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-  return leafletLoadPromise;
-}
+const CIRCLE_STYLE = { color: "#3B82F6", fillColor: "#BFDBFE", fillOpacity: 0.3, weight: 2 };
+const DEFAULT_RADIUS = 200;
 
 export default function Map8Picker({ lat, lng, onSelect }) {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const markerRef = useRef(null);
+  const circleRef = useRef(null);
+  const positionRef = useRef(lat && lng ? { lat, lng } : null);
+  // Use a ref so the map click handler always sees the latest radius
+  const radiusRef = useRef(DEFAULT_RADIUS);
+  const [radius, setRadius] = useState(DEFAULT_RADIUS);
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    loadLeaflet().then(() => setReady(true)).catch(() => {});
-  }, []);
+    if (!mapRef.current || mapInstanceRef.current) return;
 
-  useEffect(() => {
-    if (!ready || !mapRef.current || mapInstanceRef.current) return;
-
-    const L = window.L;
     const center = lat && lng ? [lat, lng] : DEFAULT_CENTER;
-
     mapInstanceRef.current = L.map(mapRef.current).setView(center, 15);
 
-    L.tileLayer(OSM_TILE, {
-      attribution: OSM_ATTRIBUTION,
-      maxZoom: 19,
-    }).addTo(mapInstanceRef.current);
+    L.tileLayer(OSM_TILE, { attribution: OSM_ATTRIBUTION, maxZoom: 19 })
+      .addTo(mapInstanceRef.current);
 
     mapInstanceRef.current.on("click", (e) => {
       const { lat: clickLat, lng: clickLng } = e.latlng;
-      placeMarker(clickLat, clickLng);
-      onSelect(clickLat, clickLng);
+      placePin(clickLat, clickLng);
     });
 
-    if (lat && lng) placeMarker(lat, lng);
+    if (lat && lng) {
+      drawMarkerAndCircle(lat, lng, radiusRef.current);
+    }
+
+    setTimeout(() => mapInstanceRef.current?.invalidateSize(), 0);
 
     return () => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
-      }
+      mapInstanceRef.current?.remove();
+      mapInstanceRef.current = null;
     };
-  }, [ready]);
+  }, []);
 
-  const placeMarker = (lat, lng) => {
-    const L = window.L;
-    if (!L || !mapInstanceRef.current) return;
-    if (markerRef.current) markerRef.current.remove();
+  const drawMarkerAndCircle = (lat, lng, r) => {
+    if (!mapInstanceRef.current) return;
+    markerRef.current?.remove();
+    circleRef.current?.remove();
     markerRef.current = L.marker([lat, lng]).addTo(mapInstanceRef.current);
-    mapInstanceRef.current.setView([lat, lng], 16);
+    circleRef.current = L.circle([lat, lng], { radius: r, ...CIRCLE_STYLE })
+      .addTo(mapInstanceRef.current);
+    mapInstanceRef.current.fitBounds(circleRef.current.getBounds(), { padding: [20, 20] });
+    positionRef.current = { lat, lng };
   };
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
+  const placePin = (lat, lng) => {
+    drawMarkerAndCircle(lat, lng, radiusRef.current);
+    onSelect({ lat, lng, radius: radiusRef.current });
+  };
+
+  const handleRadiusChange = (e) => {
+    const r = Math.min(2000, Math.max(50, Number(e.target.value)));
+    radiusRef.current = r;
+    setRadius(r);
+    if (positionRef.current && mapInstanceRef.current) {
+      const { lat, lng } = positionRef.current;
+      circleRef.current?.remove();
+      circleRef.current = L.circle([lat, lng], { radius: r, ...CIRCLE_STYLE })
+        .addTo(mapInstanceRef.current);
+      mapInstanceRef.current.fitBounds(circleRef.current.getBounds(), { padding: [20, 20] });
+      onSelect({ lat, lng, radius: r });
+    }
+  };
+
+  const handleSearch = async () => {
     if (!search.trim()) return;
     try {
       const { data } = await client.get("/nominatim/search", { params: { q: search, limit: 5 } });
@@ -87,26 +95,33 @@ export default function Map8Picker({ lat, lng, onSelect }) {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
+
   const selectResult = (place) => {
     const lat = parseFloat(place.lat);
     const lng = parseFloat(place.lon);
-    placeMarker(lat, lng);
-    onSelect(lat, lng);
+    placePin(lat, lng);
     setResults([]);
     setSearch(place.display_name.split(",")[0]);
   };
 
   return (
     <div style={styles.wrapper}>
-      <form onSubmit={handleSearch} style={styles.searchRow}>
+      <div style={styles.searchRow}>
         <input
           style={styles.searchInput}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="搜尋地標（OpenStreetMap）…"
         />
-        <button style={styles.searchBtn} type="submit">搜尋</button>
-      </form>
+        <button style={styles.searchBtn} type="button" onClick={handleSearch}>搜尋</button>
+      </div>
 
       {results.length > 0 && (
         <ul style={styles.resultList}>
@@ -121,8 +136,22 @@ export default function Map8Picker({ lat, lng, onSelect }) {
         </ul>
       )}
 
-      {!ready && <div style={styles.loading}>地圖載入中…</div>}
-      <div ref={mapRef} style={{ ...styles.map, display: ready ? "block" : "none" }} />
+      <div ref={mapRef} style={styles.map} />
+
+      <div style={styles.radiusRow}>
+        <label style={styles.radiusLabel}>觸發半徑</label>
+        <input
+          style={styles.radiusInput}
+          type="range"
+          min={50}
+          max={2000}
+          step={50}
+          value={radius}
+          onChange={handleRadiusChange}
+        />
+        <span style={styles.radiusValue}>{radius} 公尺</span>
+      </div>
+
       <p style={styles.hint}>點擊地圖選取位置 · OpenStreetMap · 無需 API Key</p>
     </div>
   );
@@ -135,7 +164,10 @@ const styles = {
   searchBtn: { padding: "8px 14px", borderRadius: 8, border: "none", background: "#6366f1", color: "#fff", cursor: "pointer", fontSize: 14 },
   resultList: { listStyle: "none", margin: 0, padding: "4px 0", maxHeight: 160, overflowY: "auto", borderBottom: "1px solid #f1f5f9" },
   resultItem: { padding: "8px 12px", cursor: "pointer", fontSize: 14, lineHeight: 1.4 },
-  loading: { height: 220, display: "flex", alignItems: "center", justifyContent: "center", color: "#94a3b8" },
-  map: { height: 220, width: "100%" },
-  hint: { textAlign: "center", color: "#94a3b8", fontSize: 12, padding: 6 },
+  map: { height: 280, width: "100%" },
+  radiusRow: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", borderTop: "1px solid #f1f5f9" },
+  radiusLabel: { fontSize: 13, color: "#374151", whiteSpace: "nowrap" },
+  radiusInput: { flex: 1, accentColor: "#3B82F6" },
+  radiusValue: { fontSize: 13, color: "#3B82F6", fontWeight: 600, minWidth: 60, textAlign: "right" },
+  hint: { textAlign: "center", color: "#94a3b8", fontSize: 12, padding: "4px 0 8px", margin: 0 },
 };

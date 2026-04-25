@@ -51,7 +51,7 @@ export default function AddParcel() {
         <Map8Picker
           lat={form.store_lat}
           lng={form.store_lng}
-          onSelect={(lat, lng) => setForm({ ...form, store_lat: lat, store_lng: lng })}
+          onSelect={({ lat, lng }) => setForm((f) => ({ ...f, store_lat: lat, store_lng: lng }))}
         />
         {form.store_lat && <p style={styles.coords}>{form.store_lat.toFixed(6)}, {form.store_lng.toFixed(6)}</p>}
 

@@ -12,14 +12,14 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
-  if (event.request.url.includes("/api/") || event.request.url.includes("/auth/")) return;
+  const url = event.request.url;
+  if (url.includes("/api/") || url.includes("/auth/") || url.includes("/tasks/") || url.includes("/nominatim/") || url.includes("/location/") || url.includes("/parcels/")) return;
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
@@ -35,19 +35,26 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
+// Called via reg.showNotification() from the page
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      for (const client of list) {
+        if ("focus" in client) return client.focus();
+      }
+      return clients.openWindow("/");
+    })
+  );
+});
+
+// Called via FCM push (future use)
 self.addEventListener("push", (event) => {
   const data = event.data?.json() ?? {};
   event.waitUntil(
     self.registration.showNotification(data.title || "YoRemind", {
       body: data.body || "",
-      icon: "/icon-192.png",
-      badge: "/icon-192.png",
-      data: data,
+      icon: "/favicon.ico",
     })
   );
-});
-
-self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
-  event.waitUntil(clients.openWindow("/"));
 });

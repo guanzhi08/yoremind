@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+.env.local
+
+# Capacitor — keep android/ tracked so CI can build
+# android/ is intentionally NOT ignored

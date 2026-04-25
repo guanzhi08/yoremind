@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone, timedelta
+
+TAIWAN_TZ = timezone(timedelta(hours=8))
 from typing import Optional
 
 from app.core.database import get_db
@@ -13,8 +15,6 @@ from app.services.geofence import haversine_distance
 from app.services.fcm import send_notification
 
 router = APIRouter()
-
-TRIGGER_COOLDOWN_MINUTES = 30
 
 
 class LocationUpdate(BaseModel):
@@ -34,6 +34,7 @@ def update_location(
         db.add(current_user)
 
     now = datetime.now(timezone.utc)
+    current_time = datetime.now(TAIWAN_TZ).strftime("%H:%M")
     triggered = []
 
     active_tasks = db.query(Task).filter(
@@ -48,13 +49,7 @@ def update_location(
         if distance > task.radius_m:
             continue
 
-        if task.last_triggered_at:
-            elapsed = now - task.last_triggered_at.replace(tzinfo=timezone.utc)
-            if elapsed < timedelta(minutes=TRIGGER_COOLDOWN_MINUTES):
-                continue
-
         if task.time_start and task.time_end:
-            current_time = now.strftime("%H:%M")
             if not (task.time_start <= current_time <= task.time_end):
                 continue
 

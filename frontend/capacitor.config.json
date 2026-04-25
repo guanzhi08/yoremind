@@ -1,0 +1,18 @@
+{
+  "appId": "com.yoremind.app",
+  "appName": "YoRemind",
+  "webDir": "dist",
+  "android": {
+    "allowMixedContent": true
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon_config_sample",
+      "iconColor": "#6366f1"
+    },
+    "BackgroundGeolocation": {
+      "backgroundMessage": "YoRemind 正在追蹤位置以觸發提醒",
+      "backgroundTitle": "YoRemind 位置追蹤中"
+    }
+  }
+}

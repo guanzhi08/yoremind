@@ -5,10 +5,12 @@ import { clearAuth, getUser } from "../store/auth";
 import TaskCard from "../components/TaskCard";
 import BottomNav from "../components/BottomNav";
 import { haversine } from "../utils/geo";
+import { Capacitor } from "@capacitor/core";
 
 // ── Notification banner ──────────────────────────────────────────────────────
 
 function NotificationBanner() {
+  if (Capacitor.isNativePlatform()) return null;
   const [permission, setPermission] = useState(
     "Notification" in window ? Notification.permission : "unsupported"
   );
@@ -40,12 +42,33 @@ const bannerStyles = {
 function DiagPanel() {
   const [gps, setGps] = useState({ lat: null, lng: null, status: "取得中…" });
   const [swStatus, setSwStatus] = useState("檢查中…");
+  const [notifStatus, setNotifStatus] = useState("檢查中…");
   const [lastCheck, setLastCheck] = useState(null);
   const [lastResult, setLastResult] = useState(null);
   const watchRef = useRef(null);
+  const isNative = Capacitor.isNativePlatform();
 
-  // Check SW status once on mount
+  // Check notification permission
   useEffect(() => {
+    const checkNotif = async () => {
+      if (isNative) {
+        try {
+          const { LocalNotifications } = await import("@capacitor/local-notifications");
+          const perm = await LocalNotifications.checkPermissions();
+          setNotifStatus(perm.display === "granted" ? "granted" : perm.display);
+        } catch (e) {
+          setNotifStatus("檢查失敗: " + e.message);
+        }
+      } else {
+        setNotifStatus(("Notification" in window) ? Notification.permission : "不支援");
+      }
+    };
+    checkNotif();
+  }, []);
+
+  // Check SW status (web only)
+  useEffect(() => {
+    if (isNative) { setSwStatus("原生 App（不使用 SW）"); return; }
     if (!("serviceWorker" in navigator)) { setSwStatus("不支援"); return; }
     const tid = setTimeout(() => setSwStatus("逾時（未安裝？）"), 5000);
     navigator.serviceWorker.ready.then((reg) => {
@@ -69,6 +92,23 @@ function DiagPanel() {
   }, []);
 
   const manualTest = async () => {
+    if (isNative) {
+      try {
+        const { LocalNotifications } = await import("@capacitor/local-notifications");
+        await LocalNotifications.schedule({
+          notifications: [{
+            id: Math.floor(Math.random() * 10000),
+            title: "YoRemind 測試",
+            body: "如果你看到這則，通知正常！",
+            schedule: { at: new Date(Date.now() + 500) },
+          }],
+        });
+        alert("通知已發送，請查看通知列");
+      } catch (e) {
+        alert("LocalNotifications 失敗: " + e.message);
+      }
+      return;
+    }
     const perm = "Notification" in window ? Notification.permission : "unsupported";
     if (perm !== "granted") { alert("通知未授權: " + perm); return; }
     try {
@@ -87,7 +127,6 @@ function DiagPanel() {
   };
 
   const manualCheck = async () => {
-    // Use already-acquired GPS position if available, otherwise get fresh fix
     let lat, lng;
     if (gps.lat !== null) {
       lat = gps.lat; lng = gps.lng;
@@ -112,13 +151,12 @@ function DiagPanel() {
     }
   };
 
-  const notifPerm = "Notification" in window ? Notification.permission : "不支援";
-
   return (
     <div style={diagStyles.panel}>
       <div style={diagStyles.title}>🔧 診斷面板</div>
+      <div>⚙️ 執行模式: <span style={{ color: "#0ff" }}>{isNative ? "原生 App" : "Web"}</span></div>
       <div>📍 GPS: {gps.lat ? `${gps.lat.toFixed(5)}, ${gps.lng.toFixed(5)}` : "—"} <span style={diagStyles.tag}>{gps.status}</span></div>
-      <div>🔔 通知權限: <span style={{ color: notifPerm === "granted" ? "#0f0" : "#f66" }}>{notifPerm}</span></div>
+      <div>🔔 通知權限: <span style={{ color: notifStatus === "granted" ? "#0f0" : "#f66" }}>{notifStatus}</span></div>
       <div>⚙️ Service Worker: {swStatus}</div>
       <div>🎯 上次 check: {lastCheck || "未執行"}</div>
       <div>📋 符合任務: {lastResult === null ? "—" : `${lastResult.length} 筆${lastResult.length ? "（" + lastResult.map((t) => t.title).join("、") + "）" : ""}`}</div>

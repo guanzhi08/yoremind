@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { Capacitor } from "@capacitor/core";
 
-if (Capacitor.isNativePlatform()) {
+import("@capacitor/core").then(({ Capacitor }) => {
+  if (!Capacitor.isNativePlatform()) return;
   import("@capacitor/local-notifications").then(({ LocalNotifications }) => {
     LocalNotifications.createChannel({
       id: "yoremind_alerts",
@@ -17,7 +17,7 @@ if (Capacitor.isNativePlatform()) {
       lightColor: "#6366f1",
     }).catch(() => {});
   });
-}
+}).catch(() => {});
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {

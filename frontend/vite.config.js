@@ -1,10 +1,20 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import path from "path";
+import { fileURLToPath } from "url";
 
-export default defineConfig({
-  plugins: [
-    react(),
-  ],
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export default defineConfig(({ command }) => ({
+  plugins: [react()],
+  resolve: {
+    alias: command === "serve" ? {
+      "@capacitor-community/background-geolocation": path.resolve(
+        __dirname,
+        "src/stubs/background-geolocation.js"
+      ),
+    } : {},
+  },
   build: {
     rollupOptions: {
       external: ["@capacitor-community/background-geolocation"],
@@ -16,8 +26,8 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:8000",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (p) => p.replace(/^\/api/, ""),
       },
     },
   },
-});
+}));

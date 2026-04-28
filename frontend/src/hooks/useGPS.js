@@ -53,7 +53,7 @@ async function startCapacitorGPS() {
       backgroundTitle: "YoRemind",
       requestPermissions: true,
       stale: false,
-      distanceFilter: 30,
+      distanceFilter: 15,
     },
     async (position, error) => {
       if (error || !position) return;

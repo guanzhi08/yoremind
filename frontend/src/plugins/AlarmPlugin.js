@@ -1,6 +1,12 @@
 import { registerPlugin } from "@capacitor/core";
 
-// Native plugin — no web implementation (only called on native path)
-const AlarmPlugin = registerPlugin("AlarmPlugin");
+const AlarmPlugin = registerPlugin("AlarmPlugin", {
+  // Web stub — all methods are no-ops on web
+  web: () => ({
+    triggerAlarm: async () => ({}),
+    checkFullScreenPermission: async () => ({ granted: true }),
+    requestFullScreenPermission: async () => ({}),
+  }),
+});
 
 export default AlarmPlugin;

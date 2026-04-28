@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Capacitor } from "@capacitor/core";
 import { isLoggedIn } from "./store/auth";
 import { useGPS } from "./hooks/useGPS";
 import Login from "./pages/Login";
@@ -10,6 +11,7 @@ import AddParcel from "./pages/AddParcel";
 import TaskDetail from "./pages/TaskDetail";
 import Settings from "./pages/Settings";
 import AlarmModal from "./components/AlarmModal";
+import PermissionWizard, { shouldShowWizard } from "./components/PermissionWizard";
 
 function PrivateRoute({ children }) {
   return isLoggedIn() ? children : <Navigate to="/login" replace />;
@@ -18,6 +20,9 @@ function PrivateRoute({ children }) {
 export default function App() {
   useGPS();
   const [alarmQueue, setAlarmQueue] = useState([]);
+  const [showWizard, setShowWizard] = useState(
+    () => Capacitor.isNativePlatform() && shouldShowWizard()
+  );
 
   useEffect(() => {
     const handler = (e) => setAlarmQueue((q) => [...q, e.detail]);
@@ -44,6 +49,9 @@ export default function App() {
           task={alarmQueue[0]}
           onDismiss={() => setAlarmQueue((q) => q.slice(1))}
         />
+      )}
+      {showWizard && (
+        <PermissionWizard onDone={() => setShowWizard(false)} />
       )}
     </>
   );

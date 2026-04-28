@@ -1,15 +1,27 @@
 import { useState } from "react";
 import { Capacitor } from "@capacitor/core";
+import AlarmPlugin from "../plugins/AlarmPlugin";
 
 const STORAGE_KEY = "yoremind_notif_settings";
+
+const RINGTONES = [
+  { id: "alarm_default", label: "清脆提示音", desc: "雙音節嗶嗶聲" },
+  { id: "alarm_gentle",  label: "柔和提示音", desc: "單音低頻長鳴" },
+  { id: "alarm_urgent",  label: "緊急警報音", desc: "高頻快速脈衝" },
+];
 
 function loadSettings() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     const s = raw ? JSON.parse(raw) : {};
-    return { sound: s.sound !== false, vibrate: s.vibrate !== false, lights: s.lights !== false };
+    return {
+      sound: s.sound !== false,
+      vibrate: s.vibrate !== false,
+      lights: s.lights !== false,
+      ringtone: s.ringtone || "alarm_default",
+    };
   } catch {
-    return { sound: true, vibrate: true, lights: true };
+    return { sound: true, vibrate: true, lights: true, ringtone: "alarm_default" };
   }
 }
 
@@ -27,6 +39,23 @@ export default function Settings() {
       saveSettings(next);
       return next;
     });
+  };
+
+  const setRingtone = (id) => {
+    setSettings((prev) => {
+      const next = { ...prev, ringtone: id };
+      saveSettings(next);
+      return next;
+    });
+  };
+
+  const previewAlarm = async () => {
+    if (!isNative) return;
+    try {
+      await AlarmPlugin.triggerAlarm({ taskTitle: "測試提醒 — 這裡是任務名稱", sound: settings.ringtone });
+    } catch (e) {
+      alert("預覽失敗：" + e.message);
+    }
   };
 
   const sendTest = async () => {
@@ -98,6 +127,36 @@ export default function Settings() {
         />
       </div>
 
+      {isNative && (
+        <div style={styles.section}>
+          <div style={styles.sectionTitle}>鈴聲選擇</div>
+          {RINGTONES.map((r) => (
+            <div
+              key={r.id}
+              onClick={() => setRingtone(r.id)}
+              style={{
+                ...rowStyles.row,
+                cursor: "pointer",
+                background: settings.ringtone === r.id ? "#f0f1ff" : "transparent",
+              }}
+            >
+              <div style={rowStyles.left}>
+                <span style={rowStyles.icon}>{settings.ringtone === r.id ? "🔵" : "⚪"}</span>
+                <div>
+                  <div style={rowStyles.label}>{r.label}</div>
+                  <div style={rowStyles.desc}>{r.desc}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+          <div style={{ padding: "10px 16px 14px" }}>
+            <button style={styles.previewBtn} onClick={previewAlarm}>
+              🔔 預覽全螢幕提醒
+            </button>
+          </div>
+        </div>
+      )}
+
       <div style={styles.section}>
         <button style={styles.testBtn} onClick={sendTest}>
           🧪 發送測試通知
@@ -139,6 +198,7 @@ const styles = {
   section: { background: "#fff", margin: "16px 16px 0", borderRadius: 12, overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" },
   sectionTitle: { padding: "12px 16px 4px", fontSize: 12, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase", letterSpacing: 0.5 },
   testBtn: { display: "block", width: "calc(100% - 32px)", margin: "12px 16px", padding: "14px 0", background: "#6366f1", color: "#fff", border: "none", borderRadius: 12, fontSize: 16, fontWeight: 600, cursor: "pointer" },
+  previewBtn: { display: "block", width: "100%", padding: "12px 0", background: "#ede9fe", color: "#6366f1", border: "none", borderRadius: 10, fontSize: 15, fontWeight: 600, cursor: "pointer" },
   hint: { padding: "0 16px 12px", fontSize: 12, color: "#94a3b8", textAlign: "center" },
 };
 

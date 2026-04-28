@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import client from "../api/client";
 import { isLoggedIn } from "../store/auth";
+import AlarmPlugin from "../plugins/AlarmPlugin";
 
 const POLL_INTERVAL_MS = 30 * 1000;
 
@@ -60,23 +61,41 @@ async function startCapacitorGPS() {
       const { latitude: lat, longitude: lng } = position;
       try {
         const { data: tasks } = await client.get("/tasks/check-trigger", { params: { lat, lng } });
+        const notifSettings = (() => {
+          try { return JSON.parse(localStorage.getItem("yoremind_notif_settings") || "{}"); }
+          catch { return {}; }
+        })();
+        const ringtone = notifSettings.ringtone || "alarm_default";
+
         for (const task of tasks) {
           window.dispatchEvent(new CustomEvent("yoremind:alarm", { detail: task }));
-          await LocalNotifications.schedule({
-            notifications: [{
-              id: task.id,
-              title: "📍 YoRemind — " + task.title,
-              body: "你已進入目標範圍！",
-              schedule: { at: new Date(Date.now() + 500) },
-              sound: task.notif_sound !== false ? "default" : null,
-              vibrate: task.notif_vibrate !== false,
-              importance: 5,
-              visibility: 1,
-              channelId: "yoremind_alerts",
-              actionTypeId: "",
-              extra: { taskId: task.id },
-            }],
-          });
+          // Full-screen alarm activity (works on lock screen / screen off)
+          try {
+            await AlarmPlugin.triggerAlarm({
+              taskTitle: task.title,
+              sound: ringtone,
+            });
+          } catch (e) {
+            console.warn("[AlarmPlugin] triggerAlarm failed:", e);
+          }
+          // Notification-shade entry as fallback / when app is visible
+          if (task.notif_sound !== false || task.notif_vibrate !== false) {
+            await LocalNotifications.schedule({
+              notifications: [{
+                id: task.id,
+                title: "📍 YoRemind — " + task.title,
+                body: "你已進入目標範圍！",
+                schedule: { at: new Date(Date.now() + 300) },
+                sound: task.notif_sound !== false ? "default" : null,
+                vibrate: task.notif_vibrate !== false,
+                importance: 5,
+                visibility: 1,
+                channelId: "yoremind_alerts",
+                actionTypeId: "",
+                extra: { taskId: task.id },
+              }],
+            });
+          }
         }
       } catch { /* ignore offline / auth errors */ }
     },

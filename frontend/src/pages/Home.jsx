@@ -40,55 +40,45 @@ const bannerStyles = {
 // ── Diagnostic panel ─────────────────────────────────────────────────────────
 
 function DiagPanel() {
-  const [gps, setGps] = useState({ lat: null, lng: null, status: "取得中…" });
-  const [swStatus, setSwStatus] = useState("檢查中…");
-  const [notifStatus, setNotifStatus] = useState("檢查中…");
-  const [lastCheck, setLastCheck] = useState(null);
-  const [lastResult, setLastResult] = useState(null);
-  const watchRef = useRef(null);
   const isNative = Capacitor.isNativePlatform();
 
-  // Check notification permission
+  // Live snapshot of window.__gpsDebug
+  const [gd, setGd] = useState(() => window.__gpsDebug ?? {});
+  const [notifStatus, setNotifStatus] = useState("檢查中…");
+  const [swStatus, setSwStatus] = useState(isNative ? "原生 App" : "檢查中…");
+
+  // Sync from global debug state
   useEffect(() => {
-    const checkNotif = async () => {
-      if (isNative) {
-        try {
-          const { LocalNotifications } = await import("@capacitor/local-notifications");
-          const perm = await LocalNotifications.checkPermissions();
-          setNotifStatus(perm.display === "granted" ? "granted" : perm.display);
-        } catch (e) {
-          setNotifStatus("檢查失敗: " + e.message);
-        }
-      } else {
-        setNotifStatus(("Notification" in window) ? Notification.permission : "不支援");
-      }
+    const sync = () => setGd({ ...(window.__gpsDebug ?? {}) });
+    window.addEventListener("yoremind:gps-debug", sync);
+    const timer = setInterval(sync, 3000);
+    return () => {
+      window.removeEventListener("yoremind:gps-debug", sync);
+      clearInterval(timer);
     };
-    checkNotif();
   }, []);
 
-  // Check SW status (web only)
+  // Notification permission
   useEffect(() => {
-    if (isNative) { setSwStatus("原生 App（不使用 SW）"); return; }
+    if (isNative) {
+      import("@capacitor/local-notifications").then(({ LocalNotifications }) =>
+        LocalNotifications.checkPermissions().then((p) =>
+          setNotifStatus(p.display === "granted" ? "granted ✓" : p.display)
+        )
+      ).catch((e) => setNotifStatus("err: " + e.message));
+    } else {
+      setNotifStatus("Notification" in window ? Notification.permission : "不支援");
+    }
+  }, []);
+
+  // SW status (web only)
+  useEffect(() => {
+    if (isNative) return;
     if (!("serviceWorker" in navigator)) { setSwStatus("不支援"); return; }
-    const tid = setTimeout(() => setSwStatus("逾時（未安裝？）"), 5000);
-    navigator.serviceWorker.ready.then((reg) => {
-      clearTimeout(tid);
-      setSwStatus(`已就緒 scope=${reg.scope}`);
-    }).catch((e) => {
-      clearTimeout(tid);
-      setSwStatus("失敗: " + e.message);
-    });
-  }, []);
-
-  // Continuous GPS watch for display
-  useEffect(() => {
-    if (!navigator.geolocation) { setGps({ lat: null, lng: null, status: "不支援" }); return; }
-    watchRef.current = navigator.geolocation.watchPosition(
-      (pos) => setGps({ lat: pos.coords.latitude, lng: pos.coords.longitude, status: "正常" }),
-      (err) => setGps((p) => ({ ...p, status: "失敗: " + err.message })),
-      { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 },
-    );
-    return () => navigator.geolocation.clearWatch(watchRef.current);
+    const tid = setTimeout(() => setSwStatus("逾時"), 5000);
+    navigator.serviceWorker.ready
+      .then(() => { clearTimeout(tid); setSwStatus("就緒 ✓"); })
+      .catch((e) => { clearTimeout(tid); setSwStatus("失敗: " + e.message); });
   }, []);
 
   const manualTest = async () => {
@@ -104,62 +94,66 @@ function DiagPanel() {
           }],
         });
         alert("通知已發送，請查看通知列");
-      } catch (e) {
-        alert("LocalNotifications 失敗: " + e.message);
-      }
+      } catch (e) { alert("LocalNotifications 失敗: " + e.message); }
       return;
     }
     const perm = "Notification" in window ? Notification.permission : "unsupported";
     if (perm !== "granted") { alert("通知未授權: " + perm); return; }
     try {
       const reg = await navigator.serviceWorker.ready;
-      await reg.showNotification("YoRemind 測試", { body: "如果你看到這則，通知系統正常！", icon: "/favicon.ico" });
-      alert("SW 通知已發送，請查看通知列");
+      await reg.showNotification("YoRemind 測試", { body: "通知系統正常！", icon: "/favicon.ico" });
+      alert("SW 通知已發送");
     } catch (e) {
-      alert("SW 通知失敗: " + e.message + "\n嘗試直接通知…");
-      try {
-        new Notification("YoRemind 測試", { body: "直接通知測試" });
-        alert("直接通知已發送");
-      } catch (e2) {
-        alert("全部失敗: " + e2.message);
-      }
+      try { new Notification("YoRemind 測試", { body: "直接通知測試" }); alert("直接通知已發送"); }
+      catch (e2) { alert("全部失敗: " + e2.message); }
     }
   };
 
   const manualCheck = async () => {
     let lat, lng;
-    if (gps.lat !== null) {
-      lat = gps.lat; lng = gps.lng;
-    } else {
-      if (!navigator.geolocation) { alert("GPS 不支援"); return; }
+    if (gd.lastGpsCoords) {
+      lat = gd.lastGpsCoords.lat; lng = gd.lastGpsCoords.lng;
+    } else if (navigator.geolocation) {
       try {
         const pos = await new Promise((res, rej) =>
           navigator.geolocation.getCurrentPosition(res, rej, { enableHighAccuracy: true, timeout: 10000 })
         );
         lat = pos.coords.latitude; lng = pos.coords.longitude;
       } catch (e) { alert("GPS 取得失敗: " + e.message); return; }
-    }
+    } else { alert("GPS 不支援"); return; }
     try {
       const { data: tasks } = await client.get("/tasks/check-trigger", { params: { lat, lng } });
       const time = new Date().toLocaleTimeString("zh-TW");
-      setLastCheck(time);
-      setLastResult(tasks);
       const names = tasks.map((t) => t.title).join("、") || "（無符合任務）";
-      alert(`位置: ${lat.toFixed(5)}, ${lng.toFixed(5)}\n台灣時間: ${time}\n符合任務: ${tasks.length} 筆\n${names}`);
-    } catch (e) {
-      alert("check-trigger 失敗: " + e.message);
-    }
+      alert(`位置: ${lat.toFixed(5)}, ${lng.toFixed(5)}\n時間: ${time}\n符合任務: ${tasks.length} 筆\n${names}`);
+    } catch (e) { alert("check-trigger 失敗: " + e.message); }
   };
+
+  const ok = "#0f0", warn = "#f66", dim = "#aaa", hi = "#0ff";
+  const coord = gd.lastGpsCoords;
 
   return (
     <div style={diagStyles.panel}>
       <div style={diagStyles.title}>🔧 診斷面板</div>
-      <div>⚙️ 執行模式: <span style={{ color: "#0ff" }}>{isNative ? "原生 App" : "Web"}</span></div>
-      <div>📍 GPS: {gps.lat ? `${gps.lat.toFixed(5)}, ${gps.lng.toFixed(5)}` : "—"} <span style={diagStyles.tag}>{gps.status}</span></div>
-      <div>🔔 通知權限: <span style={{ color: notifStatus === "granted" ? "#0f0" : "#f66" }}>{notifStatus}</span></div>
-      <div>⚙️ Service Worker: {swStatus}</div>
-      <div>🎯 上次 check: {lastCheck || "未執行"}</div>
-      <div>📋 符合任務: {lastResult === null ? "—" : `${lastResult.length} 筆${lastResult.length ? "（" + lastResult.map((t) => t.title).join("、") + "）" : ""}`}</div>
+      <div>模式: <span style={{ color: hi }}>{gd.isNative ? "原生 App" : "Web"}</span>
+        {gd.isNative && <span style={{ color: dim }}> | path: {gd.path ?? "?"}</span>}</div>
+      <div>BgGeo: <span style={{ color: gd.watcherStarted ? ok : warn }}>
+        {gd.watcherStarted ? `已啟動 (id=${gd.watcherId ?? "?"})` : "未啟動"}</span>
+        {gd.restarts > 0 && <span style={{ color: dim }}> 重啟 {gd.restarts} 次</span>}</div>
+      <div>GPS 更新: <span style={{ color: gd.lastGpsTime ? ok : warn }}>
+        {gd.lastGpsTime ?? "尚無"}</span>
+        {coord && <span style={{ color: dim }}> {coord.lat.toFixed(4)},{coord.lng.toFixed(4)}</span>}</div>
+      <div>自動 check: <span style={{ color: gd.lastAutoCheckTime ? ok : warn }}>
+        {gd.lastAutoCheckTime ?? "未執行"}</span>
+        {gd.lastAutoCheckCount !== null && <span style={{ color: dim }}> → {gd.lastAutoCheckCount} 筆</span>}</div>
+      <div>通知權限: <span style={{ color: notifStatus.includes("granted") ? ok : warn }}>{notifStatus}</span></div>
+      {!isNative && <div>Service Worker: {swStatus}</div>}
+      <div>心跳: {gd.heartbeats ?? 0} 次</div>
+      {gd.errors?.length > 0 && (
+        <div style={{ color: warn, marginTop: 4 }}>
+          錯誤：{gd.errors.slice(-3).map((e, i) => <div key={i} style={{ marginLeft: 8 }}>{e}</div>)}
+        </div>
+      )}
       <div style={diagStyles.btnRow}>
         <button style={diagStyles.btn} onClick={manualTest}>手動測試通知</button>
         <button style={diagStyles.btn} onClick={manualCheck}>立即觸發檢查</button>
@@ -171,7 +165,6 @@ function DiagPanel() {
 const diagStyles = {
   panel: { background: "#1a1a1a", color: "#0f0", padding: "12px 16px", fontSize: 12, fontFamily: "monospace", lineHeight: 1.8 },
   title: { fontWeight: 700, marginBottom: 4, color: "#0ff" },
-  tag: { color: "#aaa", marginLeft: 4 },
   btnRow: { display: "flex", gap: 8, marginTop: 8 },
   btn: { padding: "6px 12px", background: "#333", color: "#0f0", border: "1px solid #0f0", borderRadius: 4, cursor: "pointer", fontSize: 12, fontFamily: "monospace" },
 };

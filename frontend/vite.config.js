@@ -8,12 +8,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig(({ command }) => ({
   plugins: [react()],
   resolve: {
-    alias: command === "serve" ? {
+    alias: {
       "@capacitor-community/background-geolocation": path.resolve(
         __dirname,
         "src/stubs/background-geolocation.js"
       ),
-    } : {},
+    },
   },
   build: {},
   server: {

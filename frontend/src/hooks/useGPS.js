@@ -116,8 +116,6 @@ async function handlePosition(lat, lng, source) {
               id: task.id,
               title: "📍 YoRemind — " + task.title,
               body: "你已進入目標範圍！",
-              schedule: { at: new Date(Date.now() + 300) },
-              sound: task.notif_sound !== false ? "default" : null,
               vibrate: task.notif_vibrate !== false,
               importance: 5,
               visibility: 1,
@@ -126,7 +124,9 @@ async function handlePosition(lat, lng, source) {
               extra: { taskId: task.id },
             }],
           });
-        } catch { /* ignore */ }
+        } catch (e) {
+          dbgError(`LocalNotifications: ${e.message ?? JSON.stringify(e)}`);
+        }
       }
     }
   } catch (e) {

@@ -15,11 +15,7 @@ export default defineConfig(({ command }) => ({
       ),
     } : {},
   },
-  build: {
-    rollupOptions: {
-      external: ["@capacitor-community/background-geolocation"],
-    },
-  },
+  build: {},
   server: {
     allowedHosts: true,
     proxy: {

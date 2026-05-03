@@ -11,11 +11,10 @@ import("@capacitor/core").then(({ Capacitor }) => {
       description: "位置觸發的提醒通知",
       importance: 5,
       visibility: 1,
-      sound: "default",
       vibration: true,
       lights: true,
       lightColor: "#6366f1",
-    }).catch(() => {});
+    }).catch((e) => console.warn("[Channel] createChannel failed:", e));
   });
 }).catch(() => {});
 

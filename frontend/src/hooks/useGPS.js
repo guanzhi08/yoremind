@@ -49,7 +49,7 @@ async function sendNotification(title, body) {
           id: Math.floor(Math.random() * 100000),
           title,
           body,
-          schedule: { at: new Date(Date.now() + 300) },
+          channelId: "yoremind_alerts",
         }],
       });
     } catch (e) {

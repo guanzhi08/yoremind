@@ -11,6 +11,7 @@ class ParcelCreate(BaseModel):
     pickup_code: Optional[str] = None
     phone: Optional[str] = None
     expires_at: Optional[datetime] = None
+    note: Optional[str] = None
 
 
 class ParcelUpdate(BaseModel):
@@ -21,6 +22,7 @@ class ParcelUpdate(BaseModel):
     phone: Optional[str] = None
     expires_at: Optional[datetime] = None
     status: Optional[ParcelStatus] = None
+    note: Optional[str] = None
 
 
 class ParcelOut(BaseModel):
@@ -35,4 +37,13 @@ class ParcelOut(BaseModel):
     phone: Optional[str] = None
     expires_at: Optional[datetime] = None
     status: ParcelStatus
+    note: Optional[str] = None
     created_at: datetime
+
+
+class ScreenshotParseResult(BaseModel):
+    store_name: Optional[str] = None
+    pickup_code: Optional[str] = None
+    expires_at: Optional[str] = None
+    note: Optional[str] = None
+    raw_text: Optional[str] = None

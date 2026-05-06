@@ -1,4 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+import asyncio
+import logging
+
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -6,9 +9,33 @@ from app.core.database import get_db
 from app.core.security import get_current_user
 from app.models.user import User
 from app.models.parcel import Parcel
-from app.schemas.parcel import ParcelCreate, ParcelUpdate, ParcelOut
+from app.schemas.parcel import ParcelCreate, ParcelUpdate, ParcelOut, ScreenshotParseResult
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
+
+
+@router.post("/parse-screenshot", response_model=ScreenshotParseResult)
+async def parse_parcel_screenshot(
+    image: UploadFile = File(...),
+    current_user: User = Depends(get_current_user),
+):
+    allowed = {"image/jpeg", "image/png", "image/webp"}
+    ct = image.content_type or "image/jpeg"
+    if ct not in allowed:
+        raise HTTPException(status_code=400, detail="Only jpeg/png/webp accepted")
+    data = await image.read()
+    if len(data) > 5 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="Image too large (max 5MB)")
+    try:
+        from app.services.ocr import parse_screenshot
+        result = await asyncio.get_event_loop().run_in_executor(
+            None, parse_screenshot, data
+        )
+        return result
+    except Exception as e:
+        logger.error("OCR failed: %s", e)
+        raise HTTPException(status_code=502, detail="Screenshot parsing failed")
 
 
 @router.get("", response_model=List[ParcelOut])

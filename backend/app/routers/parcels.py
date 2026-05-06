@@ -34,8 +34,8 @@ async def parse_parcel_screenshot(
         )
         return result
     except Exception as e:
-        logger.error("OCR failed: %s", e)
-        raise HTTPException(status_code=502, detail="Screenshot parsing failed")
+        logger.error("OCR failed: %s", e, exc_info=True)
+        raise HTTPException(status_code=502, detail=f"Screenshot parsing failed: {e}")
 
 
 @router.get("", response_model=List[ParcelOut])

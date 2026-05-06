@@ -1,4 +1,3 @@
-import asyncio
 import logging
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
@@ -29,9 +28,7 @@ async def parse_parcel_screenshot(
         raise HTTPException(status_code=413, detail="Image too large (max 5MB)")
     try:
         from app.services.ocr import parse_screenshot
-        result = await asyncio.get_event_loop().run_in_executor(
-            None, parse_screenshot, data
-        )
+        result = await parse_screenshot(data, ct)
         return result
     except Exception as e:
         logger.error("OCR failed: %s", e, exc_info=True)

@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     FIREBASE_CREDENTIALS_JSON: str = ""
+    OCR_SPACE_API_KEY: str = "helloworld"
 
 
 @lru_cache()

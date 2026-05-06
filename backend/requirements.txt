@@ -10,5 +10,4 @@ bcrypt
 firebase-admin
 httpx
 python-multipart
-pytesseract
 Pillow

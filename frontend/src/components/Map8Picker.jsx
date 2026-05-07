@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import client from "../api/client";
 
 // Vite bundles break Leaflet's default icon URL resolution
 delete L.Icon.Default.prototype._getIconUrl;
@@ -58,14 +57,7 @@ export default function Map8Picker({ lat, lng, onSelect, autoSearch }) {
   useEffect(() => {
     if (!autoSearch) return;
     setSearch(autoSearch);
-    const timer = setTimeout(async () => {
-      try {
-        const { data } = await client.get("/nominatim/search", { params: { q: autoSearch, limit: 5 } });
-        setResults(data);
-      } catch {
-        setResults([]);
-      }
-    }, 300);
+    const timer = setTimeout(() => nominatimSearch(autoSearch), 300);
     return () => clearTimeout(timer);
   }, [autoSearch]);
 
@@ -99,15 +91,24 @@ export default function Map8Picker({ lat, lng, onSelect, autoSearch }) {
     }
   };
 
-  const handleSearch = async () => {
-    if (!search.trim()) return;
+  const nominatimSearch = async (q) => {
+    if (!q?.trim()) return;
     try {
-      const { data } = await client.get("/nominatim/search", { params: { q: search, limit: 5 } });
-      setResults(data);
+      const url = new URL("https://nominatim.openstreetmap.org/search");
+      url.searchParams.set("q", q);
+      url.searchParams.set("format", "json");
+      url.searchParams.set("limit", "5");
+      url.searchParams.set("addressdetails", "1");
+      url.searchParams.set("countrycodes", "tw");
+      url.searchParams.set("accept-language", "zh-TW");
+      const resp = await fetch(url, { headers: { "Accept-Language": "zh-TW,zh;q=0.9" } });
+      setResults(await resp.json());
     } catch {
       setResults([]);
     }
   };
+
+  const handleSearch = () => nominatimSearch(search);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {

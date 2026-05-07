@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import client from "../api/client";
 import Map8Picker from "../components/Map8Picker";
@@ -19,6 +19,13 @@ export default function AddParcel() {
   const [scanning, setScanning] = useState(false);
   const [scanError, setScanError] = useState("");
   const [mapAutoSearch, setMapAutoSearch] = useState("");
+
+  // Sync store_name → map search with debounce (OCR or manual typing)
+  useEffect(() => {
+    if (!form.store_name) return;
+    const t = setTimeout(() => setMapAutoSearch(form.store_name + "|" + Date.now()), 600);
+    return () => clearTimeout(t);
+  }, [form.store_name]);
 
   const handleScreenshot = async (e) => {
     const file = e.target.files?.[0];
@@ -41,7 +48,6 @@ export default function AddParcel() {
           : f.expires_at,
       }));
       if (data.note) setNote(data.note);
-      if (data.store_name) setMapAutoSearch(data.store_name);
     } catch (err) {
       setScanError(err.response?.data?.detail || "辨識失敗，請手動填寫");
     } finally {

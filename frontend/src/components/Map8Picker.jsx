@@ -56,8 +56,9 @@ export default function Map8Picker({ lat, lng, onSelect, autoSearch }) {
 
   useEffect(() => {
     if (!autoSearch) return;
-    setSearch(autoSearch);
-    const timer = setTimeout(() => nominatimSearch(autoSearch), 300);
+    const q = autoSearch.split("|")[0];
+    setSearch(q);
+    const timer = setTimeout(() => nominatimSearch(q), 300);
     return () => clearTimeout(timer);
   }, [autoSearch]);
 

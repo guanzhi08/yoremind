@@ -18,6 +18,7 @@ export default function AddParcel() {
   const [loading, setLoading] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [scanError, setScanError] = useState("");
+  const [mapAutoSearch, setMapAutoSearch] = useState("");
 
   const handleScreenshot = async (e) => {
     const file = e.target.files?.[0];
@@ -40,6 +41,7 @@ export default function AddParcel() {
           : f.expires_at,
       }));
       if (data.note) setNote(data.note);
+      if (data.store_name) setMapAutoSearch(data.store_name);
     } catch (err) {
       setScanError(err.response?.data?.detail || "辨識失敗，請手動填寫");
     } finally {
@@ -95,7 +97,7 @@ export default function AddParcel() {
             onChange={handleScreenshot}
             disabled={scanning}
           />
-          {scanning && <p style={styles.scanHint}>Tesseract OCR 辨識中，請稍候…</p>}
+          {scanning && <p style={styles.scanHint}>OCR 辨識中，請稍候…</p>}
           {scanError && <p style={styles.scanError}>{scanError}</p>}
         </div>
         <div style={styles.divider}>── 或手動填寫 ──</div>
@@ -108,6 +110,7 @@ export default function AddParcel() {
           lat={form.store_lat}
           lng={form.store_lng}
           onSelect={({ lat, lng }) => setForm((f) => ({ ...f, store_lat: lat, store_lng: lng }))}
+          autoSearch={mapAutoSearch}
         />
         {form.store_lat && <p style={styles.coords}>{form.store_lat.toFixed(6)}, {form.store_lng.toFixed(6)}</p>}
 

@@ -17,7 +17,7 @@ const OSM_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright
 const CIRCLE_STYLE = { color: "#3B82F6", fillColor: "#BFDBFE", fillOpacity: 0.3, weight: 2 };
 const DEFAULT_RADIUS = 200;
 
-export default function Map8Picker({ lat, lng, onSelect }) {
+export default function Map8Picker({ lat, lng, onSelect, autoSearch }) {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const markerRef = useRef(null);
@@ -54,6 +54,20 @@ export default function Map8Picker({ lat, lng, onSelect }) {
       mapInstanceRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (!autoSearch) return;
+    setSearch(autoSearch);
+    const timer = setTimeout(async () => {
+      try {
+        const { data } = await client.get("/nominatim/search", { params: { q: autoSearch, limit: 5 } });
+        setResults(data);
+      } catch {
+        setResults([]);
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [autoSearch]);
 
   const drawMarkerAndCircle = (lat, lng, r) => {
     if (!mapInstanceRef.current) return;

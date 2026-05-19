@@ -193,6 +193,68 @@
   .tag-orange  { background: #fff7ed; color: #c2410c; }
   .tag-emerald { background: #f0fdf4; color: #065f46; }
 
+  /* ── DEVICES ── */
+  .devices-card {
+    background: #ffffff;
+    border: 1px solid #e8ecf0;
+    border-radius: 12px;
+    padding: 22px 28px;
+  }
+  .devices-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .device-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .device-role-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .device-role-emoji { font-size: 22px; }
+  .device-role-zh { font-size: 13px; font-weight: 700; color: #1e293b; }
+  .device-role-en { font-size: 10px; color: #94a3b8; }
+
+  .device-list { display: flex; flex-direction: column; gap: 10px; }
+  .device-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .device-icon-wrap {
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .device-zh { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+  .device-en { font-size: 10px; color: #94a3b8; margin-bottom: 6px; }
+  .device-uses { display: flex; flex-wrap: wrap; gap: 4px; }
+  .device-use {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .divider-col {
+    width: 1px;
+    background: #f1f5f9;
+    margin: 0 4px;
+  }
+
   /* ── AI FLOW ── */
   .flow-card {
     background: #ffffff;
@@ -487,6 +549,110 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- DEVICES -->
+  <div class="devices-card">
+    <div class="label">Devices & Touchpoints · 使用載體</div>
+    <div class="devices-grid">
+
+      <!-- Elder -->
+      <div class="device-col">
+        <div class="device-role-header">
+          <div class="device-role-emoji">👴</div>
+          <div>
+            <div class="device-role-zh">長者</div>
+            <div class="device-role-en">Elder</div>
+          </div>
+        </div>
+        <div class="device-list">
+          <div class="device-item">
+            <div class="device-icon-wrap" style="background:#eef2ff">📱</div>
+            <div>
+              <div class="device-zh">平板電腦</div>
+              <div class="device-en">Tablet — Large Screen</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#eef2ff;color:#4338ca">全螢幕提醒彈出</span>
+                <span class="device-use" style="background:#eef2ff;color:#4338ca">追劇 / 視訊通話</span>
+                <span class="device-use" style="background:#eef2ff;color:#4338ca">大字介面易操作</span>
+              </div>
+            </div>
+          </div>
+          <div class="device-item">
+            <div class="device-icon-wrap" style="background:#f0fdf4">⌚</div>
+            <div>
+              <div class="device-zh">智慧手錶</div>
+              <div class="device-en">Smartwatch — Health Monitor</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#f0fdf4;color:#065f46">心率 / 血氧監測</span>
+                <span class="device-use" style="background:#f0fdf4;color:#065f46">跌倒偵測</span>
+                <span class="device-use" style="background:#f0fdf4;color:#065f46">SOS 一鍵求援</span>
+                <span class="device-use" style="background:#f0fdf4;color:#065f46">GPS 定位</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider-col"></div>
+
+      <!-- Family -->
+      <div class="device-col">
+        <div class="device-role-header">
+          <div class="device-role-emoji">👨‍👩‍👦</div>
+          <div>
+            <div class="device-role-zh">家人</div>
+            <div class="device-role-en">Family</div>
+          </div>
+        </div>
+        <div class="device-list">
+          <div class="device-item">
+            <div class="device-icon-wrap" style="background:#fff7ed">📲</div>
+            <div>
+              <div class="device-zh">智慧型手機</div>
+              <div class="device-en">Mobile Phone — Always On</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#fff7ed;color:#c2410c">即時異常推播</span>
+                <span class="device-use" style="background:#fff7ed;color:#c2410c">GPS 即時位置</span>
+                <span class="device-use" style="background:#fff7ed;color:#c2410c">查看長者狀態</span>
+                <span class="device-use" style="background:#fff7ed;color:#c2410c">遠端新增提醒</span>
+                <span class="device-use" style="background:#fff7ed;color:#c2410c">截圖上傳建任務</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider-col"></div>
+
+      <!-- Social Worker -->
+      <div class="device-col">
+        <div class="device-role-header">
+          <div class="device-role-emoji">👩‍💼</div>
+          <div>
+            <div class="device-role-zh">社工 / 照護員</div>
+            <div class="device-role-en">Social Worker / Caregiver</div>
+          </div>
+        </div>
+        <div class="device-list">
+          <div class="device-item">
+            <div class="device-icon-wrap" style="background:#f5f3ff">💻</div>
+            <div>
+              <div class="device-zh">電腦 Web 管理後台</div>
+              <div class="device-en">Desktop — Full Dashboard</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6">完整個案資訊檢視</span>
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6">AI 輔助建檔</span>
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6">批次任務指派</span>
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6">每日 AI 狀態摘要</span>
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6">異常標記與追蹤</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 

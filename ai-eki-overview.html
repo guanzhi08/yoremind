@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ai·Eki — 長者智慧提醒系統</title>
+<title>Ai·Eki — 智慧位置提醒系統</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -11,407 +11,228 @@
     font-family: "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
     background: #f4f6f9;
     color: #1e293b;
-    padding: 36px 28px;
+    padding: 32px 24px;
     font-size: 13px;
     line-height: 1.5;
   }
+  .page { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
 
-  .page {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  /* ── UTILITIES ── */
+  /* ── LABEL ── */
   .label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #94a3b8;
-    margin-bottom: 14px;
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #94a3b8; margin-bottom: 12px;
   }
 
-  .card {
-    background: #ffffff;
-    border: 1px solid #e8ecf0;
-    border-radius: 12px;
-    padding: 22px 24px;
-  }
+  /* ── CARD ── */
+  .card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 20px 22px; }
 
   /* ── HERO ── */
   .hero {
-    background: #ffffff;
-    border: 1px solid #e8ecf0;
-    border-radius: 12px;
-    padding: 36px 40px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 40px;
-    align-items: center;
+    background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
+    padding: 32px 38px;
+    display: grid; grid-template-columns: 1fr auto; gap: 36px; align-items: center;
   }
-
-  .hero-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
+  .hero-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   .hero-pill {
-    background: #eef2ff;
-    color: #6366f1;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 20px;
+    background: #eef2ff; color: #6366f1;
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 20px;
   }
   .hero-pill.orange { background: #fff7ed; color: #ea580c; }
-
-  .hero-name {
-    font-size: 52px;
-    font-weight: 800;
-    color: #0f172a;
-    letter-spacing: -2px;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
+  .hero-name { font-size: 50px; font-weight: 800; color: #0f172a; letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
   .hero-name .dot { color: #6366f1; }
-
-  .hero-tw {
-    font-size: 13px;
-    color: #94a3b8;
-    margin-bottom: 18px;
-    letter-spacing: 0.3px;
-  }
+  .hero-tw { font-size: 12px; color: #94a3b8; margin-bottom: 16px; }
   .hero-tw span { color: #6366f1; font-weight: 600; }
-
-  .hero-desc-zh {
-    font-size: 17px;
-    font-weight: 600;
-    color: #334155;
-    margin-bottom: 3px;
-  }
-  .hero-desc-en {
-    font-size: 12px;
-    color: #94a3b8;
-    font-style: italic;
-  }
-
-  .hero-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 210px;
-  }
+  .hero-desc-zh { font-size: 16px; font-weight: 600; color: #334155; margin-bottom: 3px; }
+  .hero-desc-en { font-size: 11px; color: #94a3b8; font-style: italic; }
+  .hero-stats { display: flex; flex-direction: column; gap: 7px; min-width: 205px; }
   .stat-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #f8fafc;
-    border: 1px solid #e8ecf0;
-    border-radius: 9px;
-    padding: 10px 14px;
+    display: flex; align-items: center; gap: 11px;
+    background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 9px; padding: 9px 13px;
   }
-  .stat-icon { font-size: 18px; flex-shrink: 0; }
+  .stat-icon { font-size: 17px; flex-shrink: 0; }
   .stat-zh { font-size: 12px; font-weight: 600; color: #334155; }
   .stat-en { font-size: 10px; color: #94a3b8; }
 
-  /* ── THREE COL ── */
-  .three-col {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr 1fr;
-    gap: 14px;
+  /* ── TABS ── */
+  .tab-bar {
+    background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
+    padding: 8px; display: flex; gap: 6px;
   }
+  .tab-btn {
+    flex: 1; padding: 10px 16px; border-radius: 9px; border: none;
+    font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.18s, color 0.18s;
+    color: #64748b; background: transparent;
+  }
+  .tab-btn.active { background: #6366f1; color: #fff; }
+  .tab-btn .tab-badge {
+    font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 20px;
+    background: rgba(255,255,255,0.25); color: inherit;
+  }
+  .tab-btn:not(.active) .tab-badge { background: #f1f5f9; color: #94a3b8; }
+
+  /* ── TAB PANELS ── */
+  .tab-panel { display: none; flex-direction: column; gap: 14px; }
+  .tab-panel.active { display: flex; }
+
+  /* ── THREE COL ── */
+  .three-col { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 12px; }
 
   /* Pain */
   .pain-card { border-left: 3px solid #fca5a5; }
   .pain-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid #f1f5f9;
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 7px 0; border-bottom: 1px solid #f1f5f9;
   }
   .pain-row:last-child { border-bottom: none; padding-bottom: 0; }
-  .pain-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-  .pain-zh { font-size: 13px; font-weight: 600; color: #1e293b; }
+  .pain-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+  .pain-zh { font-size: 12px; font-weight: 600; color: #1e293b; }
   .pain-en { font-size: 10px; color: #94a3b8; }
 
   /* Features */
   .feat-card { border-left: 3px solid #c4b5fd; }
-  .feat-list { display: flex; flex-direction: column; gap: 7px; }
+  .feat-list { display: flex; flex-direction: column; gap: 6px; }
   .feat-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #f8fafc;
-    border: 1px solid #f1f5f9;
-    border-radius: 8px;
-    padding: 9px 12px;
+    display: flex; align-items: center; gap: 11px;
+    background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px; padding: 8px 11px;
   }
   .feat-ico {
-    width: 30px; height: 30px;
-    border-radius: 7px;
+    width: 28px; height: 28px; border-radius: 7px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 15px;
-    flex-shrink: 0;
+    font-size: 14px; flex-shrink: 0;
   }
   .ico-indigo  { background: #eef2ff; }
   .ico-blue    { background: #eff6ff; }
   .ico-amber   { background: #fffbeb; }
   .ico-violet  { background: #f5f3ff; }
   .ico-emerald { background: #f0fdf4; }
-
   .feat-zh { font-size: 12px; font-weight: 600; color: #1e293b; }
   .feat-en { font-size: 10px; color: #94a3b8; }
 
   /* Roles */
   .role-card { border-left: 3px solid #6ee7b7; }
   .role-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid #f1f5f9;
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 9px 0; border-bottom: 1px solid #f1f5f9;
   }
   .role-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .role-emoji { font-size: 24px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
-  .role-name-zh { font-size: 13px; font-weight: 700; color: #1e293b; }
+  .role-emoji { font-size: 22px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+  .role-name-zh { font-size: 12px; font-weight: 700; color: #1e293b; }
   .role-name-en { font-size: 10px; color: #94a3b8; margin-bottom: 5px; }
   .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
-  .tag {
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 20px;
-  }
+  .tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
   .tag-indigo  { background: #eef2ff; color: #4338ca; }
   .tag-orange  { background: #fff7ed; color: #c2410c; }
   .tag-emerald { background: #f0fdf4; color: #065f46; }
+  .tag-sky     { background: #f0f9ff; color: #0369a1; }
+  .tag-violet  { background: #f5f3ff; color: #5b21b6; }
 
   /* ── DEVICES ── */
-  .devices-card {
-    background: #ffffff;
-    border: 1px solid #e8ecf0;
-    border-radius: 12px;
-    padding: 22px 28px;
-  }
-  .devices-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  .device-col {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
+  .devices-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 20px 26px; }
+  .devices-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .device-col { display: flex; flex-direction: column; }
   .device-role-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #f1f5f9;
+    display: flex; align-items: center; gap: 9px;
+    margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;
   }
-  .device-role-emoji { font-size: 22px; }
-  .device-role-zh { font-size: 13px; font-weight: 700; color: #1e293b; }
+  .device-role-emoji { font-size: 20px; }
+  .device-role-zh { font-size: 12px; font-weight: 700; color: #1e293b; }
   .device-role-en { font-size: 10px; color: #94a3b8; }
-
-  .device-list { display: flex; flex-direction: column; gap: 10px; }
+  .device-list { display: flex; flex-direction: column; gap: 8px; }
   .device-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    background: #f8fafc;
-    border: 1px solid #f1f5f9;
-    border-radius: 10px;
-    padding: 12px 14px;
+    display: flex; align-items: flex-start; gap: 11px;
+    background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 9px; padding: 10px 12px;
   }
   .device-icon-wrap {
-    width: 38px; height: 38px;
-    border-radius: 9px;
+    width: 34px; height: 34px; border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
+    font-size: 18px; flex-shrink: 0;
   }
   .device-zh { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
   .device-en { font-size: 10px; color: #94a3b8; margin-bottom: 6px; }
   .device-uses { display: flex; flex-wrap: wrap; gap: 4px; }
-  .device-use {
-    font-size: 10px;
-    font-weight: 500;
-    padding: 2px 8px;
-    border-radius: 4px;
-  }
-
-  .divider-col {
-    width: 1px;
-    background: #f1f5f9;
-    margin: 0 4px;
-  }
+  .device-use { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; border: 1px solid transparent; }
+  .divider-col { width: 1px; background: #f1f5f9; margin: 0 2px; }
 
   /* ── AI FLOW ── */
-  .flow-card {
-    background: #ffffff;
-    border: 1px solid #e8ecf0;
-    border-radius: 12px;
-    padding: 24px 28px;
-  }
-  .flow-header { margin-bottom: 20px; }
-  .flow-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
-  .flow-sub   { font-size: 11px; color: #94a3b8; }
-
+  .flow-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 22px 26px; }
+  .flow-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+  .flow-sub   { font-size: 11px; color: #94a3b8; margin-bottom: 18px; }
   .flow-steps {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr) ;
-    gap: 12px;
-    align-items: start;
-    position: relative;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    align-items: start; position: relative;
   }
-
-  /* connecting line behind steps */
   .flow-steps::before {
-    content: "";
-    position: absolute;
-    top: 22px;
-    left: calc(12.5% + 6px);
-    width: calc(75% - 12px);
-    height: 1px;
-    background: #e2e8f0;
-    z-index: 0;
+    content: ""; position: absolute; top: 21px;
+    left: calc(12.5% + 5px); width: calc(75% - 10px);
+    height: 1px; background: #e2e8f0; z-index: 0;
   }
-
   .flow-step {
-    background: #f8fafc;
-    border: 1px solid #e8ecf0;
-    border-radius: 10px;
-    padding: 16px 14px;
-    position: relative;
-    z-index: 1;
+    background: #f8fafc; border: 1px solid #e8ecf0;
+    border-radius: 10px; padding: 14px 12px; position: relative; z-index: 1;
   }
-
   .step-num {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    background: #eef2ff;
-    color: #6366f1;
-    font-size: 11px;
-    font-weight: 800;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 10px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #eef2ff; color: #6366f1;
+    font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 8px;
   }
-  .step-ico  { font-size: 20px; margin-bottom: 6px; }
-  .step-zh   { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
-  .step-en   { font-size: 10px; color: #94a3b8; margin-bottom: 10px; }
-  .step-tags { display: flex; flex-direction: column; gap: 4px; }
-  .step-tag  {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-weight: 500;
-    border: 1px solid transparent;
+  .step-ico { font-size: 18px; margin-bottom: 5px; }
+  .step-zh  { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+  .step-en  { font-size: 10px; color: #94a3b8; margin-bottom: 8px; }
+  .step-tags { display: flex; flex-direction: column; gap: 3px; }
+  .step-tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 4px;
+    font-weight: 500; border: 1px solid transparent;
   }
   .st-indigo  { background: #eef2ff; color: #4338ca; border-color: #e0e7ff; }
   .st-orange  { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
   .st-emerald { background: #f0fdf4; color: #065f46; border-color: #d1fae5; }
 
   /* ── SCENARIOS ── */
-  .scenario-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-  }
-
+  .scenario-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
   .sc-card {
-    background: #ffffff;
-    border: 1px solid #e8ecf0;
-    border-radius: 12px;
-    padding: 20px 18px;
-    display: flex;
-    flex-direction: column;
+    background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
+    padding: 18px 16px; display: flex; flex-direction: column;
   }
   .sc1 { border-top: 2px solid #a5b4fc; }
   .sc2 { border-top: 2px solid #fca5a5; }
   .sc3 { border-top: 2px solid #fdba74; }
   .sc4 { border-top: 2px solid #6ee7b7; }
-
-  .sc-emoji { font-size: 26px; margin-bottom: 10px; }
+  .sc-emoji { font-size: 24px; margin-bottom: 9px; }
   .sc-zh { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
-  .sc-en { font-size: 10px; color: #94a3b8; margin-bottom: 14px; }
-
-  .sc-steps { display: flex; flex-direction: column; gap: 6px; flex: 1; }
-  .sc-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 11px;
-    color: #475569;
-  }
-  .sc-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-  .sc-divider {
-    width: 1px; height: 10px;
-    background: #e2e8f0;
-    margin-left: 2px;
-  }
-
+  .sc-en { font-size: 10px; color: #94a3b8; margin-bottom: 12px; }
+  .sc-steps { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+  .sc-step { display: flex; align-items: flex-start; gap: 7px; font-size: 11px; color: #475569; }
+  .sc-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .sc-divider { width: 1px; height: 9px; background: #e2e8f0; margin-left: 2px; }
   .sc-foot {
-    padding-top: 12px;
-    margin-top: 12px;
-    border-top: 1px solid #f1f5f9;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
+    padding-top: 10px; margin-top: 10px; border-top: 1px solid #f1f5f9;
+    display: flex; flex-wrap: wrap; gap: 4px;
   }
-  .sc-tag {
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 20px;
-  }
+  .sc-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
 
   /* ── FOOTER ── */
   .footer {
-    background: #ffffff;
-    border: 1px solid #e8ecf0;
-    border-radius: 12px;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
+    padding: 14px 22px; display: flex; align-items: center; justify-content: space-between;
   }
-  .footer-left { }
-  .footer-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px; }
-  .tech-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .footer-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #94a3b8; margin-bottom: 7px; }
+  .tech-row { display: flex; flex-wrap: wrap; gap: 5px; }
   .tech-pill {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    color: #64748b;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
+    background: #f8fafc; border: 1px solid #e2e8f0; color: #64748b;
+    font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
   }
-  .brand {
-    font-size: 28px;
-    font-weight: 800;
-    color: #0f172a;
-    letter-spacing: -1.5px;
-  }
+  .brand { font-size: 26px; font-weight: 800; color: #0f172a; letter-spacing: -1.5px; }
   .brand span { color: #6366f1; }
 
   @media print {
     body { background: #fff; padding: 0; }
     .page { max-width: 100%; }
+    .tab-bar { display: none; }
+    .tab-panel { display: flex !important; }
   }
 </style>
 </head>
@@ -423,12 +244,12 @@
     <div>
       <div class="hero-eyebrow">
         <span class="hero-pill">AI-Powered</span>
-        <span class="hero-pill orange">Elder Care</span>
+        <span class="hero-pill orange">Location Reminders</span>
       </div>
       <div class="hero-name">Ai<span class="dot">·</span>Eki</div>
       <div class="hero-tw">台語「<span>要記得</span>」× AI 記得你的一切</div>
-      <div class="hero-desc-zh">為長者長照而生的智慧位置提醒系統</div>
-      <div class="hero-desc-en">Location-Aware AI Reminder System for Elderly Care</div>
+      <div class="hero-desc-zh">時間 × 地點 × AI —— 在對的地方、對的時間，提醒對的事</div>
+      <div class="hero-desc-en">The right reminder, at the right place, at the right time — powered by AI</div>
     </div>
     <div class="hero-stats">
       <div class="stat-row">
@@ -455,229 +276,408 @@
     </div>
   </div>
 
-  <!-- THREE COLUMNS -->
-  <div class="three-col">
-
-    <!-- Pain Points -->
-    <div class="card pain-card">
-      <div class="label">Pain Points · 核心痛點</div>
-      <div class="pain-row">
-        <div class="pain-icon">💊</div>
-        <div><div class="pain-zh">忘記吃藥</div><div class="pain-en">Missed Medication</div></div>
-      </div>
-      <div class="pain-row">
-        <div class="pain-icon">🚶</div>
-        <div><div class="pain-zh">迷路走失風險</div><div class="pain-en">Wandering Risk</div></div>
-      </div>
-      <div class="pain-row">
-        <div class="pain-icon">😓</div>
-        <div><div class="pain-zh">照顧者分身乏術</div><div class="pain-en">Caregiver Burnout</div></div>
-      </div>
-      <div class="pain-row">
-        <div class="pain-icon">🚨</div>
-        <div><div class="pain-zh">緊急狀況無法即時通知</div><div class="pain-en">Delayed Emergency Alerts</div></div>
-      </div>
-      <div class="pain-row">
-        <div class="pain-icon">📋</div>
-        <div><div class="pain-zh">社工個案記錄繁瑣</div><div class="pain-en">Tedious Case Management</div></div>
-      </div>
-    </div>
-
-    <!-- Core Features -->
-    <div class="card feat-card">
-      <div class="label">Core Features · 五大功能</div>
-      <div class="feat-list">
-        <div class="feat-row">
-          <div class="feat-ico ico-indigo">⏰</div>
-          <div><div class="feat-zh">時間觸發提醒</div><div class="feat-en">Time-Based Triggers</div></div>
-        </div>
-        <div class="feat-row">
-          <div class="feat-ico ico-blue">📍</div>
-          <div><div class="feat-zh">地點地理圍欄</div><div class="feat-en">Location Geofencing</div></div>
-        </div>
-        <div class="feat-row">
-          <div class="feat-ico ico-amber">🧠</div>
-          <div><div class="feat-zh">行為異常偵測</div><div class="feat-en">Behavioral Anomaly Detection</div></div>
-        </div>
-        <div class="feat-row">
-          <div class="feat-ico ico-violet">🤖</div>
-          <div><div class="feat-zh">AI 自動建立任務</div><div class="feat-en">AI Auto Task Creation</div></div>
-        </div>
-        <div class="feat-row">
-          <div class="feat-ico ico-emerald">🔔</div>
-          <div><div class="feat-zh">多角色智慧推播</div><div class="feat-en">Multi-Role Smart Push</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Roles -->
-    <div class="card role-card">
-      <div class="label">User Roles · 使用角色</div>
-      <div class="role-item">
-        <div class="role-emoji">👴</div>
-        <div>
-          <div class="role-name-zh">長者</div>
-          <div class="role-name-en">Elder</div>
-          <div class="tag-row">
-            <span class="tag tag-indigo">被動接收</span>
-            <span class="tag tag-indigo">大字介面</span>
-            <span class="tag tag-indigo">語音提醒</span>
-          </div>
-        </div>
-      </div>
-      <div class="role-item">
-        <div class="role-emoji">👨‍👩‍👦</div>
-        <div>
-          <div class="role-name-zh">家人</div>
-          <div class="role-name-en">Family</div>
-          <div class="tag-row">
-            <span class="tag tag-orange">即時監看</span>
-            <span class="tag tag-orange">異常通知</span>
-            <span class="tag tag-orange">遠端管理</span>
-          </div>
-        </div>
-      </div>
-      <div class="role-item">
-        <div class="role-emoji">👩‍💼</div>
-        <div>
-          <div class="role-name-zh">社工 / 照護員</div>
-          <div class="role-name-en">Social Worker</div>
-          <div class="tag-row">
-            <span class="tag tag-emerald">批次指派</span>
-            <span class="tag tag-emerald">AI 輔助建檔</span>
-            <span class="tag tag-emerald">日報摘要</span>
-          </div>
-        </div>
-      </div>
-    </div>
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('elder')">
+      👴 長照長者場景
+      <span class="tab-badge">核心受眾 20%</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('general')">
+      👥 一般使用者場景
+      <span class="tab-badge">延伸受眾 100%</span>
+    </button>
   </div>
 
-  <!-- DEVICES -->
-  <div class="devices-card">
-    <div class="label">Devices & Touchpoints · 使用載體</div>
-    <div class="devices-grid">
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 1: ELDER CARE                         -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="tab-panel active" id="panel-elder">
 
-      <!-- Elder -->
-      <div class="device-col">
-        <div class="device-role-header">
-          <div class="device-role-emoji">👴</div>
-          <div>
-            <div class="device-role-zh">長者</div>
-            <div class="device-role-en">Elder</div>
-          </div>
-        </div>
-        <div class="device-list">
-          <div class="device-item">
-            <div class="device-icon-wrap" style="background:#eef2ff">📱</div>
-            <div>
-              <div class="device-zh">平板電腦</div>
-              <div class="device-en">Tablet — Large Screen</div>
-              <div class="device-uses">
-                <span class="device-use" style="background:#eef2ff;color:#4338ca">全螢幕提醒彈出</span>
-                <span class="device-use" style="background:#eef2ff;color:#4338ca">追劇 / 視訊通話</span>
-                <span class="device-use" style="background:#eef2ff;color:#4338ca">大字介面易操作</span>
-              </div>
-            </div>
-          </div>
-          <div class="device-item">
-            <div class="device-icon-wrap" style="background:#f0fdf4">⌚</div>
-            <div>
-              <div class="device-zh">智慧手錶</div>
-              <div class="device-en">Smartwatch — Health Monitor</div>
-              <div class="device-uses">
-                <span class="device-use" style="background:#f0fdf4;color:#065f46">心率 / 血氧監測</span>
-                <span class="device-use" style="background:#f0fdf4;color:#065f46">跌倒偵測</span>
-                <span class="device-use" style="background:#f0fdf4;color:#065f46">SOS 一鍵求援</span>
-                <span class="device-use" style="background:#f0fdf4;color:#065f46">GPS 定位</span>
-              </div>
-            </div>
-          </div>
+    <!-- THREE COLUMNS -->
+    <div class="three-col">
+      <div class="card pain-card">
+        <div class="label">Pain Points · 核心痛點</div>
+        <div class="pain-row"><div class="pain-icon">💊</div><div><div class="pain-zh">忘記吃藥</div><div class="pain-en">Missed Medication</div></div></div>
+        <div class="pain-row"><div class="pain-icon">🚶</div><div><div class="pain-zh">迷路走失風險</div><div class="pain-en">Wandering Risk</div></div></div>
+        <div class="pain-row"><div class="pain-icon">😓</div><div><div class="pain-zh">照顧者分身乏術</div><div class="pain-en">Caregiver Burnout</div></div></div>
+        <div class="pain-row"><div class="pain-icon">🚨</div><div><div class="pain-zh">緊急狀況無法即時通知</div><div class="pain-en">Delayed Emergency Alerts</div></div></div>
+        <div class="pain-row"><div class="pain-icon">📋</div><div><div class="pain-zh">社工個案記錄繁瑣</div><div class="pain-en">Tedious Case Management</div></div></div>
+      </div>
+
+      <div class="card feat-card">
+        <div class="label">Core Features · 五大功能</div>
+        <div class="feat-list">
+          <div class="feat-row"><div class="feat-ico ico-indigo">⏰</div><div><div class="feat-zh">時間觸發提醒</div><div class="feat-en">Time-Based Triggers</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-blue">📍</div><div><div class="feat-zh">地點地理圍欄</div><div class="feat-en">Location Geofencing</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-amber">🧠</div><div><div class="feat-zh">行為異常偵測</div><div class="feat-en">Behavioral Anomaly Detection</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-violet">🤖</div><div><div class="feat-zh">AI 自動建立任務</div><div class="feat-en">AI Auto Task Creation</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-emerald">🔔</div><div><div class="feat-zh">多角色智慧推播</div><div class="feat-en">Multi-Role Smart Push</div></div></div>
         </div>
       </div>
 
-      <div class="divider-col"></div>
-
-      <!-- Family -->
-      <div class="device-col">
-        <div class="device-role-header">
-          <div class="device-role-emoji">👨‍👩‍👦</div>
-          <div>
-            <div class="device-role-zh">家人</div>
-            <div class="device-role-en">Family</div>
-          </div>
+      <div class="card role-card">
+        <div class="label">User Roles · 使用角色</div>
+        <div class="role-item">
+          <div class="role-emoji">👴</div>
+          <div><div class="role-name-zh">長者</div><div class="role-name-en">Elder</div>
+          <div class="tag-row"><span class="tag tag-indigo">被動接收</span><span class="tag tag-indigo">大字介面</span><span class="tag tag-indigo">語音提醒</span></div></div>
         </div>
-        <div class="device-list">
-          <div class="device-item">
-            <div class="device-icon-wrap" style="background:#fff7ed">📲</div>
-            <div>
-              <div class="device-zh">智慧型手機</div>
-              <div class="device-en">Mobile Phone — Always On</div>
-              <div class="device-uses">
-                <span class="device-use" style="background:#fff7ed;color:#c2410c">即時異常推播</span>
-                <span class="device-use" style="background:#fff7ed;color:#c2410c">GPS 即時位置</span>
-                <span class="device-use" style="background:#fff7ed;color:#c2410c">查看長者狀態</span>
-                <span class="device-use" style="background:#fff7ed;color:#c2410c">遠端新增提醒</span>
-                <span class="device-use" style="background:#fff7ed;color:#c2410c">截圖上傳建任務</span>
-              </div>
-            </div>
-          </div>
+        <div class="role-item">
+          <div class="role-emoji">👨‍👩‍👦</div>
+          <div><div class="role-name-zh">家人</div><div class="role-name-en">Family</div>
+          <div class="tag-row"><span class="tag tag-orange">即時監看</span><span class="tag tag-orange">異常通知</span><span class="tag tag-orange">遠端管理</span></div></div>
+        </div>
+        <div class="role-item">
+          <div class="role-emoji">👩‍💼</div>
+          <div><div class="role-name-zh">社工 / 照護員</div><div class="role-name-en">Social Worker</div>
+          <div class="tag-row"><span class="tag tag-emerald">批次指派</span><span class="tag tag-emerald">AI 輔助建檔</span><span class="tag tag-emerald">日報摘要</span></div></div>
         </div>
       </div>
-
-      <div class="divider-col"></div>
-
-      <!-- Social Worker -->
-      <div class="device-col">
-        <div class="device-role-header">
-          <div class="device-role-emoji">👩‍💼</div>
-          <div>
-            <div class="device-role-zh">社工 / 照護員</div>
-            <div class="device-role-en">Social Worker / Caregiver</div>
-          </div>
-        </div>
-        <div class="device-list">
-          <div class="device-item">
-            <div class="device-icon-wrap" style="background:#f5f3ff">💻</div>
-            <div>
-              <div class="device-zh">電腦 Web 管理後台</div>
-              <div class="device-en">Desktop — Full Dashboard</div>
-              <div class="device-uses">
-                <span class="device-use" style="background:#f5f3ff;color:#5b21b6">完整個案資訊檢視</span>
-                <span class="device-use" style="background:#f5f3ff;color:#5b21b6">AI 輔助建檔</span>
-                <span class="device-use" style="background:#f5f3ff;color:#5b21b6">批次任務指派</span>
-                <span class="device-use" style="background:#f5f3ff;color:#5b21b6">每日 AI 狀態摘要</span>
-                <span class="device-use" style="background:#f5f3ff;color:#5b21b6">異常標記與追蹤</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
 
-  <!-- AI FLOW -->
+    <!-- DEVICES -->
+    <div class="devices-card">
+      <div class="label">Devices & Touchpoints · 使用載體</div>
+      <div class="devices-grid">
+        <div class="device-col">
+          <div class="device-role-header"><div class="device-role-emoji">👴</div><div><div class="device-role-zh">長者</div><div class="device-role-en">Elder</div></div></div>
+          <div class="device-list">
+            <div class="device-item">
+              <div class="device-icon-wrap" style="background:#eef2ff">📱</div>
+              <div><div class="device-zh">平板電腦</div><div class="device-en">Tablet — Large Screen</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">全螢幕提醒彈出</span>
+                <span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">追劇 / 視訊通話</span>
+                <span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">大字介面易操作</span>
+              </div></div>
+            </div>
+            <div class="device-item">
+              <div class="device-icon-wrap" style="background:#f0fdf4">⌚</div>
+              <div><div class="device-zh">智慧手錶</div><div class="device-en">Smartwatch — Health Monitor</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">心率 / 血氧監測</span>
+                <span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">跌倒偵測</span>
+                <span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">SOS 一鍵求援</span>
+                <span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">GPS 定位</span>
+              </div></div>
+            </div>
+          </div>
+        </div>
+        <div class="divider-col"></div>
+        <div class="device-col">
+          <div class="device-role-header"><div class="device-role-emoji">👨‍👩‍👦</div><div><div class="device-role-zh">家人</div><div class="device-role-en">Family</div></div></div>
+          <div class="device-list">
+            <div class="device-item">
+              <div class="device-icon-wrap" style="background:#fff7ed">📲</div>
+              <div><div class="device-zh">智慧型手機</div><div class="device-en">Mobile — Always On</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">即時異常推播</span>
+                <span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">GPS 即時位置</span>
+                <span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">遠端新增提醒</span>
+                <span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">截圖上傳建任務</span>
+              </div></div>
+            </div>
+          </div>
+        </div>
+        <div class="divider-col"></div>
+        <div class="device-col">
+          <div class="device-role-header"><div class="device-role-emoji">👩‍💼</div><div><div class="device-role-zh">社工 / 照護員</div><div class="device-role-en">Social Worker</div></div></div>
+          <div class="device-list">
+            <div class="device-item">
+              <div class="device-icon-wrap" style="background:#f5f3ff">💻</div>
+              <div><div class="device-zh">電腦 Web 管理後台</div><div class="device-en">Desktop — Full Dashboard</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">完整個案資訊</span>
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">AI 輔助建檔</span>
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">批次任務指派</span>
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">每日 AI 摘要</span>
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">異常標記追蹤</span>
+              </div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIOS -->
+    <div>
+      <div class="label" style="padding-left:2px">Real Scenarios · 長照實際場景</div>
+      <div class="scenario-grid">
+        <div class="sc-card sc1">
+          <div class="sc-emoji">🏥</div>
+          <div class="sc-zh">靠近診所，回診提醒</div>
+          <div class="sc-en">Near Clinic → Appointment Alert</div>
+          <div class="sc-steps">
+            <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div>GPS 偵測到診所 300m 內</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div>符合早上 09–11 時段條件</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>推播「記得帶健保卡＋藥袋」</div>
+          </div>
+          <div class="sc-foot">
+            <span class="sc-tag" style="background:#eef2ff;color:#4338ca">📍 地點觸發</span>
+            <span class="sc-tag" style="background:#eff6ff;color:#1d4ed8">⏰ 時間範圍</span>
+          </div>
+        </div>
+        <div class="sc-card sc2">
+          <div class="sc-emoji">🌙</div>
+          <div class="sc-zh">深夜離家，立即警示</div>
+          <div class="sc-en">Late Night Exit → Family Alert</div>
+          <div class="sc-steps">
+            <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div>23:00 後離開居家圍欄範圍</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div>非常規行為偵測觸發升級</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>即時通知家人 + GPS 共享位置</div>
+          </div>
+          <div class="sc-foot">
+            <span class="sc-tag" style="background:#fef2f2;color:#991b1b">🚨 離開範圍</span>
+            <span class="sc-tag" style="background:#fff7ed;color:#9a3412">🧠 異常偵測</span>
+          </div>
+        </div>
+        <div class="sc-card sc3">
+          <div class="sc-emoji">📄</div>
+          <div class="sc-zh">出院截圖，自動建任務</div>
+          <div class="sc-en">Discharge Summary → Auto Tasks</div>
+          <div class="sc-steps">
+            <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div>家人上傳出院診斷截圖</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div>AI 解析用藥清單、回診日、衛教</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>自動建立每日服藥 + 回診提醒</div>
+          </div>
+          <div class="sc-foot">
+            <span class="sc-tag" style="background:#fff7ed;color:#9a3412">🤖 OCR + AI</span>
+            <span class="sc-tag" style="background:#fef3c7;color:#92400e">📋 零手動輸入</span>
+          </div>
+        </div>
+        <div class="sc-card sc4">
+          <div class="sc-emoji">🗣️</div>
+          <div class="sc-zh">社工語音，批次指派</div>
+          <div class="sc-en">Voice Command → Batch Assignment</div>
+          <div class="sc-steps">
+            <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div>社工說「週四新店區帶藥袋來」</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div>AI 解析條件、篩選符合個案</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>N 個個案各自收到精準提醒</div>
+          </div>
+          <div class="sc-foot">
+            <span class="sc-tag" style="background:#ecfdf5;color:#065f46">🎙️ 語音輸入</span>
+            <span class="sc-tag" style="background:#d1fae5;color:#065f46">👥 批次指派</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel-elder -->
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 2: GENERAL PUBLIC                     -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-general">
+
+    <!-- THREE COLUMNS -->
+    <div class="three-col">
+      <div class="card pain-card">
+        <div class="label">Pain Points · 日常痛點</div>
+        <div class="pain-row"><div class="pain-icon">📦</div><div><div class="pain-zh">包裹到了忘記取貨</div><div class="pain-en">Missed Package Pickup</div></div></div>
+        <div class="pain-row"><div class="pain-icon">🛒</div><div><div class="pain-zh">路過超市忘了順手買</div><div class="pain-en">Forgot to Shop While Passing By</div></div></div>
+        <div class="pain-row"><div class="pain-icon">📅</div><div><div class="pain-zh">忙碌中忘記預約行程</div><div class="pain-en">Missed Appointments</div></div></div>
+        <div class="pain-row"><div class="pain-icon">🔁</div><div><div class="pain-zh">習慣養成難以持續</div><div class="pain-en">Habit Consistency</div></div></div>
+        <div class="pain-row"><div class="pain-icon">🧠</div><div><div class="pain-zh">靠腦記太多事容易遺漏</div><div class="pain-en">Mental Overload</div></div></div>
+      </div>
+
+      <div class="card feat-card">
+        <div class="label">Core Features · 五大功能</div>
+        <div class="feat-list">
+          <div class="feat-row"><div class="feat-ico ico-indigo">⏰</div><div><div class="feat-zh">時間觸發提醒</div><div class="feat-en">Time-Based Triggers</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-blue">📍</div><div><div class="feat-zh">地點地理圍欄</div><div class="feat-en">Location Geofencing</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-amber">🧠</div><div><div class="feat-zh">行為習慣追蹤</div><div class="feat-en">Habit & Behavior Tracking</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-violet">🤖</div><div><div class="feat-zh">AI 自動建立任務</div><div class="feat-en">AI Auto Task Creation</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-emerald">🔔</div><div><div class="feat-zh">個人化智慧推播</div><div class="feat-en">Personalized Smart Push</div></div></div>
+        </div>
+      </div>
+
+      <div class="card role-card">
+        <div class="label">User Roles · 使用對象</div>
+        <div class="role-item">
+          <div class="role-emoji">🙋</div>
+          <div><div class="role-name-zh">個人用戶</div><div class="role-name-en">Individual</div>
+          <div class="tag-row"><span class="tag tag-indigo">自我管理</span><span class="tag tag-indigo">購物清單</span><span class="tag tag-indigo">習慣追蹤</span></div></div>
+        </div>
+        <div class="role-item">
+          <div class="role-emoji">👨‍👩‍👦</div>
+          <div><div class="role-name-zh">家庭群組</div><div class="role-name-en">Family Group</div>
+          <div class="tag-row"><span class="tag tag-orange">共享清單</span><span class="tag tag-orange">家事分工</span><span class="tag tag-orange">接送提醒</span></div></div>
+        </div>
+        <div class="role-item">
+          <div class="role-emoji">🏢</div>
+          <div><div class="role-name-zh">小型團隊</div><div class="role-name-en">Small Teams</div>
+          <div class="tag-row"><span class="tag tag-sky">外勤人員</span><span class="tag tag-sky">任務指派</span><span class="tag tag-sky">到點回報</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEVICES -->
+    <div class="devices-card">
+      <div class="label">Devices & Touchpoints · 使用載體</div>
+      <div class="devices-grid">
+        <div class="device-col">
+          <div class="device-role-header"><div class="device-role-emoji">🙋</div><div><div class="device-role-zh">個人用戶</div><div class="device-role-en">Individual</div></div></div>
+          <div class="device-list">
+            <div class="device-item">
+              <div class="device-icon-wrap" style="background:#eef2ff">📱</div>
+              <div><div class="device-zh">智慧型手機</div><div class="device-en">Mobile — Primary Device</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">GPS 地點觸發</span>
+                <span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">截圖快速建任務</span>
+                <span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">推播提醒接收</span>
+                <span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">語音輸入</span>
+              </div></div>
+            </div>
+          </div>
+        </div>
+        <div class="divider-col"></div>
+        <div class="device-col">
+          <div class="device-role-header"><div class="device-role-emoji">👨‍👩‍👦</div><div><div class="device-role-zh">家庭群組</div><div class="device-role-en">Family Group</div></div></div>
+          <div class="device-list">
+            <div class="device-item">
+              <div class="device-icon-wrap" style="background:#fff7ed">📲</div>
+              <div><div class="device-zh">手機（各成員）</div><div class="device-en">Mobile — Shared Group</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">共享購物清單</span>
+                <span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">家人位置共享</span>
+                <span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">接送到校提醒</span>
+              </div></div>
+            </div>
+          </div>
+        </div>
+        <div class="divider-col"></div>
+        <div class="device-col">
+          <div class="device-role-header"><div class="device-role-emoji">🏢</div><div><div class="device-role-zh">小型團隊</div><div class="device-role-en">Small Teams</div></div></div>
+          <div class="device-list">
+            <div class="device-item">
+              <div class="device-icon-wrap" style="background:#f0f9ff">📱</div>
+              <div><div class="device-zh">手機（外勤）</div><div class="device-en">Mobile — Field Workers</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">到點自動打卡</span>
+                <span class="device-use" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">任務地點導航</span>
+              </div></div>
+            </div>
+            <div class="device-item">
+              <div class="device-icon-wrap" style="background:#f5f3ff">💻</div>
+              <div><div class="device-zh">電腦（管理者）</div><div class="device-en">Desktop — Manager</div>
+              <div class="device-uses">
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">指派任務</span>
+                <span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">外勤狀態總覽</span>
+              </div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIOS -->
+    <div>
+      <div class="label" style="padding-left:2px">Real Scenarios · 一般使用場景</div>
+      <div class="scenario-grid">
+
+        <div class="sc-card sc1">
+          <div class="sc-emoji">📦</div>
+          <div class="sc-zh">蝦皮截圖，超商取貨</div>
+          <div class="sc-en">Shopee Screenshot → Pickup Reminder</div>
+          <div class="sc-steps">
+            <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div>上傳蝦皮取貨通知截圖</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div>OCR 自動解析：取貨碼、門市、期限</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div>地圖自動搜尋門市位置</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>路過門市時推播「取貨碼：XXXXXX」</div>
+          </div>
+          <div class="sc-foot">
+            <span class="sc-tag" style="background:#eef2ff;color:#4338ca">🤖 OCR 辨識</span>
+            <span class="sc-tag" style="background:#eff6ff;color:#1d4ed8">📍 路過觸發</span>
+          </div>
+        </div>
+
+        <div class="sc-card sc2">
+          <div class="sc-emoji">🛒</div>
+          <div class="sc-zh">路過超市，購物清單</div>
+          <div class="sc-en">Near Supermarket → Shopping List</div>
+          <div class="sc-steps">
+            <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div>預先建立「家樂福」購物清單</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div>GPS 偵測到家樂福 200m 內</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>彈出清單：衛生紙、洗碗精、雞蛋…</div>
+          </div>
+          <div class="sc-foot">
+            <span class="sc-tag" style="background:#fef2f2;color:#991b1b">📍 地點觸發</span>
+            <span class="sc-tag" style="background:#fff7ed;color:#9a3412">📋 清單提醒</span>
+          </div>
+        </div>
+
+        <div class="sc-card sc3">
+          <div class="sc-emoji">🗓️</div>
+          <div class="sc-zh">語音建任務，行程提醒</div>
+          <div class="sc-en">Voice Input → Schedule Reminder</div>
+          <div class="sc-steps">
+            <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div>說「下週二去家樂福買衛生紙」</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div>AI 解析：時間、地點、內容</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>自動建立提醒，無需手動輸入</div>
+          </div>
+          <div class="sc-foot">
+            <span class="sc-tag" style="background:#fff7ed;color:#9a3412">🎙️ 語音輸入</span>
+            <span class="sc-tag" style="background:#fef3c7;color:#92400e">🤖 NLU 解析</span>
+          </div>
+        </div>
+
+        <div class="sc-card sc4">
+          <div class="sc-emoji">🏃</div>
+          <div class="sc-zh">路過健身房，習慣提醒</div>
+          <div class="sc-en">Near Gym → Habit Nudge</div>
+          <div class="sc-steps">
+            <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div>設定「健身房」地點 + 週三/五觸發</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div>週五下班路過健身房偵測到</div>
+            <div class="sc-divider" style="margin-left:2px"></div>
+            <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>推播「今天是健身日，已連續 12 天！」</div>
+          </div>
+          <div class="sc-foot">
+            <span class="sc-tag" style="background:#ecfdf5;color:#065f46">📍 地點 + 時間</span>
+            <span class="sc-tag" style="background:#d1fae5;color:#065f46">🔁 習慣養成</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /panel-general -->
+
+
+  <!-- AI FLOW (shared) -->
   <div class="flow-card">
-    <div class="flow-header">
-      <div class="label">AI Pipeline · 智慧任務流程</div>
-      <div class="flow-title">從「輸入」到「提醒」—— 全程 AI 自動化</div>
-      <div class="flow-sub">Zero Manual Entry · 截圖、語音、感測器 → AI 自動解析 → 結構化任務 → 精準觸發</div>
-    </div>
+    <div class="label">AI Pipeline · 智慧任務流程</div>
+    <div class="flow-title">從「輸入」到「提醒」—— 全程 AI 自動化</div>
+    <div class="flow-sub">Zero Manual Entry · 截圖、語音、感測器 → AI 自動解析 → 結構化任務 → 精準觸發</div>
     <div class="flow-steps">
-
       <div class="flow-step">
         <div class="step-num">1</div>
         <div class="step-ico">📥</div>
         <div class="step-zh">輸入來源</div>
         <div class="step-en">Input Sources</div>
         <div class="step-tags">
-          <span class="step-tag st-indigo">出院摘要截圖</span>
-          <span class="step-tag st-indigo">照護員語音</span>
-          <span class="step-tag st-indigo">GPS 感測</span>
-          <span class="step-tag st-indigo">家人文字指令</span>
+          <span class="step-tag st-indigo">截圖（蝦皮 / 出院）</span>
+          <span class="step-tag st-indigo">語音指令</span>
+          <span class="step-tag st-indigo">GPS 感測器</span>
+          <span class="step-tag st-indigo">手動文字輸入</span>
         </div>
       </div>
-
       <div class="flow-step">
         <div class="step-num">2</div>
         <div class="step-ico">🤖</div>
@@ -690,7 +690,6 @@
           <span class="step-tag st-orange">地點自動定位</span>
         </div>
       </div>
-
       <div class="flow-step">
         <div class="step-num">3</div>
         <div class="step-ico">📋</div>
@@ -703,106 +702,24 @@
           <span class="step-tag st-indigo">指派對象</span>
         </div>
       </div>
-
       <div class="flow-step">
         <div class="step-num">4</div>
         <div class="step-ico">🔔</div>
         <div class="step-zh">智慧觸發提醒</div>
         <div class="step-en">Smart Trigger</div>
         <div class="step-tags">
-          <span class="step-tag st-emerald">長者推播</span>
-          <span class="step-tag st-emerald">家人警示</span>
-          <span class="step-tag st-emerald">社工日報</span>
+          <span class="step-tag st-emerald">個人推播通知</span>
+          <span class="step-tag st-emerald">家人 / 團隊警示</span>
           <span class="step-tag st-emerald">異常升級通知</span>
+          <span class="step-tag st-emerald">習慣打卡回饋</span>
         </div>
       </div>
-
-    </div>
-  </div>
-
-  <!-- SCENARIOS -->
-  <div>
-    <div class="label" style="padding-left: 2px">Real Scenarios · 實際場景</div>
-    <div class="scenario-grid">
-
-      <!-- S1 -->
-      <div class="sc-card sc1">
-        <div class="sc-emoji">🏥</div>
-        <div class="sc-zh">靠近診所，回診提醒</div>
-        <div class="sc-en">Near Clinic → Appointment Alert</div>
-        <div class="sc-steps">
-          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div>GPS 偵測到診所 300m 內</div>
-          <div class="sc-divider" style="margin-left:2px"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div>符合早上 09–11 時段條件</div>
-          <div class="sc-divider" style="margin-left:2px"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>推播「記得帶健保卡＋藥袋」</div>
-        </div>
-        <div class="sc-foot">
-          <span class="sc-tag" style="background:#eef2ff;color:#4338ca">📍 地點觸發</span>
-          <span class="sc-tag" style="background:#eff6ff;color:#1d4ed8">⏰ 時間範圍</span>
-        </div>
-      </div>
-
-      <!-- S2 -->
-      <div class="sc-card sc2">
-        <div class="sc-emoji">🌙</div>
-        <div class="sc-zh">深夜離家，立即警示</div>
-        <div class="sc-en">Late Night Exit → Family Alert</div>
-        <div class="sc-steps">
-          <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div>23:00 後離開居家圍欄範圍</div>
-          <div class="sc-divider" style="margin-left:2px"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div>非常規行為偵測觸發升級</div>
-          <div class="sc-divider" style="margin-left:2px"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>即時通知家人 + GPS 共享位置</div>
-        </div>
-        <div class="sc-foot">
-          <span class="sc-tag" style="background:#fef2f2;color:#991b1b">🚨 離開範圍</span>
-          <span class="sc-tag" style="background:#fff7ed;color:#9a3412">🧠 異常偵測</span>
-        </div>
-      </div>
-
-      <!-- S3 -->
-      <div class="sc-card sc3">
-        <div class="sc-emoji">📄</div>
-        <div class="sc-zh">出院截圖，自動建任務</div>
-        <div class="sc-en">Discharge Summary → Auto Tasks</div>
-        <div class="sc-steps">
-          <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div>家人上傳出院診斷截圖</div>
-          <div class="sc-divider" style="margin-left:2px"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div>AI 解析用藥清單、回診日、衛教</div>
-          <div class="sc-divider" style="margin-left:2px"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>自動建立每日服藥 + 回診提醒</div>
-        </div>
-        <div class="sc-foot">
-          <span class="sc-tag" style="background:#fff7ed;color:#9a3412">🤖 OCR + AI</span>
-          <span class="sc-tag" style="background:#fef3c7;color:#92400e">📋 零手動輸入</span>
-        </div>
-      </div>
-
-      <!-- S4 -->
-      <div class="sc-card sc4">
-        <div class="sc-emoji">🗣️</div>
-        <div class="sc-zh">社工語音，批次指派</div>
-        <div class="sc-en">Voice Command → Batch Assignment</div>
-        <div class="sc-steps">
-          <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div>社工說「週四新店區帶藥袋來」</div>
-          <div class="sc-divider" style="margin-left:2px"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div>AI 解析條件、篩選符合個案</div>
-          <div class="sc-divider" style="margin-left:2px"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>N 個個案各自收到精準提醒</div>
-        </div>
-        <div class="sc-foot">
-          <span class="sc-tag" style="background:#ecfdf5;color:#065f46">🎙️ 語音輸入</span>
-          <span class="sc-tag" style="background:#d1fae5;color:#065f46">👥 批次指派</span>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <!-- FOOTER -->
   <div class="footer">
-    <div class="footer-left">
+    <div>
       <div class="footer-label">Tech Stack · 技術架構</div>
       <div class="tech-row">
         <span class="tech-pill">FastAPI + PostgreSQL</span>
@@ -817,6 +734,15 @@
     <div class="brand">Ai<span>·</span>Eki</div>
   </div>
 
-</div>
+</div><!-- /page -->
+
+<script>
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector('#panel-' + tab).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+</script>
 </body>
 </html>

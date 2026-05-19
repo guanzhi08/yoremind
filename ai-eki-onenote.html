@@ -4,324 +4,321 @@
 <meta charset="UTF-8" />
 <title>Ai·Eki — 智慧位置提醒系統</title>
 <style>
-  body { font-family: "Segoe UI", "PingFang TC", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 24px; color: #1e293b; line-height: 1.6; }
-  h1   { font-size: 36px; color: #4f46e5; margin-bottom: 4px; }
-  h2   { font-size: 16px; font-weight: 700; color: #4f46e5; border-left: 4px solid #4f46e5; padding-left: 10px; margin-top: 28px; margin-bottom: 10px; }
-  h3   { font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 6px; margin-top: 16px; }
-  p    { font-size: 13px; margin: 4px 0; }
-  .sub { font-size: 13px; color: #64748b; margin-bottom: 6px; }
-  table { border-collapse: collapse; width: 100%; margin-top: 8px; font-size: 13px; }
-  th   { background: #eef2ff; color: #4338ca; font-weight: 700; padding: 8px 12px; text-align: left; border: 1px solid #c7d2fe; }
-  td   { padding: 8px 12px; border: 1px solid #e2e8f0; vertical-align: top; }
-  tr:nth-child(even) td { background: #f8fafc; }
-  ul   { margin: 6px 0; padding-left: 20px; }
-  li   { font-size: 13px; margin-bottom: 3px; }
-  .badge { display: inline-block; background: #eef2ff; color: #4338ca; border-radius: 4px; padding: 1px 8px; font-size: 11px; font-weight: 700; margin-right: 4px; }
-  .badge.orange { background: #fff7ed; color: #c2410c; }
-  .badge.green  { background: #f0fdf4; color: #065f46; }
-  .badge.red    { background: #fef2f2; color: #991b1b; }
-  hr { border: none; border-top: 1px solid #e2e8f0; margin: 24px 0; }
+  body  { font-family: "Segoe UI", "PingFang TC", sans-serif; max-width: 800px; margin: 40px auto; padding: 0 24px; color: #1e293b; line-height: 1.8; }
+  h1    { font-size: 32px; color: #4f46e5; margin-bottom: 4px; }
+  h2    { font-size: 18px; color: #4f46e5; border-bottom: 2px solid #e0e7ff; padding-bottom: 4px; margin-top: 32px; margin-bottom: 12px; }
+  h3    { font-size: 14px; color: #334155; margin-top: 18px; margin-bottom: 6px; }
+  p     { font-size: 13px; color: #475569; margin: 4px 0 10px; }
+  ul    { margin: 4px 0 12px; padding-left: 22px; }
+  li    { font-size: 13px; margin-bottom: 4px; }
+  b     { color: #1e293b; }
+  .tag  { display: inline-block; border-radius: 4px; padding: 0px 7px; font-size: 11px; font-weight: 700; margin-right: 4px; }
+  .indigo { background: #eef2ff; color: #4338ca; }
+  .orange { background: #fff7ed; color: #c2410c; }
+  .green  { background: #f0fdf4; color: #065f46; }
+  .red    { background: #fef2f2; color: #991b1b; }
+  .gray   { background: #f1f5f9; color: #475569; }
+  hr    { border: none; border-top: 1px solid #e2e8f0; margin: 28px 0; }
 </style>
 </head>
 <body>
 
-<!-- ① 瀏覽器開啟此頁 -->
-<!-- ② Ctrl+A 全選 → Ctrl+C 複製 -->
-<!-- ③ 切換到 OneNote → Ctrl+V 貼上 -->
+<!-- 貼到 OneNote 步驟：瀏覽器開啟 → Ctrl+A → Ctrl+C → OneNote Ctrl+V -->
 
 <h1>Ai · Eki</h1>
-<p class="sub">台語「要記得」× AI 記得你的一切</p>
-<p><strong>時間 × 地點 × AI —— 在對的地方、對的時間，提醒對的事</strong></p>
-<p class="sub">The right reminder, at the right place, at the right time — powered by AI</p>
+<p>台語「要記得」× AI 記得你的一切</p>
+<p><b>時間 × 地點 × AI — 在對的地方、對的時間，提醒對的事</b></p>
+<p>The right reminder, at the right place, at the right time — powered by AI</p>
 
 <hr>
 
-<!-- 受眾定位 -->
-<h2>📌 受眾定位 Target Audience</h2>
-<table>
-  <tr>
-    <th>受眾</th>
-    <th>比例</th>
-    <th>說明</th>
-  </tr>
-  <tr>
-    <td>👴 長照長者及照護體系</td>
-    <td><span class="badge">核心 20%</span></td>
-    <td>長者、家人、社工／照護員 — 解決長照核心痛點</td>
-  </tr>
-  <tr>
-    <td>👥 所有智慧型手機用戶</td>
-    <td><span class="badge orange">延伸 100%</span></td>
-    <td>個人、家庭群組、小型團隊 — 日常地點提醒與任務管理</td>
-  </tr>
-</table>
+<h2>受眾定位</h2>
+
+<h3>核心受眾（20%）</h3>
+<ul>
+  <li><b>長照長者及照護體系</b> — 長者、家人、社工與照護員</li>
+  <li>解決長照場景中的核心痛點，為起點與差異化定位</li>
+</ul>
+
+<h3>延伸受眾（100%）</h3>
+<ul>
+  <li><b>所有智慧型手機用戶</b> — 個人、家庭群組、小型團隊</li>
+  <li>日常地點提醒、任務管理、習慣追蹤</li>
+</ul>
 
 <hr>
 
-<!-- 核心痛點 -->
-<h2>🔴 核心痛點 Pain Points</h2>
+<h2>核心痛點</h2>
 
 <h3>長照長者場景</h3>
 <ul>
-  <li>💊 <strong>忘記吃藥</strong> — Missed Medication</li>
-  <li>🚶 <strong>迷路走失風險</strong> — Wandering Risk</li>
-  <li>😓 <strong>照顧者分身乏術</strong> — Caregiver Burnout</li>
-  <li>🚨 <strong>緊急狀況無法即時通知</strong> — Delayed Emergency Alerts</li>
-  <li>📋 <strong>社工個案記錄繁瑣</strong> — Tedious Case Management</li>
+  <li><b>忘記吃藥</b> — Missed Medication</li>
+  <li><b>迷路走失風險</b> — Wandering Risk</li>
+  <li><b>照顧者分身乏術</b> — Caregiver Burnout</li>
+  <li><b>緊急狀況無法即時通知</b> — Delayed Emergency Alerts</li>
+  <li><b>社工個案記錄繁瑣</b> — Tedious Case Management</li>
 </ul>
 
 <h3>一般使用者場景</h3>
 <ul>
-  <li>📦 <strong>包裹到了忘記取貨</strong> — Missed Package Pickup</li>
-  <li>🛒 <strong>路過超市忘了順手買</strong> — Forgot to Shop While Passing By</li>
-  <li>📅 <strong>忙碌中忘記預約行程</strong> — Missed Appointments</li>
-  <li>🔁 <strong>習慣養成難以持續</strong> — Habit Consistency</li>
-  <li>🧠 <strong>靠腦記太多事容易遺漏</strong> — Mental Overload</li>
+  <li><b>包裹到了忘記取貨</b> — Missed Package Pickup</li>
+  <li><b>路過超市忘了順手買</b> — Forgot to Shop While Passing By</li>
+  <li><b>忙碌中忘記預約行程</b> — Missed Appointments</li>
+  <li><b>習慣養成難以持續</b> — Habit Consistency</li>
+  <li><b>靠腦記太多事容易遺漏</b> — Mental Overload</li>
 </ul>
 
 <hr>
 
-<!-- 五大功能 -->
-<h2>🟣 五大核心功能 Core Features</h2>
-<table>
-  <tr>
-    <th>功能</th>
-    <th>說明</th>
-    <th>長照應用</th>
-    <th>一般應用</th>
-  </tr>
-  <tr>
-    <td>⏰ 時間觸發提醒</td>
-    <td>Time-Based Triggers</td>
-    <td>吃藥時間、回診提醒</td>
-    <td>固定行程、習慣提醒</td>
-  </tr>
-  <tr>
-    <td>📍 地點地理圍欄</td>
-    <td>Location Geofencing</td>
-    <td>靠近診所、離開居家圍欄</td>
-    <td>路過超市、靠近取貨門市</td>
-  </tr>
-  <tr>
-    <td>🧠 行為異常 / 習慣偵測</td>
-    <td>Anomaly & Habit Detection</td>
-    <td>深夜離家、長時間未移動</td>
-    <td>健身打卡連續天數追蹤</td>
-  </tr>
-  <tr>
-    <td>🤖 AI 自動建立任務</td>
-    <td>AI Auto Task Creation</td>
-    <td>出院截圖 → 自動建用藥清單</td>
-    <td>蝦皮截圖 → 取貨碼 + 門市提醒</td>
-  </tr>
-  <tr>
-    <td>🔔 多角色智慧推播</td>
-    <td>Multi-Role Smart Push</td>
-    <td>長者本人 + 家人 + 社工同步</td>
-    <td>個人 / 家庭群組 / 團隊分發</td>
-  </tr>
-</table>
+<h2>五大核心功能</h2>
+
+<h3>時間觸發提醒 — Time-Based Triggers</h3>
+<ul>
+  <li>設定特定時間點或時間範圍觸發推播</li>
+  <li>長照應用：吃藥時間、回診前提醒</li>
+  <li>一般應用：固定行程、習慣提醒</li>
+</ul>
+
+<h3>地點地理圍欄 — Location Geofencing</h3>
+<ul>
+  <li>進入範圍、離開範圍、到達特定地點均可觸發</li>
+  <li>長照應用：靠近診所、離開居家圍欄</li>
+  <li>一般應用：路過超市、靠近取貨門市</li>
+</ul>
+
+<h3>行為異常與習慣偵測 — Anomaly & Habit Detection</h3>
+<ul>
+  <li>學習日常行為基線，自動偵測非常規狀況</li>
+  <li>長照應用：深夜離家、長時間未移動</li>
+  <li>一般應用：健身打卡連續天數追蹤</li>
+</ul>
+
+<h3>AI 自動建立任務 — AI Auto Task Creation</h3>
+<ul>
+  <li>截圖上傳、語音輸入 → AI 解析 → 零手動輸入建任務</li>
+  <li>長照應用：出院摘要截圖 → 自動建用藥與回診清單</li>
+  <li>一般應用：蝦皮截圖 OCR → 取貨碼 + 門市 + 到期日自動填入</li>
+</ul>
+
+<h3>多角色智慧推播 — Multi-Role Smart Push</h3>
+<ul>
+  <li>依角色分發通知，支援個人、家人、社工同步接收</li>
+  <li>長照應用：長者收到提醒、家人同步收到異常警示</li>
+  <li>一般應用：家庭共享購物清單、團隊外勤任務分派</li>
+</ul>
 
 <hr>
 
-<!-- 使用角色 -->
-<h2>👤 使用角色 User Roles</h2>
-<table>
-  <tr>
-    <th>角色</th>
-    <th>場景</th>
-    <th>主要功能</th>
-  </tr>
-  <tr>
-    <td>👴 長者 / Elder</td>
-    <td>長照</td>
-    <td>被動接收提醒、大字介面、語音朗讀</td>
-  </tr>
-  <tr>
-    <td>👨‍👩‍👦 家人 / Family</td>
-    <td>長照 + 一般</td>
-    <td>即時監看位置、異常通知、遠端新增提醒</td>
-  </tr>
-  <tr>
-    <td>👩‍💼 社工 / 照護員</td>
-    <td>長照</td>
-    <td>批次指派任務、AI 輔助建檔、每日 AI 摘要</td>
-  </tr>
-  <tr>
-    <td>🙋 個人用戶 / Individual</td>
-    <td>一般</td>
-    <td>自我管理、購物清單、截圖快速建任務</td>
-  </tr>
-  <tr>
-    <td>🏢 小型團隊 / Small Teams</td>
-    <td>一般</td>
-    <td>外勤到點打卡、任務指派、狀態總覽</td>
-  </tr>
-</table>
+<h2>使用角色</h2>
+
+<h3>長者 — Elder</h3>
+<ul>
+  <li>被動接收提醒，不需主動操作</li>
+  <li>大字介面、全螢幕彈出通知、語音朗讀</li>
+  <li><span class="tag indigo">被動接收</span><span class="tag indigo">大字介面</span><span class="tag indigo">語音提醒</span></li>
+</ul>
+
+<h3>家人 — Family</h3>
+<ul>
+  <li>即時監看長者位置與狀態</li>
+  <li>接收異常警示、遠端新增提醒、上傳截圖建任務</li>
+  <li><span class="tag orange">即時監看</span><span class="tag orange">異常通知</span><span class="tag orange">遠端管理</span></li>
+</ul>
+
+<h3>社工與照護員 — Social Worker / Caregiver</h3>
+<ul>
+  <li>管理多個個案，批次指派任務</li>
+  <li>AI 輔助建檔、每日狀態摘要、異常標記追蹤</li>
+  <li><span class="tag green">批次指派</span><span class="tag green">AI 輔助建檔</span><span class="tag green">日報摘要</span></li>
+</ul>
+
+<h3>個人用戶 — Individual</h3>
+<ul>
+  <li>自我管理日常提醒、購物清單、習慣追蹤</li>
+  <li>截圖或語音快速建任務</li>
+  <li><span class="tag indigo">自我管理</span><span class="tag indigo">購物清單</span><span class="tag indigo">習慣追蹤</span></li>
+</ul>
+
+<h3>小型團隊 — Small Teams</h3>
+<ul>
+  <li>外勤人員到點自動打卡、接收任務地點導航</li>
+  <li>管理者在電腦後台指派任務、查看外勤狀態</li>
+  <li><span class="tag gray">外勤打卡</span><span class="tag gray">任務指派</span><span class="tag gray">狀態總覽</span></li>
+</ul>
 
 <hr>
 
-<!-- 使用載體 -->
-<h2>📱 使用載體 Devices & Touchpoints</h2>
-<table>
-  <tr>
-    <th>角色</th>
-    <th>裝置</th>
-    <th>用途</th>
-  </tr>
-  <tr>
-    <td>👴 長者</td>
-    <td>📱 平板電腦（大螢幕）</td>
-    <td>全螢幕提醒彈出、追劇 / 視訊通話、大字易操作</td>
-  </tr>
-  <tr>
-    <td>👴 長者</td>
-    <td>⌚ 智慧手錶</td>
-    <td>心率 / 血氧監測、跌倒偵測、SOS 一鍵求援、GPS 定位</td>
-  </tr>
-  <tr>
-    <td>👨‍👩‍👦 家人</td>
-    <td>📲 智慧型手機</td>
-    <td>即時異常推播、GPS 即時位置、遠端新增提醒、截圖上傳建任務</td>
-  </tr>
-  <tr>
-    <td>👩‍💼 社工 / 照護員</td>
-    <td>💻 電腦 Web 後台</td>
-    <td>完整個案資訊、AI 輔助建檔、批次任務指派、每日 AI 狀態摘要、異常標記追蹤</td>
-  </tr>
-  <tr>
-    <td>🙋 個人 / 家庭 / 團隊</td>
-    <td>📱 手機（主要）+ 💻 電腦（管理者）</td>
-    <td>GPS 地點觸發、截圖 / 語音建任務、推播接收、任務分派管理</td>
-  </tr>
-</table>
+<h2>使用載體</h2>
+
+<h3>長者</h3>
+<ul>
+  <li><b>平板電腦（大螢幕）</b> — 全螢幕提醒彈出、追劇、視訊通話、大字易操作</li>
+  <li><b>智慧手錶</b> — 心率與血氧監測、跌倒偵測、SOS 一鍵求援、GPS 定位</li>
+</ul>
+
+<h3>家人</h3>
+<ul>
+  <li><b>智慧型手機</b> — 即時異常推播、GPS 即時位置共享、遠端新增提醒、截圖上傳建任務</li>
+</ul>
+
+<h3>社工與照護員</h3>
+<ul>
+  <li><b>電腦 Web 管理後台</b> — 完整個案資訊、AI 輔助建檔、批次任務指派、每日 AI 狀態摘要、異常標記追蹤</li>
+</ul>
+
+<h3>個人用戶、家庭群組、小型團隊</h3>
+<ul>
+  <li><b>手機（主要）</b> — GPS 地點觸發、截圖與語音建任務、推播接收</li>
+  <li><b>電腦（管理者）</b> — 任務分派、成員狀態管理</li>
+</ul>
 
 <hr>
 
-<!-- AI Pipeline -->
-<h2>⚡ AI 智慧任務流程 AI Pipeline</h2>
-<p class="sub">Zero Manual Entry — 截圖、語音、感測器 → AI 自動解析 → 結構化任務 → 精準觸發</p>
-<table>
-  <tr>
-    <th>步驟</th>
-    <th>名稱</th>
-    <th>內容</th>
-  </tr>
-  <tr>
-    <td>1️⃣</td>
-    <td>📥 輸入來源 Input Sources</td>
-    <td>截圖（蝦皮 / 出院摘要）、語音指令、GPS 感測器、手動文字輸入</td>
-  </tr>
-  <tr>
-    <td>2️⃣</td>
-    <td>🤖 AI 分析層 AI Processing</td>
-    <td>OCR 文字辨識、NLU 語意理解、行為基線分析、地點自動定位</td>
-  </tr>
-  <tr>
-    <td>3️⃣</td>
-    <td>📋 結構化任務 Structured Tasks</td>
-    <td>地點設定、時間設定、提醒內容、指派對象</td>
-  </tr>
-  <tr>
-    <td>4️⃣</td>
-    <td>🔔 智慧觸發提醒 Smart Trigger</td>
-    <td>個人推播通知、家人 / 團隊警示、異常升級通知、習慣打卡回饋</td>
-  </tr>
-</table>
+<h2>AI 智慧任務流程</h2>
+<p>Zero Manual Entry — 截圖、語音、感測器 → AI 自動解析 → 結構化任務 → 精準觸發</p>
+
+<h3>步驟一：輸入來源</h3>
+<ul>
+  <li>截圖（蝦皮取貨通知 / 出院摘要）</li>
+  <li>語音指令</li>
+  <li>GPS 感測器</li>
+  <li>手動文字輸入</li>
+</ul>
+
+<h3>步驟二：AI 分析層</h3>
+<ul>
+  <li>OCR 文字辨識</li>
+  <li>NLU 語意理解</li>
+  <li>行為基線分析</li>
+  <li>地點自動定位（OpenStreetMap Nominatim）</li>
+</ul>
+
+<h3>步驟三：結構化任務</h3>
+<ul>
+  <li>地點設定（地理圍欄座標）</li>
+  <li>時間設定（特定時間或時間範圍）</li>
+  <li>提醒內容（文字、清單）</li>
+  <li>指派對象（本人、家人、社工）</li>
+</ul>
+
+<h3>步驟四：智慧觸發提醒</h3>
+<ul>
+  <li>個人推播通知（FCM）</li>
+  <li>家人與團隊警示</li>
+  <li>異常升級通知</li>
+  <li>習慣打卡回饋</li>
+</ul>
 
 <hr>
 
-<!-- 實際場景 — 長照 -->
-<h2>🏥 實際場景（長照長者）Real Scenarios — Elder Care</h2>
-<table>
-  <tr>
-    <th>場景</th>
-    <th>觸發條件</th>
-    <th>AI 行動</th>
-    <th>功能標籤</th>
-  </tr>
-  <tr>
-    <td>🏥 靠近診所，回診提醒</td>
-    <td>GPS 偵測到診所 300m 內 + 早上 09–11 時段</td>
-    <td>推播「記得帶健保卡＋藥袋」</td>
-    <td><span class="badge">📍 地點觸發</span><span class="badge">⏰ 時間範圍</span></td>
-  </tr>
-  <tr>
-    <td>🌙 深夜離家，立即警示</td>
-    <td>23:00 後離開居家圍欄範圍</td>
-    <td>即時通知家人 + 共享 GPS 位置</td>
-    <td><span class="badge red">🚨 離開範圍</span><span class="badge orange">🧠 異常偵測</span></td>
-  </tr>
-  <tr>
-    <td>📄 出院截圖，自動建任務</td>
-    <td>家人上傳出院診斷截圖</td>
-    <td>AI 解析用藥清單、回診日、衛教 → 自動建立每日服藥 + 回診提醒</td>
-    <td><span class="badge orange">🤖 OCR + AI</span><span class="badge orange">📋 零手動輸入</span></td>
-  </tr>
-  <tr>
-    <td>🗣️ 社工語音，批次指派</td>
-    <td>社工說「週四新店區個案帶藥袋來」</td>
-    <td>AI 解析條件、篩選符合個案 → N 個個案各自收到提醒</td>
-    <td><span class="badge green">🎙️ 語音輸入</span><span class="badge green">👥 批次指派</span></td>
-  </tr>
-</table>
+<h2>實際場景 — 長照長者</h2>
+
+<h3>靠近診所，回診提醒</h3>
+<ul>
+  <li>觸發：GPS 偵測到診所 300m 內，且符合早上 09–11 時段</li>
+  <li>行動：推播「記得帶健保卡與藥袋」</li>
+  <li><span class="tag indigo">地點觸發</span><span class="tag indigo">時間範圍</span></li>
+</ul>
+
+<h3>深夜離家，立即警示</h3>
+<ul>
+  <li>觸發：23:00 後離開居家地理圍欄範圍</li>
+  <li>行動：即時通知家人，並共享 GPS 即時位置</li>
+  <li><span class="tag red">離開範圍</span><span class="tag orange">異常偵測</span></li>
+</ul>
+
+<h3>出院截圖，自動建任務</h3>
+<ul>
+  <li>觸發：家人上傳出院診斷截圖</li>
+  <li>AI 解析：用藥清單、回診日期、衛教注意事項</li>
+  <li>行動：自動建立每日服藥提醒與回診行事曆</li>
+  <li><span class="tag orange">OCR + AI</span><span class="tag orange">零手動輸入</span></li>
+</ul>
+
+<h3>社工語音，批次指派</h3>
+<ul>
+  <li>觸發：社工說「週四新店區個案記得帶藥袋來」</li>
+  <li>AI 解析：時間、地區、對象條件，篩選符合個案</li>
+  <li>行動：N 個個案各自收到精準提醒</li>
+  <li><span class="tag green">語音輸入</span><span class="tag green">批次指派</span></li>
+</ul>
 
 <hr>
 
-<!-- 實際場景 — 一般 -->
-<h2>📦 實際場景（一般使用者）Real Scenarios — General Public</h2>
-<table>
-  <tr>
-    <th>場景</th>
-    <th>觸發條件</th>
-    <th>AI 行動</th>
-    <th>功能標籤</th>
-  </tr>
-  <tr>
-    <td>📦 蝦皮截圖，超商取貨提醒</td>
-    <td>上傳蝦皮取貨通知截圖</td>
-    <td>OCR 自動解析取貨碼、門市、期限 → 地圖搜尋門市 → 路過時推播取貨碼</td>
-    <td><span class="badge">🤖 OCR 辨識</span><span class="badge">📍 路過觸發</span></td>
-  </tr>
-  <tr>
-    <td>🛒 路過超市，購物清單彈出</td>
-    <td>GPS 偵測到家樂福 200m 內</td>
-    <td>彈出購物清單：衛生紙、洗碗精、雞蛋…</td>
-    <td><span class="badge">📍 地點觸發</span><span class="badge">📋 清單提醒</span></td>
-  </tr>
-  <tr>
-    <td>🗓️ 語音建任務，行程提醒</td>
-    <td>說「下週二去家樂福買衛生紙」</td>
-    <td>AI 解析時間、地點、內容 → 自動建立提醒，無需手動輸入</td>
-    <td><span class="badge orange">🎙️ 語音輸入</span><span class="badge orange">🤖 NLU 解析</span></td>
-  </tr>
-  <tr>
-    <td>🏃 路過健身房，習慣提醒</td>
-    <td>週五下班路過健身房（設定週三/五觸發）</td>
-    <td>推播「今天是健身日，已連續 12 天！」</td>
-    <td><span class="badge green">📍 地點＋時間</span><span class="badge green">🔁 習慣養成</span></td>
-  </tr>
-</table>
+<h2>實際場景 — 一般使用者</h2>
+
+<h3>蝦皮截圖，超商取貨提醒</h3>
+<ul>
+  <li>觸發：上傳蝦皮取貨通知截圖</li>
+  <li>AI 解析：OCR 自動辨識取貨碼、門市名稱、取件期限</li>
+  <li>地圖自動搜尋門市位置供使用者確認</li>
+  <li>行動：路過門市時推播「取貨碼：XXXXXX，期限 XX/XX」</li>
+  <li><span class="tag indigo">OCR 辨識</span><span class="tag indigo">路過觸發</span></li>
+</ul>
+
+<h3>路過超市，購物清單彈出</h3>
+<ul>
+  <li>觸發：GPS 偵測到慣用超市 200m 內</li>
+  <li>行動：彈出預先建立的購物清單</li>
+  <li><span class="tag indigo">地點觸發</span><span class="tag indigo">清單提醒</span></li>
+</ul>
+
+<h3>語音建任務，行程提醒</h3>
+<ul>
+  <li>觸發：說「下週二去家樂福買衛生紙」</li>
+  <li>AI 解析：時間（下週二）、地點（家樂福）、內容（買衛生紙）</li>
+  <li>行動：自動建立提醒，無需手動填寫任何欄位</li>
+  <li><span class="tag orange">語音輸入</span><span class="tag orange">NLU 解析</span></li>
+</ul>
+
+<h3>路過健身房，習慣提醒</h3>
+<ul>
+  <li>觸發：週五下班路過健身房（設定週三、週五觸發）</li>
+  <li>行動：推播「今天是健身日，已連續 12 天！」</li>
+  <li><span class="tag green">地點加時間</span><span class="tag green">習慣養成</span></li>
+</ul>
 
 <hr>
 
-<!-- 技術架構 -->
-<h2>🔧 技術架構 Tech Stack</h2>
-<table>
-  <tr>
-    <th>層級</th>
-    <th>技術</th>
-  </tr>
-  <tr><td>後端 Backend</td><td>Python FastAPI + PostgreSQL + SQLAlchemy</td></tr>
-  <tr><td>認證 Auth</td><td>JWT (python-jose) + bcrypt</td></tr>
-  <tr><td>推播 Push</td><td>Firebase Cloud Messaging (FCM)</td></tr>
-  <tr><td>地圖 Map</td><td>OpenStreetMap + Leaflet.js + Nominatim（免費，無需 API Key）</td></tr>
-  <tr><td>地理圍欄</td><td>Haversine 公式（後端計算，無第三方費用）</td></tr>
-  <tr><td>AI / OCR</td><td>Claude AI (OCR + NLU) + OCR.space API（繁體中文）</td></tr>
-  <tr><td>語音輸入</td><td>Web Speech API（瀏覽器原生，免費）</td></tr>
-  <tr><td>前端 Frontend</td><td>React 18 + Vite PWA</td></tr>
-  <tr><td>部署 Deploy</td><td>Render.com（後端）+ 靜態托管（前端）</td></tr>
-</table>
+<h2>技術架構</h2>
+
+<h3>後端</h3>
+<ul>
+  <li>Python FastAPI + PostgreSQL + SQLAlchemy</li>
+  <li>JWT 認證（python-jose）+ bcrypt 密碼雜湊</li>
+  <li>Alembic 資料庫版本管理</li>
+</ul>
+
+<h3>推播與通知</h3>
+<ul>
+  <li>Firebase Cloud Messaging（FCM）</li>
+</ul>
+
+<h3>地圖與地理圍欄</h3>
+<ul>
+  <li>OpenStreetMap + Leaflet.js（免費，無需 API Key）</li>
+  <li>Nominatim 地標搜尋與反向地理編碼</li>
+  <li>Haversine 公式計算距離（後端運算，無第三方費用）</li>
+</ul>
+
+<h3>AI 與 OCR</h3>
+<ul>
+  <li>Claude AI — OCR 文字辨識、NLU 語意理解</li>
+  <li>OCR.space API — 繁體中文截圖辨識（免費方案 25,000 次/月）</li>
+  <li>Web Speech API — 瀏覽器原生語音輸入（免費）</li>
+</ul>
+
+<h3>前端</h3>
+<ul>
+  <li>React 18 + Vite PWA</li>
+  <li>支援桌機、手機、平板響應式介面</li>
+</ul>
+
+<h3>部署</h3>
+<ul>
+  <li>Render.com — 後端 Web Service</li>
+  <li>靜態托管（Netlify / Vercel）— 前端</li>
+</ul>
 
 </body>
 </html>

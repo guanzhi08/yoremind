@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ai·Eki — 長者智慧提醒系統</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    padding: 32px 24px;
+  }
+
+  .page {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 60%, #a855f7 100%);
+    border-radius: 20px;
+    padding: 40px 48px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .hero-left { flex: 1; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    color: #e0d9ff;
+  }
+  .hero-name {
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .hero-name span { color: #fbbf24; }
+  .hero-tw {
+    font-size: 15px;
+    color: #c4b5fd;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+  }
+  .hero-tagline-zh {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .hero-tagline-en {
+    font-size: 15px;
+    color: #c4b5fd;
+    font-style: italic;
+  }
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 220px;
+  }
+  .hero-stat {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-stat-icon { font-size: 22px; }
+  .hero-stat-text { font-size: 13px; color: #e0d9ff; line-height: 1.4; }
+  .hero-stat-text strong { color: #fff; display: block; font-size: 14px; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 12px;
+  }
+
+  /* ── THREE COLUMNS ── */
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  /* Pain points */
+  .pain-card { border-top: 4px solid #ef4444; }
+  .pain-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .pain-item:last-child { border-bottom: none; }
+  .pain-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .pain-zh { font-size: 14px; font-weight: 600; color: #1e293b; }
+  .pain-en { font-size: 11px; color: #94a3b8; margin-top: 1px; }
+
+  /* Features */
+  .feat-card { border-top: 4px solid #6366f1; }
+  .feat-grid { display: flex; flex-direction: column; gap: 8px; }
+  .feat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f8f7ff;
+    border-radius: 10px;
+    padding: 10px 14px;
+  }
+  .feat-icon-wrap {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .feat-text { flex: 1; }
+  .feat-zh { font-size: 13px; font-weight: 600; }
+  .feat-en { font-size: 11px; color: #94a3b8; }
+
+  .bg-indigo  { background: #eef2ff; }
+  .bg-blue    { background: #eff6ff; }
+  .bg-orange  { background: #fff7ed; }
+  .bg-emerald { background: #ecfdf5; }
+  .bg-violet  { background: #f5f3ff; }
+
+  /* Roles */
+  .role-card { border-top: 4px solid #10b981; }
+  .role-item {
+    text-align: center;
+    padding: 14px 8px;
+    border-radius: 12px;
+    background: #f8fafc;
+    margin-bottom: 10px;
+  }
+  .role-item:last-child { margin-bottom: 0; }
+  .role-emoji { font-size: 30px; margin-bottom: 4px; }
+  .role-zh { font-size: 14px; font-weight: 700; color: #1e293b; }
+  .role-en { font-size: 11px; color: #94a3b8; margin-bottom: 6px; }
+  .role-tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+  .tag {
+    background: #e0e7ff;
+    color: #4338ca;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .tag.green  { background: #d1fae5; color: #065f46; }
+  .tag.orange { background: #fed7aa; color: #9a3412; }
+
+  /* ── AI FLOW ── */
+  .flow-card {
+    background: #1e1b4b;
+    border-radius: 16px;
+    padding: 28px 32px;
+    color: #fff;
+  }
+  .flow-card .section-label { color: #818cf8; }
+  .flow-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .flow-subtitle {
+    font-size: 12px;
+    color: #818cf8;
+    margin-bottom: 24px;
+  }
+  .flow-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    align-items: stretch;
+    position: relative;
+  }
+  .flow-step {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px;
+    position: relative;
+  }
+  .flow-step + .flow-step { margin-left: 12px; }
+  .flow-arrow {
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #818cf8;
+    font-size: 20px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .flow-step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #6366f1;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 10px;
+  }
+  .flow-step-icon { font-size: 22px; margin-bottom: 6px; }
+  .flow-step-zh { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .flow-step-en { font-size: 10px; color: #818cf8; margin-bottom: 8px; }
+  .flow-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .flow-chip {
+    background: rgba(99,102,241,0.25);
+    border: 1px solid rgba(99,102,241,0.4);
+    color: #a5b4fc;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  .flow-chip.orange {
+    background: rgba(251,146,60,0.2);
+    border-color: rgba(251,146,60,0.4);
+    color: #fdba74;
+  }
+  .flow-chip.emerald {
+    background: rgba(16,185,129,0.2);
+    border-color: rgba(16,185,129,0.4);
+    color: #6ee7b7;
+  }
+
+  /* ── SCENARIOS ── */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .scenario-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 22px 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .scenario-emoji { font-size: 32px; margin-bottom: 12px; }
+  .scenario-zh { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+  .scenario-en { font-size: 11px; color: #94a3b8; margin-bottom: 12px; }
+  .scenario-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .sflow-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+  }
+  .sflow-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .sflow-arrow {
+    color: #94a3b8;
+    font-size: 10px;
+    padding-left: 6px;
+  }
+  .scenario-footer {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .stag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* Scenario accent colors */
+  .sc1 { border-top: 4px solid #6366f1; }
+  .sc2 { border-top: 4px solid #ef4444; }
+  .sc3 { border-top: 4px solid #f97316; }
+  .sc4 { border-top: 4px solid #10b981; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .footer-label { font-size: 12px; color: #94a3b8; margin-bottom: 6px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .tech-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tech-chip {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .footer-brand {
+    font-size: 26px;
+    font-weight: 800;
+    color: #4f46e5;
+    letter-spacing: -1px;
+  }
+  .footer-brand span { color: #f97316; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-badge">🇹🇼 台語諧音 × AI 科技</div>
+      <div class="hero-name">Ai<span>·</span>Eki</div>
+      <div class="hero-tw">「要記得」（台語）× AI 記得你的一切</div>
+      <div class="hero-tagline-zh">為長者長照而生的智慧位置提醒系統</div>
+      <div class="hero-tagline-en">Location-Aware AI Reminder System for Elderly Care</div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stat">
+        <div class="hero-stat-icon">📍</div>
+        <div class="hero-stat-text">
+          <strong>地點 + 時間雙觸發</strong>
+          到了對的地方、對的時間才提醒
+        </div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-icon">🤖</div>
+        <div class="hero-stat-text">
+          <strong>AI 自動建立任務</strong>
+          截圖 / 語音 / 感測器 → 零手動輸入
+        </div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-icon">🧠</div>
+        <div class="hero-stat-text">
+          <strong>行為異常監測</strong>
+          學習日常規律，自動偵測異常
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THREE COLUMNS -->
+  <div class="three-col">
+
+    <!-- Pain Points -->
+    <div class="card pain-card">
+      <div class="section-label">🔴 Pain Points · 核心痛點</div>
+      <div class="pain-item">
+        <div class="pain-icon">💊</div>
+        <div>
+          <div class="pain-zh">忘記吃藥</div>
+          <div class="pain-en">Missed Medication</div>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">🚶</div>
+        <div>
+          <div class="pain-zh">迷路走失</div>
+          <div class="pain-en">Wandering Risk</div>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">😓</div>
+        <div>
+          <div class="pain-zh">照顧者分身乏術</div>
+          <div class="pain-en">Caregiver Burnout</div>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">🚨</div>
+        <div>
+          <div class="pain-zh">緊急狀況無法即時通知</div>
+          <div class="pain-en">Delayed Emergency Alerts</div>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">📋</div>
+        <div>
+          <div class="pain-zh">社工個案記錄繁瑣</div>
+          <div class="pain-en">Tedious Case Management</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Features -->
+    <div class="card feat-card">
+      <div class="section-label">🟣 Core Features · 五大功能</div>
+      <div class="feat-grid">
+        <div class="feat-item">
+          <div class="feat-icon-wrap bg-indigo">⏰</div>
+          <div class="feat-text">
+            <div class="feat-zh">時間觸發提醒</div>
+            <div class="feat-en">Time-Based Triggers</div>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon-wrap bg-blue">📍</div>
+          <div class="feat-text">
+            <div class="feat-zh">地點地理圍欄</div>
+            <div class="feat-en">Location Geofencing</div>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon-wrap bg-orange">🧠</div>
+          <div class="feat-text">
+            <div class="feat-zh">行為異常偵測</div>
+            <div class="feat-en">Anomaly Detection</div>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon-wrap bg-violet">🤖</div>
+          <div class="feat-text">
+            <div class="feat-zh">AI 自動建立任務</div>
+            <div class="feat-en">AI Auto Task Creation</div>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon-wrap bg-emerald">🔔</div>
+          <div class="feat-text">
+            <div class="feat-zh">多角色智慧推播</div>
+            <div class="feat-en">Multi-Role Smart Push</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Roles -->
+    <div class="card role-card">
+      <div class="section-label">🟢 User Roles · 使用角色</div>
+      <div class="role-item">
+        <div class="role-emoji">👴</div>
+        <div class="role-zh">長者</div>
+        <div class="role-en">Elder</div>
+        <div class="role-tags">
+          <span class="tag">被動接收</span>
+          <span class="tag">大字介面</span>
+          <span class="tag">語音提醒</span>
+        </div>
+      </div>
+      <div class="role-item">
+        <div class="role-emoji">👨‍👩‍👦</div>
+        <div class="role-zh">家人</div>
+        <div class="role-en">Family</div>
+        <div class="role-tags">
+          <span class="tag orange">即時監看</span>
+          <span class="tag orange">異常通知</span>
+          <span class="tag orange">遠端管理</span>
+        </div>
+      </div>
+      <div class="role-item">
+        <div class="role-emoji">👩‍💼</div>
+        <div class="role-zh">社工 / 照護員</div>
+        <div class="role-en">Social Worker</div>
+        <div class="role-tags">
+          <span class="tag green">批次指派</span>
+          <span class="tag green">AI 輔助</span>
+          <span class="tag green">狀態摘要</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI FLOW -->
+  <div class="flow-card">
+    <div class="section-label">⚡ AI Pipeline · 智慧任務流程</div>
+    <div class="flow-title">從「輸入」到「提醒」—— 全程 AI 自動化</div>
+    <div class="flow-subtitle">Zero Manual Entry · 零手動輸入，AI 處理一切中間流程</div>
+    <div class="flow-row">
+
+      <div class="flow-step">
+        <div class="flow-step-num">1</div>
+        <div class="flow-step-icon">📥</div>
+        <div class="flow-step-zh">輸入來源</div>
+        <div class="flow-step-en">Input Sources</div>
+        <div class="flow-chips">
+          <span class="flow-chip">出院截圖</span>
+          <span class="flow-chip">語音指令</span>
+          <span class="flow-chip">GPS 感測</span>
+          <span class="flow-chip">照護員填寫</span>
+        </div>
+        <div class="flow-arrow">→</div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">2</div>
+        <div class="flow-step-icon">🤖</div>
+        <div class="flow-step-zh">AI 分析層</div>
+        <div class="flow-step-en">AI Processing</div>
+        <div class="flow-chips">
+          <span class="flow-chip orange">OCR 文字辨識</span>
+          <span class="flow-chip orange">NLU 語意理解</span>
+          <span class="flow-chip orange">行為基線分析</span>
+          <span class="flow-chip orange">地點自動定位</span>
+        </div>
+        <div class="flow-arrow">→</div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">3</div>
+        <div class="flow-step-icon">📋</div>
+        <div class="flow-step-zh">結構化任務</div>
+        <div class="flow-step-en">Structured Tasks</div>
+        <div class="flow-chips">
+          <span class="flow-chip">地點設定</span>
+          <span class="flow-chip">時間設定</span>
+          <span class="flow-chip">提醒內容</span>
+          <span class="flow-chip">指派對象</span>
+        </div>
+        <div class="flow-arrow">→</div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">4</div>
+        <div class="flow-step-icon">🔔</div>
+        <div class="flow-step-zh">智慧觸發提醒</div>
+        <div class="flow-step-en">Smart Trigger</div>
+        <div class="flow-chips">
+          <span class="flow-chip emerald">推播通知</span>
+          <span class="flow-chip emerald">家人警示</span>
+          <span class="flow-chip emerald">社工摘要</span>
+          <span class="flow-chip emerald">異常升級</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div>
+    <div class="section-label" style="padding-left:4px">🌟 Real Scenarios · 實際場景</div>
+    <div class="scenario-grid">
+
+      <!-- S1 -->
+      <div class="scenario-card sc1">
+        <div class="scenario-emoji">🏥</div>
+        <div class="scenario-zh">靠近診所，回診提醒</div>
+        <div class="scenario-en">Near Clinic → Appointment Alert</div>
+        <div class="scenario-flow">
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#6366f1"></div>
+            GPS 偵測到診所 300m 內
+          </div>
+          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#6366f1"></div>
+            符合早上 09–11 時段
+          </div>
+          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#fbbf24"></div>
+            推播「記得帶健保卡＋藥袋」
+          </div>
+        </div>
+        <div class="scenario-footer">
+          <span class="stag" style="background:#eef2ff;color:#4338ca">📍 地點觸發</span>
+          <span class="stag" style="background:#eff6ff;color:#1d4ed8">⏰ 時間範圍</span>
+        </div>
+      </div>
+
+      <!-- S2 -->
+      <div class="scenario-card sc2">
+        <div class="scenario-emoji">🌙</div>
+        <div class="scenario-zh">深夜離家，立即警示</div>
+        <div class="scenario-en">Late Night Exit → Family Alert</div>
+        <div class="scenario-flow">
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#ef4444"></div>
+            23:00 後離開家中圍欄
+          </div>
+          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#ef4444"></div>
+            非常規行為偵測觸發
+          </div>
+          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#fbbf24"></div>
+            即時通知家人＋GPS 位置
+          </div>
+        </div>
+        <div class="scenario-footer">
+          <span class="stag" style="background:#fef2f2;color:#991b1b">🚨 離開範圍</span>
+          <span class="stag" style="background:#fff7ed;color:#9a3412">🧠 異常偵測</span>
+        </div>
+      </div>
+
+      <!-- S3 -->
+      <div class="scenario-card sc3">
+        <div class="scenario-emoji">📄</div>
+        <div class="scenario-zh">出院摘要，自動建任務</div>
+        <div class="scenario-en">Discharge Summary → Auto Tasks</div>
+        <div class="scenario-flow">
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#f97316"></div>
+            家人上傳出院診斷截圖
+          </div>
+          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#f97316"></div>
+            AI 解析：用藥／回診日／衛教
+          </div>
+          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#fbbf24"></div>
+            自動建立每日服藥＋回診提醒
+          </div>
+        </div>
+        <div class="scenario-footer">
+          <span class="stag" style="background:#fff7ed;color:#9a3412">🤖 OCR + AI</span>
+          <span class="stag" style="background:#fef3c7;color:#92400e">📋 自動建任務</span>
+        </div>
+      </div>
+
+      <!-- S4 -->
+      <div class="scenario-card sc4">
+        <div class="scenario-emoji">🗣️</div>
+        <div class="scenario-zh">社工語音，批次指派</div>
+        <div class="scenario-en">Voice Command → Batch Assignment</div>
+        <div class="scenario-flow">
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#10b981"></div>
+            社工說：「週四新店區個案帶藥袋」
+          </div>
+          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#10b981"></div>
+            AI 解析條件，篩選符合個案
+          </div>
+          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
+          <div class="sflow-item">
+            <div class="sflow-dot" style="background:#fbbf24"></div>
+            N 個個案各自收到提醒
+          </div>
+        </div>
+        <div class="scenario-footer">
+          <span class="stag" style="background:#ecfdf5;color:#065f46">🎙️ 語音輸入</span>
+          <span class="stag" style="background:#d1fae5;color:#065f46">👥 批次指派</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <div class="footer-label">Tech Stack · 技術架構</div>
+      <div class="tech-chips">
+        <span class="tech-chip">FastAPI + PostgreSQL</span>
+        <span class="tech-chip">React PWA</span>
+        <span class="tech-chip">Firebase FCM</span>
+        <span class="tech-chip">OpenStreetMap</span>
+        <span class="tech-chip">Claude AI (OCR + NLU)</span>
+        <span class="tech-chip">Haversine Geofencing</span>
+        <span class="tech-chip">Web Speech API</span>
+      </div>
+    </div>
+    <div class="footer-brand">Ai<span>·</span>Eki</div>
+  </div>
+
+</div>
+</body>
+</html>

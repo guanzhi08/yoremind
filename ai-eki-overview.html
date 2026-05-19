@@ -9,342 +9,343 @@
 
   body {
     font-family: "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
-    background: #f1f5f9;
+    background: #f4f6f9;
     color: #1e293b;
-    padding: 32px 24px;
+    padding: 36px 28px;
+    font-size: 13px;
+    line-height: 1.5;
   }
 
   .page {
-    max-width: 1160px;
+    max-width: 1120px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
 
-  /* ── HERO ── */
-  .hero {
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 60%, #a855f7 100%);
-    border-radius: 20px;
-    padding: 40px 48px;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-  }
-  .hero-left { flex: 1; }
-  .hero-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.35);
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 12px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    color: #e0d9ff;
-  }
-  .hero-name {
-    font-size: 56px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .hero-name span { color: #fbbf24; }
-  .hero-tw {
-    font-size: 15px;
-    color: #c4b5fd;
-    margin-bottom: 18px;
-    letter-spacing: 0.5px;
-  }
-  .hero-tagline-zh {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-  .hero-tagline-en {
-    font-size: 15px;
-    color: #c4b5fd;
-    font-style: italic;
-  }
-  .hero-right {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 220px;
-  }
-  .hero-stat {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 12px;
-    padding: 12px 18px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .hero-stat-icon { font-size: 22px; }
-  .hero-stat-text { font-size: 13px; color: #e0d9ff; line-height: 1.4; }
-  .hero-stat-text strong { color: #fff; display: block; font-size: 14px; }
-
-  /* ── SECTION LABEL ── */
-  .section-label {
-    font-size: 11px;
+  /* ── UTILITIES ── */
+  .label {
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: #94a3b8;
-    margin-bottom: 12px;
-  }
-
-  /* ── THREE COLUMNS ── */
-  .three-col {
-    display: grid;
-    grid-template-columns: 1fr 1.4fr 1fr;
-    gap: 16px;
+    margin-bottom: 14px;
   }
 
   .card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    background: #ffffff;
+    border: 1px solid #e8ecf0;
+    border-radius: 12px;
+    padding: 22px 24px;
   }
 
-  /* Pain points */
-  .pain-card { border-top: 4px solid #ef4444; }
-  .pain-item {
+  /* ── HERO ── */
+  .hero {
+    background: #ffffff;
+    border: 1px solid #e8ecf0;
+    border-radius: 12px;
+    padding: 36px 40px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 9px 0;
-    border-bottom: 1px solid #f1f5f9;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
   }
-  .pain-item:last-child { border-bottom: none; }
-  .pain-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-  .pain-zh { font-size: 14px; font-weight: 600; color: #1e293b; }
-  .pain-en { font-size: 11px; color: #94a3b8; margin-top: 1px; }
+  .hero-pill {
+    background: #eef2ff;
+    color: #6366f1;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .hero-pill.orange { background: #fff7ed; color: #ea580c; }
 
-  /* Features */
-  .feat-card { border-top: 4px solid #6366f1; }
-  .feat-grid { display: flex; flex-direction: column; gap: 8px; }
-  .feat-item {
+  .hero-name {
+    font-size: 52px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-name .dot { color: #6366f1; }
+
+  .hero-tw {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 18px;
+    letter-spacing: 0.3px;
+  }
+  .hero-tw span { color: #6366f1; font-weight: 600; }
+
+  .hero-desc-zh {
+    font-size: 17px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 3px;
+  }
+  .hero-desc-en {
+    font-size: 12px;
+    color: #94a3b8;
+    font-style: italic;
+  }
+
+  .hero-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 210px;
+  }
+  .stat-row {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #f8f7ff;
-    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #e8ecf0;
+    border-radius: 9px;
     padding: 10px 14px;
   }
-  .feat-icon-wrap {
-    width: 36px; height: 36px;
-    border-radius: 9px;
+  .stat-icon { font-size: 18px; flex-shrink: 0; }
+  .stat-zh { font-size: 12px; font-weight: 600; color: #334155; }
+  .stat-en { font-size: 10px; color: #94a3b8; }
+
+  /* ── THREE COL ── */
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    gap: 14px;
+  }
+
+  /* Pain */
+  .pain-card { border-left: 3px solid #fca5a5; }
+  .pain-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .pain-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .pain-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .pain-zh { font-size: 13px; font-weight: 600; color: #1e293b; }
+  .pain-en { font-size: 10px; color: #94a3b8; }
+
+  /* Features */
+  .feat-card { border-left: 3px solid #c4b5fd; }
+  .feat-list { display: flex; flex-direction: column; gap: 7px; }
+  .feat-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-radius: 8px;
+    padding: 9px 12px;
+  }
+  .feat-ico {
+    width: 30px; height: 30px;
+    border-radius: 7px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
+    font-size: 15px;
     flex-shrink: 0;
   }
-  .feat-text { flex: 1; }
-  .feat-zh { font-size: 13px; font-weight: 600; }
-  .feat-en { font-size: 11px; color: #94a3b8; }
+  .ico-indigo  { background: #eef2ff; }
+  .ico-blue    { background: #eff6ff; }
+  .ico-amber   { background: #fffbeb; }
+  .ico-violet  { background: #f5f3ff; }
+  .ico-emerald { background: #f0fdf4; }
 
-  .bg-indigo  { background: #eef2ff; }
-  .bg-blue    { background: #eff6ff; }
-  .bg-orange  { background: #fff7ed; }
-  .bg-emerald { background: #ecfdf5; }
-  .bg-violet  { background: #f5f3ff; }
+  .feat-zh { font-size: 12px; font-weight: 600; color: #1e293b; }
+  .feat-en { font-size: 10px; color: #94a3b8; }
 
   /* Roles */
-  .role-card { border-top: 4px solid #10b981; }
+  .role-card { border-left: 3px solid #6ee7b7; }
   .role-item {
-    text-align: center;
-    padding: 14px 8px;
-    border-radius: 12px;
-    background: #f8fafc;
-    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f5f9;
   }
-  .role-item:last-child { margin-bottom: 0; }
-  .role-emoji { font-size: 30px; margin-bottom: 4px; }
-  .role-zh { font-size: 14px; font-weight: 700; color: #1e293b; }
-  .role-en { font-size: 11px; color: #94a3b8; margin-bottom: 6px; }
-  .role-tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+  .role-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .role-emoji { font-size: 24px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+  .role-name-zh { font-size: 13px; font-weight: 700; color: #1e293b; }
+  .role-name-en { font-size: 10px; color: #94a3b8; margin-bottom: 5px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
   .tag {
-    background: #e0e7ff;
-    color: #4338ca;
     font-size: 10px;
+    font-weight: 600;
     padding: 2px 8px;
     border-radius: 20px;
-    font-weight: 600;
   }
-  .tag.green  { background: #d1fae5; color: #065f46; }
-  .tag.orange { background: #fed7aa; color: #9a3412; }
+  .tag-indigo  { background: #eef2ff; color: #4338ca; }
+  .tag-orange  { background: #fff7ed; color: #c2410c; }
+  .tag-emerald { background: #f0fdf4; color: #065f46; }
 
   /* ── AI FLOW ── */
   .flow-card {
-    background: #1e1b4b;
-    border-radius: 16px;
-    padding: 28px 32px;
-    color: #fff;
-  }
-  .flow-card .section-label { color: #818cf8; }
-  .flow-title {
-    font-size: 17px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 6px;
-  }
-  .flow-subtitle {
-    font-size: 12px;
-    color: #818cf8;
-    margin-bottom: 24px;
-  }
-  .flow-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    align-items: stretch;
-    position: relative;
-  }
-  .flow-step {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #ffffff;
+    border: 1px solid #e8ecf0;
     border-radius: 12px;
-    padding: 16px;
+    padding: 24px 28px;
+  }
+  .flow-header { margin-bottom: 20px; }
+  .flow-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+  .flow-sub   { font-size: 11px; color: #94a3b8; }
+
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) ;
+    gap: 12px;
+    align-items: start;
     position: relative;
   }
-  .flow-step + .flow-step { margin-left: 12px; }
-  .flow-arrow {
+
+  /* connecting line behind steps */
+  .flow-steps::before {
+    content: "";
     position: absolute;
-    right: -18px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #818cf8;
-    font-size: 20px;
-    z-index: 1;
-    pointer-events: none;
+    top: 22px;
+    left: calc(12.5% + 6px);
+    width: calc(75% - 12px);
+    height: 1px;
+    background: #e2e8f0;
+    z-index: 0;
   }
-  .flow-step-num {
-    width: 22px; height: 22px;
+
+  .flow-step {
+    background: #f8fafc;
+    border: 1px solid #e8ecf0;
+    border-radius: 10px;
+    padding: 16px 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-num {
+    width: 24px; height: 24px;
     border-radius: 50%;
-    background: #6366f1;
-    color: #fff;
+    background: #eef2ff;
+    color: #6366f1;
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 800;
     display: flex; align-items: center; justify-content: center;
     margin-bottom: 10px;
   }
-  .flow-step-icon { font-size: 22px; margin-bottom: 6px; }
-  .flow-step-zh { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-  .flow-step-en { font-size: 10px; color: #818cf8; margin-bottom: 8px; }
-  .flow-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-  .flow-chip {
-    background: rgba(99,102,241,0.25);
-    border: 1px solid rgba(99,102,241,0.4);
-    color: #a5b4fc;
+  .step-ico  { font-size: 20px; margin-bottom: 6px; }
+  .step-zh   { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+  .step-en   { font-size: 10px; color: #94a3b8; margin-bottom: 10px; }
+  .step-tags { display: flex; flex-direction: column; gap: 4px; }
+  .step-tag  {
     font-size: 10px;
     padding: 2px 8px;
-    border-radius: 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    border: 1px solid transparent;
   }
-  .flow-chip.orange {
-    background: rgba(251,146,60,0.2);
-    border-color: rgba(251,146,60,0.4);
-    color: #fdba74;
-  }
-  .flow-chip.emerald {
-    background: rgba(16,185,129,0.2);
-    border-color: rgba(16,185,129,0.4);
-    color: #6ee7b7;
-  }
+  .st-indigo  { background: #eef2ff; color: #4338ca; border-color: #e0e7ff; }
+  .st-orange  { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .st-emerald { background: #f0fdf4; color: #065f46; border-color: #d1fae5; }
 
   /* ── SCENARIOS ── */
   .scenario-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-  }
-  .scenario-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 22px 18px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .scenario-emoji { font-size: 32px; margin-bottom: 12px; }
-  .scenario-zh { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
-  .scenario-en { font-size: 11px; color: #94a3b8; margin-bottom: 12px; }
-  .scenario-flow {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 14px;
-  }
-  .sflow-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-  }
-  .sflow-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .sflow-arrow {
-    color: #94a3b8;
-    font-size: 10px;
-    padding-left: 6px;
-  }
-  .scenario-footer {
-    margin-top: auto;
-    padding-top: 12px;
-    border-top: 1px solid #f1f5f9;
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .stag {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-weight: 600;
+    gap: 14px;
   }
 
-  /* Scenario accent colors */
-  .sc1 { border-top: 4px solid #6366f1; }
-  .sc2 { border-top: 4px solid #ef4444; }
-  .sc3 { border-top: 4px solid #f97316; }
-  .sc4 { border-top: 4px solid #10b981; }
+  .sc-card {
+    background: #ffffff;
+    border: 1px solid #e8ecf0;
+    border-radius: 12px;
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  .sc1 { border-top: 2px solid #a5b4fc; }
+  .sc2 { border-top: 2px solid #fca5a5; }
+  .sc3 { border-top: 2px solid #fdba74; }
+  .sc4 { border-top: 2px solid #6ee7b7; }
+
+  .sc-emoji { font-size: 26px; margin-bottom: 10px; }
+  .sc-zh { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+  .sc-en { font-size: 10px; color: #94a3b8; margin-bottom: 14px; }
+
+  .sc-steps { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .sc-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 11px;
+    color: #475569;
+  }
+  .sc-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .sc-divider {
+    width: 1px; height: 10px;
+    background: #e2e8f0;
+    margin-left: 2px;
+  }
+
+  .sc-foot {
+    padding-top: 12px;
+    margin-top: 12px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .sc-tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
 
   /* ── FOOTER ── */
   .footer {
-    background: #fff;
-    border-radius: 16px;
-    padding: 18px 28px;
+    background: #ffffff;
+    border: 1px solid #e8ecf0;
+    border-radius: 12px;
+    padding: 16px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   }
-  .footer-label { font-size: 12px; color: #94a3b8; margin-bottom: 6px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-  .tech-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tech-chip {
-    background: #f1f5f9;
-    color: #475569;
-    font-size: 11px;
-    padding: 4px 12px;
-    border-radius: 20px;
+  .footer-left { }
+  .footer-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px; }
+  .tech-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tech-pill {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: 10px;
     font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
   }
-  .footer-brand {
-    font-size: 26px;
+  .brand {
+    font-size: 28px;
     font-weight: 800;
-    color: #4f46e5;
-    letter-spacing: -1px;
+    color: #0f172a;
+    letter-spacing: -1.5px;
   }
-  .footer-brand span { color: #f97316; }
+  .brand span { color: #6366f1; }
 
   @media print {
     body { background: #fff; padding: 0; }
@@ -357,33 +358,36 @@
 
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-left">
-      <div class="hero-badge">🇹🇼 台語諧音 × AI 科技</div>
-      <div class="hero-name">Ai<span>·</span>Eki</div>
-      <div class="hero-tw">「要記得」（台語）× AI 記得你的一切</div>
-      <div class="hero-tagline-zh">為長者長照而生的智慧位置提醒系統</div>
-      <div class="hero-tagline-en">Location-Aware AI Reminder System for Elderly Care</div>
+    <div>
+      <div class="hero-eyebrow">
+        <span class="hero-pill">AI-Powered</span>
+        <span class="hero-pill orange">Elder Care</span>
+      </div>
+      <div class="hero-name">Ai<span class="dot">·</span>Eki</div>
+      <div class="hero-tw">台語「<span>要記得</span>」× AI 記得你的一切</div>
+      <div class="hero-desc-zh">為長者長照而生的智慧位置提醒系統</div>
+      <div class="hero-desc-en">Location-Aware AI Reminder System for Elderly Care</div>
     </div>
-    <div class="hero-right">
-      <div class="hero-stat">
-        <div class="hero-stat-icon">📍</div>
-        <div class="hero-stat-text">
-          <strong>地點 + 時間雙觸發</strong>
-          到了對的地方、對的時間才提醒
+    <div class="hero-stats">
+      <div class="stat-row">
+        <div class="stat-icon">📍</div>
+        <div>
+          <div class="stat-zh">地點 + 時間雙觸發</div>
+          <div class="stat-en">Geofence × Time Conditions</div>
         </div>
       </div>
-      <div class="hero-stat">
-        <div class="hero-stat-icon">🤖</div>
-        <div class="hero-stat-text">
-          <strong>AI 自動建立任務</strong>
-          截圖 / 語音 / 感測器 → 零手動輸入
+      <div class="stat-row">
+        <div class="stat-icon">🤖</div>
+        <div>
+          <div class="stat-zh">AI 自動建立任務</div>
+          <div class="stat-en">Screenshot / Voice → Zero Input</div>
         </div>
       </div>
-      <div class="hero-stat">
-        <div class="hero-stat-icon">🧠</div>
-        <div class="hero-stat-text">
-          <strong>行為異常監測</strong>
-          學習日常規律，自動偵測異常
+      <div class="stat-row">
+        <div class="stat-icon">🧠</div>
+        <div>
+          <div class="stat-zh">行為異常監測</div>
+          <div class="stat-en">Behavioral Anomaly Detection</div>
         </div>
       </div>
     </div>
@@ -394,117 +398,93 @@
 
     <!-- Pain Points -->
     <div class="card pain-card">
-      <div class="section-label">🔴 Pain Points · 核心痛點</div>
-      <div class="pain-item">
+      <div class="label">Pain Points · 核心痛點</div>
+      <div class="pain-row">
         <div class="pain-icon">💊</div>
-        <div>
-          <div class="pain-zh">忘記吃藥</div>
-          <div class="pain-en">Missed Medication</div>
-        </div>
+        <div><div class="pain-zh">忘記吃藥</div><div class="pain-en">Missed Medication</div></div>
       </div>
-      <div class="pain-item">
+      <div class="pain-row">
         <div class="pain-icon">🚶</div>
-        <div>
-          <div class="pain-zh">迷路走失</div>
-          <div class="pain-en">Wandering Risk</div>
-        </div>
+        <div><div class="pain-zh">迷路走失風險</div><div class="pain-en">Wandering Risk</div></div>
       </div>
-      <div class="pain-item">
+      <div class="pain-row">
         <div class="pain-icon">😓</div>
-        <div>
-          <div class="pain-zh">照顧者分身乏術</div>
-          <div class="pain-en">Caregiver Burnout</div>
-        </div>
+        <div><div class="pain-zh">照顧者分身乏術</div><div class="pain-en">Caregiver Burnout</div></div>
       </div>
-      <div class="pain-item">
+      <div class="pain-row">
         <div class="pain-icon">🚨</div>
-        <div>
-          <div class="pain-zh">緊急狀況無法即時通知</div>
-          <div class="pain-en">Delayed Emergency Alerts</div>
-        </div>
+        <div><div class="pain-zh">緊急狀況無法即時通知</div><div class="pain-en">Delayed Emergency Alerts</div></div>
       </div>
-      <div class="pain-item">
+      <div class="pain-row">
         <div class="pain-icon">📋</div>
-        <div>
-          <div class="pain-zh">社工個案記錄繁瑣</div>
-          <div class="pain-en">Tedious Case Management</div>
-        </div>
+        <div><div class="pain-zh">社工個案記錄繁瑣</div><div class="pain-en">Tedious Case Management</div></div>
       </div>
     </div>
 
     <!-- Core Features -->
     <div class="card feat-card">
-      <div class="section-label">🟣 Core Features · 五大功能</div>
-      <div class="feat-grid">
-        <div class="feat-item">
-          <div class="feat-icon-wrap bg-indigo">⏰</div>
-          <div class="feat-text">
-            <div class="feat-zh">時間觸發提醒</div>
-            <div class="feat-en">Time-Based Triggers</div>
-          </div>
+      <div class="label">Core Features · 五大功能</div>
+      <div class="feat-list">
+        <div class="feat-row">
+          <div class="feat-ico ico-indigo">⏰</div>
+          <div><div class="feat-zh">時間觸發提醒</div><div class="feat-en">Time-Based Triggers</div></div>
         </div>
-        <div class="feat-item">
-          <div class="feat-icon-wrap bg-blue">📍</div>
-          <div class="feat-text">
-            <div class="feat-zh">地點地理圍欄</div>
-            <div class="feat-en">Location Geofencing</div>
-          </div>
+        <div class="feat-row">
+          <div class="feat-ico ico-blue">📍</div>
+          <div><div class="feat-zh">地點地理圍欄</div><div class="feat-en">Location Geofencing</div></div>
         </div>
-        <div class="feat-item">
-          <div class="feat-icon-wrap bg-orange">🧠</div>
-          <div class="feat-text">
-            <div class="feat-zh">行為異常偵測</div>
-            <div class="feat-en">Anomaly Detection</div>
-          </div>
+        <div class="feat-row">
+          <div class="feat-ico ico-amber">🧠</div>
+          <div><div class="feat-zh">行為異常偵測</div><div class="feat-en">Behavioral Anomaly Detection</div></div>
         </div>
-        <div class="feat-item">
-          <div class="feat-icon-wrap bg-violet">🤖</div>
-          <div class="feat-text">
-            <div class="feat-zh">AI 自動建立任務</div>
-            <div class="feat-en">AI Auto Task Creation</div>
-          </div>
+        <div class="feat-row">
+          <div class="feat-ico ico-violet">🤖</div>
+          <div><div class="feat-zh">AI 自動建立任務</div><div class="feat-en">AI Auto Task Creation</div></div>
         </div>
-        <div class="feat-item">
-          <div class="feat-icon-wrap bg-emerald">🔔</div>
-          <div class="feat-text">
-            <div class="feat-zh">多角色智慧推播</div>
-            <div class="feat-en">Multi-Role Smart Push</div>
-          </div>
+        <div class="feat-row">
+          <div class="feat-ico ico-emerald">🔔</div>
+          <div><div class="feat-zh">多角色智慧推播</div><div class="feat-en">Multi-Role Smart Push</div></div>
         </div>
       </div>
     </div>
 
-    <!-- User Roles -->
+    <!-- Roles -->
     <div class="card role-card">
-      <div class="section-label">🟢 User Roles · 使用角色</div>
+      <div class="label">User Roles · 使用角色</div>
       <div class="role-item">
         <div class="role-emoji">👴</div>
-        <div class="role-zh">長者</div>
-        <div class="role-en">Elder</div>
-        <div class="role-tags">
-          <span class="tag">被動接收</span>
-          <span class="tag">大字介面</span>
-          <span class="tag">語音提醒</span>
+        <div>
+          <div class="role-name-zh">長者</div>
+          <div class="role-name-en">Elder</div>
+          <div class="tag-row">
+            <span class="tag tag-indigo">被動接收</span>
+            <span class="tag tag-indigo">大字介面</span>
+            <span class="tag tag-indigo">語音提醒</span>
+          </div>
         </div>
       </div>
       <div class="role-item">
         <div class="role-emoji">👨‍👩‍👦</div>
-        <div class="role-zh">家人</div>
-        <div class="role-en">Family</div>
-        <div class="role-tags">
-          <span class="tag orange">即時監看</span>
-          <span class="tag orange">異常通知</span>
-          <span class="tag orange">遠端管理</span>
+        <div>
+          <div class="role-name-zh">家人</div>
+          <div class="role-name-en">Family</div>
+          <div class="tag-row">
+            <span class="tag tag-orange">即時監看</span>
+            <span class="tag tag-orange">異常通知</span>
+            <span class="tag tag-orange">遠端管理</span>
+          </div>
         </div>
       </div>
       <div class="role-item">
         <div class="role-emoji">👩‍💼</div>
-        <div class="role-zh">社工 / 照護員</div>
-        <div class="role-en">Social Worker</div>
-        <div class="role-tags">
-          <span class="tag green">批次指派</span>
-          <span class="tag green">AI 輔助</span>
-          <span class="tag green">狀態摘要</span>
+        <div>
+          <div class="role-name-zh">社工 / 照護員</div>
+          <div class="role-name-en">Social Worker</div>
+          <div class="tag-row">
+            <span class="tag tag-emerald">批次指派</span>
+            <span class="tag tag-emerald">AI 輔助建檔</span>
+            <span class="tag tag-emerald">日報摘要</span>
+          </div>
         </div>
       </div>
     </div>
@@ -512,63 +492,62 @@
 
   <!-- AI FLOW -->
   <div class="flow-card">
-    <div class="section-label">⚡ AI Pipeline · 智慧任務流程</div>
-    <div class="flow-title">從「輸入」到「提醒」—— 全程 AI 自動化</div>
-    <div class="flow-subtitle">Zero Manual Entry · 零手動輸入，AI 處理一切中間流程</div>
-    <div class="flow-row">
+    <div class="flow-header">
+      <div class="label">AI Pipeline · 智慧任務流程</div>
+      <div class="flow-title">從「輸入」到「提醒」—— 全程 AI 自動化</div>
+      <div class="flow-sub">Zero Manual Entry · 截圖、語音、感測器 → AI 自動解析 → 結構化任務 → 精準觸發</div>
+    </div>
+    <div class="flow-steps">
 
       <div class="flow-step">
-        <div class="flow-step-num">1</div>
-        <div class="flow-step-icon">📥</div>
-        <div class="flow-step-zh">輸入來源</div>
-        <div class="flow-step-en">Input Sources</div>
-        <div class="flow-chips">
-          <span class="flow-chip">出院截圖</span>
-          <span class="flow-chip">語音指令</span>
-          <span class="flow-chip">GPS 感測</span>
-          <span class="flow-chip">照護員填寫</span>
+        <div class="step-num">1</div>
+        <div class="step-ico">📥</div>
+        <div class="step-zh">輸入來源</div>
+        <div class="step-en">Input Sources</div>
+        <div class="step-tags">
+          <span class="step-tag st-indigo">出院摘要截圖</span>
+          <span class="step-tag st-indigo">照護員語音</span>
+          <span class="step-tag st-indigo">GPS 感測</span>
+          <span class="step-tag st-indigo">家人文字指令</span>
         </div>
-        <div class="flow-arrow">→</div>
       </div>
 
       <div class="flow-step">
-        <div class="flow-step-num">2</div>
-        <div class="flow-step-icon">🤖</div>
-        <div class="flow-step-zh">AI 分析層</div>
-        <div class="flow-step-en">AI Processing</div>
-        <div class="flow-chips">
-          <span class="flow-chip orange">OCR 文字辨識</span>
-          <span class="flow-chip orange">NLU 語意理解</span>
-          <span class="flow-chip orange">行為基線分析</span>
-          <span class="flow-chip orange">地點自動定位</span>
+        <div class="step-num">2</div>
+        <div class="step-ico">🤖</div>
+        <div class="step-zh">AI 分析層</div>
+        <div class="step-en">AI Processing</div>
+        <div class="step-tags">
+          <span class="step-tag st-orange">OCR 文字辨識</span>
+          <span class="step-tag st-orange">NLU 語意理解</span>
+          <span class="step-tag st-orange">行為基線分析</span>
+          <span class="step-tag st-orange">地點自動定位</span>
         </div>
-        <div class="flow-arrow">→</div>
       </div>
 
       <div class="flow-step">
-        <div class="flow-step-num">3</div>
-        <div class="flow-step-icon">📋</div>
-        <div class="flow-step-zh">結構化任務</div>
-        <div class="flow-step-en">Structured Tasks</div>
-        <div class="flow-chips">
-          <span class="flow-chip">地點設定</span>
-          <span class="flow-chip">時間設定</span>
-          <span class="flow-chip">提醒內容</span>
-          <span class="flow-chip">指派對象</span>
+        <div class="step-num">3</div>
+        <div class="step-ico">📋</div>
+        <div class="step-zh">結構化任務</div>
+        <div class="step-en">Structured Tasks</div>
+        <div class="step-tags">
+          <span class="step-tag st-indigo">地點設定</span>
+          <span class="step-tag st-indigo">時間設定</span>
+          <span class="step-tag st-indigo">提醒內容</span>
+          <span class="step-tag st-indigo">指派對象</span>
         </div>
-        <div class="flow-arrow">→</div>
       </div>
 
       <div class="flow-step">
-        <div class="flow-step-num">4</div>
-        <div class="flow-step-icon">🔔</div>
-        <div class="flow-step-zh">智慧觸發提醒</div>
-        <div class="flow-step-en">Smart Trigger</div>
-        <div class="flow-chips">
-          <span class="flow-chip emerald">推播通知</span>
-          <span class="flow-chip emerald">家人警示</span>
-          <span class="flow-chip emerald">社工摘要</span>
-          <span class="flow-chip emerald">異常升級</span>
+        <div class="step-num">4</div>
+        <div class="step-ico">🔔</div>
+        <div class="step-zh">智慧觸發提醒</div>
+        <div class="step-en">Smart Trigger</div>
+        <div class="step-tags">
+          <span class="step-tag st-emerald">長者推播</span>
+          <span class="step-tag st-emerald">家人警示</span>
+          <span class="step-tag st-emerald">社工日報</span>
+          <span class="step-tag st-emerald">異常升級通知</span>
         </div>
       </div>
 
@@ -577,114 +556,78 @@
 
   <!-- SCENARIOS -->
   <div>
-    <div class="section-label" style="padding-left:4px">🌟 Real Scenarios · 實際場景</div>
+    <div class="label" style="padding-left: 2px">Real Scenarios · 實際場景</div>
     <div class="scenario-grid">
 
       <!-- S1 -->
-      <div class="scenario-card sc1">
-        <div class="scenario-emoji">🏥</div>
-        <div class="scenario-zh">靠近診所，回診提醒</div>
-        <div class="scenario-en">Near Clinic → Appointment Alert</div>
-        <div class="scenario-flow">
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#6366f1"></div>
-            GPS 偵測到診所 300m 內
-          </div>
-          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#6366f1"></div>
-            符合早上 09–11 時段
-          </div>
-          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#fbbf24"></div>
-            推播「記得帶健保卡＋藥袋」
-          </div>
+      <div class="sc-card sc1">
+        <div class="sc-emoji">🏥</div>
+        <div class="sc-zh">靠近診所，回診提醒</div>
+        <div class="sc-en">Near Clinic → Appointment Alert</div>
+        <div class="sc-steps">
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div>GPS 偵測到診所 300m 內</div>
+          <div class="sc-divider" style="margin-left:2px"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div>符合早上 09–11 時段條件</div>
+          <div class="sc-divider" style="margin-left:2px"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>推播「記得帶健保卡＋藥袋」</div>
         </div>
-        <div class="scenario-footer">
-          <span class="stag" style="background:#eef2ff;color:#4338ca">📍 地點觸發</span>
-          <span class="stag" style="background:#eff6ff;color:#1d4ed8">⏰ 時間範圍</span>
+        <div class="sc-foot">
+          <span class="sc-tag" style="background:#eef2ff;color:#4338ca">📍 地點觸發</span>
+          <span class="sc-tag" style="background:#eff6ff;color:#1d4ed8">⏰ 時間範圍</span>
         </div>
       </div>
 
       <!-- S2 -->
-      <div class="scenario-card sc2">
-        <div class="scenario-emoji">🌙</div>
-        <div class="scenario-zh">深夜離家，立即警示</div>
-        <div class="scenario-en">Late Night Exit → Family Alert</div>
-        <div class="scenario-flow">
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#ef4444"></div>
-            23:00 後離開家中圍欄
-          </div>
-          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#ef4444"></div>
-            非常規行為偵測觸發
-          </div>
-          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#fbbf24"></div>
-            即時通知家人＋GPS 位置
-          </div>
+      <div class="sc-card sc2">
+        <div class="sc-emoji">🌙</div>
+        <div class="sc-zh">深夜離家，立即警示</div>
+        <div class="sc-en">Late Night Exit → Family Alert</div>
+        <div class="sc-steps">
+          <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div>23:00 後離開居家圍欄範圍</div>
+          <div class="sc-divider" style="margin-left:2px"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div>非常規行為偵測觸發升級</div>
+          <div class="sc-divider" style="margin-left:2px"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>即時通知家人 + GPS 共享位置</div>
         </div>
-        <div class="scenario-footer">
-          <span class="stag" style="background:#fef2f2;color:#991b1b">🚨 離開範圍</span>
-          <span class="stag" style="background:#fff7ed;color:#9a3412">🧠 異常偵測</span>
+        <div class="sc-foot">
+          <span class="sc-tag" style="background:#fef2f2;color:#991b1b">🚨 離開範圍</span>
+          <span class="sc-tag" style="background:#fff7ed;color:#9a3412">🧠 異常偵測</span>
         </div>
       </div>
 
       <!-- S3 -->
-      <div class="scenario-card sc3">
-        <div class="scenario-emoji">📄</div>
-        <div class="scenario-zh">出院摘要，自動建任務</div>
-        <div class="scenario-en">Discharge Summary → Auto Tasks</div>
-        <div class="scenario-flow">
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#f97316"></div>
-            家人上傳出院診斷截圖
-          </div>
-          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#f97316"></div>
-            AI 解析：用藥／回診日／衛教
-          </div>
-          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#fbbf24"></div>
-            自動建立每日服藥＋回診提醒
-          </div>
+      <div class="sc-card sc3">
+        <div class="sc-emoji">📄</div>
+        <div class="sc-zh">出院截圖，自動建任務</div>
+        <div class="sc-en">Discharge Summary → Auto Tasks</div>
+        <div class="sc-steps">
+          <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div>家人上傳出院診斷截圖</div>
+          <div class="sc-divider" style="margin-left:2px"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div>AI 解析用藥清單、回診日、衛教</div>
+          <div class="sc-divider" style="margin-left:2px"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>自動建立每日服藥 + 回診提醒</div>
         </div>
-        <div class="scenario-footer">
-          <span class="stag" style="background:#fff7ed;color:#9a3412">🤖 OCR + AI</span>
-          <span class="stag" style="background:#fef3c7;color:#92400e">📋 自動建任務</span>
+        <div class="sc-foot">
+          <span class="sc-tag" style="background:#fff7ed;color:#9a3412">🤖 OCR + AI</span>
+          <span class="sc-tag" style="background:#fef3c7;color:#92400e">📋 零手動輸入</span>
         </div>
       </div>
 
       <!-- S4 -->
-      <div class="scenario-card sc4">
-        <div class="scenario-emoji">🗣️</div>
-        <div class="scenario-zh">社工語音，批次指派</div>
-        <div class="scenario-en">Voice Command → Batch Assignment</div>
-        <div class="scenario-flow">
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#10b981"></div>
-            社工說：「週四新店區個案帶藥袋」
-          </div>
-          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#10b981"></div>
-            AI 解析條件，篩選符合個案
-          </div>
-          <div class="sflow-item" style="padding-left:14px; color:#94a3b8">↓</div>
-          <div class="sflow-item">
-            <div class="sflow-dot" style="background:#fbbf24"></div>
-            N 個個案各自收到提醒
-          </div>
+      <div class="sc-card sc4">
+        <div class="sc-emoji">🗣️</div>
+        <div class="sc-zh">社工語音，批次指派</div>
+        <div class="sc-en">Voice Command → Batch Assignment</div>
+        <div class="sc-steps">
+          <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div>社工說「週四新店區帶藥袋來」</div>
+          <div class="sc-divider" style="margin-left:2px"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div>AI 解析條件、篩選符合個案</div>
+          <div class="sc-divider" style="margin-left:2px"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div>N 個個案各自收到精準提醒</div>
         </div>
-        <div class="scenario-footer">
-          <span class="stag" style="background:#ecfdf5;color:#065f46">🎙️ 語音輸入</span>
-          <span class="stag" style="background:#d1fae5;color:#065f46">👥 批次指派</span>
+        <div class="sc-foot">
+          <span class="sc-tag" style="background:#ecfdf5;color:#065f46">🎙️ 語音輸入</span>
+          <span class="sc-tag" style="background:#d1fae5;color:#065f46">👥 批次指派</span>
         </div>
       </div>
 
@@ -693,19 +636,19 @@
 
   <!-- FOOTER -->
   <div class="footer">
-    <div>
+    <div class="footer-left">
       <div class="footer-label">Tech Stack · 技術架構</div>
-      <div class="tech-chips">
-        <span class="tech-chip">FastAPI + PostgreSQL</span>
-        <span class="tech-chip">React PWA</span>
-        <span class="tech-chip">Firebase FCM</span>
-        <span class="tech-chip">OpenStreetMap</span>
-        <span class="tech-chip">Claude AI (OCR + NLU)</span>
-        <span class="tech-chip">Haversine Geofencing</span>
-        <span class="tech-chip">Web Speech API</span>
+      <div class="tech-row">
+        <span class="tech-pill">FastAPI + PostgreSQL</span>
+        <span class="tech-pill">React PWA</span>
+        <span class="tech-pill">Firebase FCM</span>
+        <span class="tech-pill">OpenStreetMap</span>
+        <span class="tech-pill">Claude AI (OCR + NLU)</span>
+        <span class="tech-pill">Haversine Geofencing</span>
+        <span class="tech-pill">Web Speech API</span>
       </div>
     </div>
-    <div class="footer-brand">Ai<span>·</span>Eki</div>
+    <div class="brand">Ai<span>·</span>Eki</div>
   </div>
 
 </div>

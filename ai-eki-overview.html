@@ -54,28 +54,38 @@
   .stat-zh { font-size: 12px; font-weight: 600; color: #334155; }
   .stat-en { font-size: 10px; color: #94a3b8; }
 
-  /* ── TABS ── */
+  /* ── TABS (CSS-only, no JS) ── */
+  #t-elder, #t-gen { display: none; }
+
   .tab-bar {
     background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
     padding: 8px; display: flex; gap: 6px;
   }
   .tab-btn {
-    flex: 1; padding: 10px 16px; border-radius: 9px; border: none;
+    flex: 1; padding: 10px 16px; border-radius: 9px;
     font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: background 0.18s, color 0.18s;
     color: #64748b; background: transparent;
+    user-select: none;
   }
-  .tab-btn.active { background: #6366f1; color: #fff; }
-  .tab-btn .tab-badge {
+  .tab-badge {
     font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 20px;
-    background: rgba(255,255,255,0.25); color: inherit;
+    background: #f1f5f9; color: #94a3b8;
   }
-  .tab-btn:not(.active) .tab-badge { background: #f1f5f9; color: #94a3b8; }
 
-  /* ── TAB PANELS ── */
+  /* active state via :checked */
+  #t-elder:checked ~ .tab-bar label[for="t-elder"],
+  #t-gen:checked   ~ .tab-bar label[for="t-gen"]   { background: #6366f1; color: #fff; }
+
+  #t-elder:checked ~ .tab-bar label[for="t-elder"] .tab-badge,
+  #t-gen:checked   ~ .tab-bar label[for="t-gen"]   .tab-badge {
+    background: rgba(255,255,255,0.22); color: rgba(255,255,255,0.9);
+  }
+
+  /* panels */
   .tab-panel { display: none; flex-direction: column; gap: 14px; }
-  .tab-panel.active { display: flex; }
+  #t-elder:checked ~ #panel-elder  { display: flex; }
+  #t-gen:checked   ~ #panel-general { display: flex; }
 
   /* ── THREE COL ── */
   .three-col { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 12px; }
@@ -239,6 +249,10 @@
 <body>
 <div class="page">
 
+  <!-- Radio inputs drive CSS-only tab switching -->
+  <input type="radio" name="tab" id="t-elder" checked>
+  <input type="radio" name="tab" id="t-gen">
+
   <!-- HERO -->
   <div class="hero">
     <div>
@@ -278,20 +292,20 @@
 
   <!-- TAB BAR -->
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('elder')">
+    <label for="t-elder" class="tab-btn">
       👴 長照長者場景
       <span class="tab-badge">核心受眾 20%</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('general')">
+    </label>
+    <label for="t-gen" class="tab-btn">
       👥 一般使用者場景
       <span class="tab-badge">延伸受眾 100%</span>
-    </button>
+    </label>
   </div>
 
   <!-- ══════════════════════════════════════════ -->
   <!-- TAB 1: ELDER CARE                         -->
   <!-- ══════════════════════════════════════════ -->
-  <div class="tab-panel active" id="panel-elder">
+  <div class="tab-panel" id="panel-elder">
 
     <!-- THREE COLUMNS -->
     <div class="three-col">
@@ -736,13 +750,5 @@
 
 </div><!-- /page -->
 
-<script>
-  function switchTab(tab) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelector('#panel-' + tab).classList.add('active');
-    event.currentTarget.classList.add('active');
-  }
-</script>
 </body>
 </html>

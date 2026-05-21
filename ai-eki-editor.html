@@ -19,23 +19,31 @@
 
   /* ── EDITOR PANEL ── */
   .editor {
-    width: 340px; flex-shrink: 0;
+    width: 350px; flex-shrink: 0;
     background: #fff; border-left: 1px solid #e2e8f0;
     display: flex; flex-direction: column; overflow: hidden;
   }
-  .editor-header { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; }
+  .editor-header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; }
   .editor-title  { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
-  .editor-sub    { font-size: 10px; color: #94a3b8; margin-bottom: 10px; }
+  .editor-sub    { font-size: 10px; color: #94a3b8; margin-bottom: 8px; }
+  .lang-toggle   { display: flex; gap: 4px; margin-bottom: 8px; }
+  .lt-btn {
+    flex: 1; padding: 5px; border: 1.5px solid #e2e8f0; border-radius: 6px;
+    font-size: 11px; font-weight: 600; cursor: pointer; background: #f8fafc;
+    color: #64748b; font-family: inherit;
+  }
+  .lt-btn.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+  .btn-row { display: flex; gap: 6px; }
   .export-btn {
-    width: 100%; padding: 8px; background: #6366f1; color: #fff;
-    border: none; border-radius: 8px; font-size: 12px; font-weight: 600;
+    flex: 1; padding: 7px; background: #6366f1; color: #fff;
+    border: none; border-radius: 8px; font-size: 11px; font-weight: 600;
     cursor: pointer; font-family: inherit;
   }
   .export-btn:hover { background: #4f46e5; }
   .save-btn {
-    width: 100%; padding: 8px; background: #10b981; color: #fff;
-    border: none; border-radius: 8px; font-size: 12px; font-weight: 600;
-    cursor: pointer; font-family: inherit; margin-top: 6px;
+    flex: 1; padding: 7px; background: #10b981; color: #fff;
+    border: none; border-radius: 8px; font-size: 11px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
   }
   .save-btn:hover { background: #059669; }
   .editor-body { flex: 1; overflow-y: auto; padding: 10px; }
@@ -50,13 +58,9 @@
   .esec-head:hover { filter: brightness(0.96); }
   .esec-chevron { font-size: 9px; transition: transform 0.18s; }
   .esec.open .esec-chevron { transform: rotate(180deg); }
-  .esec-body {
-    display: none; padding: 10px 12px;
-    background: #fafbfc; border-top: 1px solid #e8ecf0;
-  }
+  .esec-body { display: none; padding: 10px 12px; background: #fafbfc; border-top: 1px solid #e8ecf0; }
   .esec.open .esec-body { display: block; }
 
-  /* section themes */
   .si .esec-head { background: #eef2ff; color: #4338ca; }
   .so .esec-head { background: #fff7ed; color: #c2410c; }
   .se .esec-head { background: #ecfdf5; color: #065f46; }
@@ -64,7 +68,7 @@
   .sv .esec-head { background: #f5f3ff; color: #5b21b6; }
 
   /* ── FIELD ── */
-  .field { margin-bottom: 8px; }
+  .field { margin-bottom: 6px; }
   .field:last-child { margin-bottom: 0; }
   .field label {
     display: block; font-size: 10px; font-weight: 700; color: #94a3b8;
@@ -75,25 +79,53 @@
     border-radius: 6px; font-size: 12px; font-family: inherit;
     color: #1e293b; background: #fff; resize: vertical; line-height: 1.5;
   }
-  .field textarea { min-height: 46px; }
+  .field textarea { min-height: 40px; }
   .field input:focus, .field textarea:focus {
     outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px #eef2ff;
   }
+  .field-en .field input, .field-en .field textarea { border-color: #dbeafe; }
+  .field-en .field input:focus, .field-en .field textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px #eff6ff; }
+  .field-en label { color: #60a5fa; }
+
   .fgroup-label {
     font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: 1px;
     text-transform: uppercase; padding: 6px 0 5px;
-    border-bottom: 1px solid #f1f5f9; margin-bottom: 7px; margin-top: 4px;
+    border-bottom: 1px solid #f1f5f9; margin-bottom: 6px; margin-top: 4px;
   }
 
+  /* ── DYNAMIC LIST ── */
+  .elist-item {
+    background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 8px;
+    padding: 8px 10px; margin-bottom: 6px; position: relative;
+  }
+  .elist-item-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .elist-item-num  { font-size: 10px; font-weight: 700; color: #94a3b8; }
+  .elist-del {
+    width: 20px; height: 20px; border-radius: 50%; border: none;
+    background: #fee2e2; color: #dc2626; font-size: 13px; line-height: 1;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-family: inherit; flex-shrink: 0;
+  }
+  .elist-del:hover { background: #fca5a5; }
+  .elist-add {
+    width: 100%; padding: 6px; border: 1.5px dashed #c7d2fe; border-radius: 7px;
+    background: #f5f7ff; color: #6366f1; font-size: 11px; font-weight: 600;
+    cursor: pointer; font-family: inherit; margin-top: 4px;
+  }
+  .elist-add:hover { background: #eef2ff; }
+
+  /* language visibility */
+  .editor.zh-only .field-en { display: none; }
+  .editor.en-only .field-zh { display: none; }
+
   /* ══════════════════════════════
-     VISUAL STYLES (from overview)
+     VISUAL STYLES (preview)
   ══════════════════════════════ */
   .label {
     font-size: 10px; font-weight: 700; letter-spacing: 2px;
     text-transform: uppercase; color: #94a3b8; margin-bottom: 12px;
   }
   .card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 20px 22px; }
-
   .hero {
     background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
     padding: 32px 38px; display: grid; grid-template-columns: 1fr auto; gap: 36px; align-items: center;
@@ -191,7 +223,7 @@
   .sc-step { display: flex; align-items: flex-start; gap: 7px; font-size: 11px; color: #475569; }
   .sc-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
   .sc-divider { width: 1px; height: 9px; background: #e2e8f0; margin-left: 2px; }
-  .sc-foot { padding-top: 10px; margin-top: 10px; border-top: 1px solid #f1f5f9; display: flex; flex-wrap: wrap; gap: 4px; }
+  .sc-foot { padding-top: 10px; margin-top: 10px; border-top: 1px solid #f1f5f9; display: flex; flex-wrap: gap: 4px; }
   .sc-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
 
   .footer { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; }
@@ -204,11 +236,10 @@
 </head>
 <body>
 
-<!-- CSS-only tab radio inputs must be siblings of .preview -->
 <input type="radio" name="tab" id="t-elder" checked>
 <input type="radio" name="tab" id="t-gen">
 
-<!-- ══════════════ PREVIEW ══════════════ -->
+<!-- ══ PREVIEW ══ -->
 <div class="preview">
 <div class="page">
 
@@ -233,8 +264,8 @@
 
   <!-- TAB BAR -->
   <div class="tab-bar">
-    <label for="t-elder" class="tab-btn" id="v-tab1-label">👴 長照長者場景<span class="tab-badge" id="v-tab1-badge">核心受眾 20%</span></label>
-    <label for="t-gen"   class="tab-btn" id="v-tab2-label">👥 一般使用者場景<span class="tab-badge" id="v-tab2-badge">延伸受眾 100%</span></label>
+    <label for="t-elder" class="tab-btn">👴 長照長者場景<span class="tab-badge">核心受眾 20%</span></label>
+    <label for="t-gen"   class="tab-btn">👥 一般使用者場景<span class="tab-badge">延伸受眾 100%</span></label>
   </div>
 
   <!-- TAB 1 ELDER -->
@@ -243,11 +274,13 @@
       <!-- Pain -->
       <div class="card pain-card">
         <div class="label">Pain Points · 核心痛點</div>
-        <div class="pain-row"><div class="pain-icon">💊</div><div><div class="pain-zh" id="v-ep1">忘記吃藥</div><div class="pain-en">Missed Medication</div></div></div>
-        <div class="pain-row"><div class="pain-icon">🚶</div><div><div class="pain-zh" id="v-ep2">迷路走失風險</div><div class="pain-en">Wandering Risk</div></div></div>
-        <div class="pain-row"><div class="pain-icon">😓</div><div><div class="pain-zh" id="v-ep3">照顧者分身乏術</div><div class="pain-en">Caregiver Burnout</div></div></div>
-        <div class="pain-row"><div class="pain-icon">🚨</div><div><div class="pain-zh" id="v-ep4">緊急狀況無法即時通知</div><div class="pain-en">Delayed Emergency Alerts</div></div></div>
-        <div class="pain-row"><div class="pain-icon">📋</div><div><div class="pain-zh" id="v-ep5">社工個案記錄繁瑣</div><div class="pain-en">Tedious Case Management</div></div></div>
+        <div id="elder-pain-list">
+          <div class="pain-row" data-idx="1"><div class="pain-icon">💊</div><div><div class="pain-zh" id="v-ep-1-zh">忘記吃藥</div><div class="pain-en" id="v-ep-1-en">Missed Medication</div></div></div>
+          <div class="pain-row" data-idx="2"><div class="pain-icon">🚶</div><div><div class="pain-zh" id="v-ep-2-zh">迷路走失風險</div><div class="pain-en" id="v-ep-2-en">Wandering Risk</div></div></div>
+          <div class="pain-row" data-idx="3"><div class="pain-icon">😓</div><div><div class="pain-zh" id="v-ep-3-zh">照顧者分身乏術</div><div class="pain-en" id="v-ep-3-en">Caregiver Burnout</div></div></div>
+          <div class="pain-row" data-idx="4"><div class="pain-icon">🚨</div><div><div class="pain-zh" id="v-ep-4-zh">緊急狀況無法即時通知</div><div class="pain-en" id="v-ep-4-en">Delayed Emergency Alerts</div></div></div>
+          <div class="pain-row" data-idx="5"><div class="pain-icon">📋</div><div><div class="pain-zh" id="v-ep-5-zh">社工個案記錄繁瑣</div><div class="pain-en" id="v-ep-5-en">Tedious Case Management</div></div></div>
+        </div>
       </div>
       <!-- Features -->
       <div class="card feat-card">
@@ -269,26 +302,26 @@
       </div>
     </div>
 
-    <!-- Devices Elder -->
+    <!-- Devices -->
     <div class="devices-card">
       <div class="label">Devices & Touchpoints · 使用載體</div>
       <div class="devices-grid">
         <div class="device-col">
           <div class="device-role-header"><div class="device-role-emoji">👴</div><div><div class="device-role-zh">長者</div><div class="device-role-en">Elder</div></div></div>
           <div class="device-list">
-            <div class="device-item"><div class="device-icon-wrap" style="background:#eef2ff">📱</div><div><div class="device-zh" id="v-ed1-name">平板電腦</div><div class="device-en">Tablet — Large Screen</div><div class="device-uses"><span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">全螢幕提醒彈出</span><span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">追劇 / 視訊通話</span><span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">大字介面易操作</span></div></div></div>
-            <div class="device-item"><div class="device-icon-wrap" style="background:#f0fdf4">⌚</div><div><div class="device-zh" id="v-ed2-name">智慧手錶</div><div class="device-en">Smartwatch — Health Monitor</div><div class="device-uses"><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">心率 / 血氧監測</span><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">跌倒偵測</span><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">SOS 一鍵求援</span><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">GPS 定位</span></div></div></div>
+            <div class="device-item"><div class="device-icon-wrap" style="background:#eef2ff">📱</div><div><div class="device-zh">平板電腦</div><div class="device-en">Tablet — Large Screen</div><div class="device-uses"><span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">全螢幕提醒彈出</span><span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">大字介面易操作</span></div></div></div>
+            <div class="device-item"><div class="device-icon-wrap" style="background:#f0fdf4">⌚</div><div><div class="device-zh">智慧手錶</div><div class="device-en">Smartwatch — Health Monitor</div><div class="device-uses"><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">心率 / 血氧監測</span><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">跌倒偵測</span><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">SOS 一鍵求援</span></div></div></div>
           </div>
         </div>
         <div class="divider-col"></div>
         <div class="device-col">
           <div class="device-role-header"><div class="device-role-emoji">👨‍👩‍👦</div><div><div class="device-role-zh">家人</div><div class="device-role-en">Family</div></div></div>
-          <div class="device-list"><div class="device-item"><div class="device-icon-wrap" style="background:#fff7ed">📲</div><div><div class="device-zh">智慧型手機</div><div class="device-en">Mobile — Always On</div><div class="device-uses"><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">即時異常推播</span><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">GPS 即時位置</span><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">遠端新增提醒</span><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">截圖上傳建任務</span></div></div></div></div>
+          <div class="device-list"><div class="device-item"><div class="device-icon-wrap" style="background:#fff7ed">📲</div><div><div class="device-zh">智慧型手機</div><div class="device-en">Mobile — Always On</div><div class="device-uses"><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">即時異常推播</span><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">GPS 即時位置</span><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">遠端新增提醒</span></div></div></div></div>
         </div>
         <div class="divider-col"></div>
         <div class="device-col">
           <div class="device-role-header"><div class="device-role-emoji">👩‍💼</div><div><div class="device-role-zh">社工 / 照護員</div><div class="device-role-en">Social Worker</div></div></div>
-          <div class="device-list"><div class="device-item"><div class="device-icon-wrap" style="background:#f5f3ff">💻</div><div><div class="device-zh">電腦 Web 管理後台</div><div class="device-en">Desktop — Full Dashboard</div><div class="device-uses"><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">完整個案資訊</span><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">AI 輔助建檔</span><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">批次任務指派</span><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">每日 AI 摘要</span><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">異常標記追蹤</span></div></div></div></div>
+          <div class="device-list"><div class="device-item"><div class="device-icon-wrap" style="background:#f5f3ff">💻</div><div><div class="device-zh">電腦 Web 管理後台</div><div class="device-en">Desktop — Full Dashboard</div><div class="device-uses"><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">完整個案資訊</span><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">AI 輔助建檔</span><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">批次任務指派</span></div></div></div></div>
         </div>
       </div>
     </div>
@@ -297,10 +330,54 @@
     <div>
       <div class="label" style="padding-left:2px">Real Scenarios · 長照實際場景</div>
       <div class="scenario-grid">
-        <div class="sc-card sc1"><div class="sc-emoji">🏥</div><div class="sc-zh" id="v-esc1-zh">靠近診所，回診提醒</div><div class="sc-en" id="v-esc1-en">Near Clinic → Appointment Alert</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><span id="v-esc1-s1">GPS 偵測到診所 300m 內</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><span id="v-esc1-s2">符合早上 09–11 時段條件</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc1-s3">推播「記得帶健保卡＋藥袋」</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#eef2ff;color:#4338ca">📍 地點觸發</span><span class="sc-tag" style="background:#eff6ff;color:#1d4ed8">⏰ 時間範圍</span></div></div>
-        <div class="sc-card sc2"><div class="sc-emoji">🌙</div><div class="sc-zh" id="v-esc2-zh">深夜離家，立即警示</div><div class="sc-en" id="v-esc2-en">Late Night Exit → Family Alert</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><span id="v-esc2-s1">23:00 後離開居家圍欄範圍</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><span id="v-esc2-s2">非常規行為偵測觸發升級</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc2-s3">即時通知家人 + GPS 共享位置</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#fef2f2;color:#991b1b">🚨 離開範圍</span><span class="sc-tag" style="background:#fff7ed;color:#9a3412">🧠 異常偵測</span></div></div>
-        <div class="sc-card sc3"><div class="sc-emoji">📄</div><div class="sc-zh" id="v-esc3-zh">出院截圖，自動建任務</div><div class="sc-en" id="v-esc3-en">Discharge Summary → Auto Tasks</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><span id="v-esc3-s1">家人上傳出院診斷截圖</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><span id="v-esc3-s2">AI 解析用藥清單、回診日、衛教</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc3-s3">自動建立每日服藥 + 回診提醒</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#fff7ed;color:#9a3412">🤖 OCR + AI</span><span class="sc-tag" style="background:#fef3c7;color:#92400e">📋 零手動輸入</span></div></div>
-        <div class="sc-card sc4"><div class="sc-emoji">🗣️</div><div class="sc-zh" id="v-esc4-zh">社工語音，批次指派</div><div class="sc-en" id="v-esc4-en">Voice Command → Batch Assignment</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><span id="v-esc4-s1">社工說「週四新店區帶藥袋來」</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><span id="v-esc4-s2">AI 解析條件、篩選符合個案</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc4-s3">N 個個案各自收到精準提醒</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#ecfdf5;color:#065f46">🎙️ 語音輸入</span><span class="sc-tag" style="background:#d1fae5;color:#065f46">👥 批次指派</span></div></div>
+        <div class="sc-card sc1"><div class="sc-emoji">🏥</div>
+          <div class="sc-zh" id="v-esc1-zh">靠近診所，回診提醒</div>
+          <div class="sc-en" id="v-esc1-en">Near Clinic → Appointment Alert</div>
+          <div class="sc-steps" id="esc1-steps">
+            <div class="sc-step" data-idx="1"><div class="sc-dot" style="background:#818cf8"></div><span id="v-esc1-s1">GPS 偵測到診所 300m 內</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="2"><div class="sc-dot" style="background:#818cf8"></div><span id="v-esc1-s2">符合早上 09–11 時段條件</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="3"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc1-s3">推播「記得帶健保卡＋藥袋」</span></div>
+          </div>
+          <div class="sc-foot"><span class="sc-tag" style="background:#eef2ff;color:#4338ca">📍 地點觸發</span><span class="sc-tag" style="background:#eff6ff;color:#1d4ed8">⏰ 時間範圍</span></div>
+        </div>
+        <div class="sc-card sc2"><div class="sc-emoji">🌙</div>
+          <div class="sc-zh" id="v-esc2-zh">深夜離家，立即警示</div>
+          <div class="sc-en" id="v-esc2-en">Late Night Exit → Family Alert</div>
+          <div class="sc-steps" id="esc2-steps">
+            <div class="sc-step" data-idx="1"><div class="sc-dot" style="background:#f87171"></div><span id="v-esc2-s1">23:00 後離開居家圍欄範圍</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="2"><div class="sc-dot" style="background:#f87171"></div><span id="v-esc2-s2">非常規行為偵測觸發升級</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="3"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc2-s3">即時通知家人 + GPS 共享位置</span></div>
+          </div>
+          <div class="sc-foot"><span class="sc-tag" style="background:#fef2f2;color:#991b1b">🚨 離開範圍</span><span class="sc-tag" style="background:#fff7ed;color:#9a3412">🧠 異常偵測</span></div>
+        </div>
+        <div class="sc-card sc3"><div class="sc-emoji">📄</div>
+          <div class="sc-zh" id="v-esc3-zh">出院截圖，自動建任務</div>
+          <div class="sc-en" id="v-esc3-en">Discharge Summary → Auto Tasks</div>
+          <div class="sc-steps" id="esc3-steps">
+            <div class="sc-step" data-idx="1"><div class="sc-dot" style="background:#fb923c"></div><span id="v-esc3-s1">家人上傳出院診斷截圖</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="2"><div class="sc-dot" style="background:#fb923c"></div><span id="v-esc3-s2">AI 解析用藥清單、回診日、衛教</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="3"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc3-s3">自動建立每日服藥 + 回診提醒</span></div>
+          </div>
+          <div class="sc-foot"><span class="sc-tag" style="background:#fff7ed;color:#9a3412">🤖 OCR + AI</span><span class="sc-tag" style="background:#fef3c7;color:#92400e">📋 零手動輸入</span></div>
+        </div>
+        <div class="sc-card sc4"><div class="sc-emoji">🗣️</div>
+          <div class="sc-zh" id="v-esc4-zh">社工語音，批次指派</div>
+          <div class="sc-en" id="v-esc4-en">Voice Command → Batch Assignment</div>
+          <div class="sc-steps" id="esc4-steps">
+            <div class="sc-step" data-idx="1"><div class="sc-dot" style="background:#34d399"></div><span id="v-esc4-s1">社工說「週四新店區帶藥袋來」</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="2"><div class="sc-dot" style="background:#34d399"></div><span id="v-esc4-s2">AI 解析條件、篩選符合個案</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="3"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc4-s3">N 個個案各自收到精準提醒</span></div>
+          </div>
+          <div class="sc-foot"><span class="sc-tag" style="background:#ecfdf5;color:#065f46">🎙️ 語音輸入</span><span class="sc-tag" style="background:#d1fae5;color:#065f46">👥 批次指派</span></div>
+        </div>
       </div>
     </div>
   </div><!-- /panel-elder -->
@@ -310,11 +387,13 @@
     <div class="three-col">
       <div class="card pain-card">
         <div class="label">Pain Points · 日常痛點</div>
-        <div class="pain-row"><div class="pain-icon">📦</div><div><div class="pain-zh" id="v-gp1">包裹到了忘記取貨</div><div class="pain-en">Missed Package Pickup</div></div></div>
-        <div class="pain-row"><div class="pain-icon">🛒</div><div><div class="pain-zh" id="v-gp2">路過超市忘了順手買</div><div class="pain-en">Forgot to Shop While Passing By</div></div></div>
-        <div class="pain-row"><div class="pain-icon">📅</div><div><div class="pain-zh" id="v-gp3">忙碌中忘記預約行程</div><div class="pain-en">Missed Appointments</div></div></div>
-        <div class="pain-row"><div class="pain-icon">🔁</div><div><div class="pain-zh" id="v-gp4">習慣養成難以持續</div><div class="pain-en">Habit Consistency</div></div></div>
-        <div class="pain-row"><div class="pain-icon">🧠</div><div><div class="pain-zh" id="v-gp5">靠腦記太多事容易遺漏</div><div class="pain-en">Mental Overload</div></div></div>
+        <div id="gen-pain-list">
+          <div class="pain-row" data-idx="1"><div class="pain-icon">📦</div><div><div class="pain-zh" id="v-gp-1-zh">包裹到了忘記取貨</div><div class="pain-en" id="v-gp-1-en">Missed Package Pickup</div></div></div>
+          <div class="pain-row" data-idx="2"><div class="pain-icon">🛒</div><div><div class="pain-zh" id="v-gp-2-zh">路過超市忘了順手買</div><div class="pain-en" id="v-gp-2-en">Forgot to Shop While Passing By</div></div></div>
+          <div class="pain-row" data-idx="3"><div class="pain-icon">📅</div><div><div class="pain-zh" id="v-gp-3-zh">忙碌中忘記預約行程</div><div class="pain-en" id="v-gp-3-en">Missed Appointments</div></div></div>
+          <div class="pain-row" data-idx="4"><div class="pain-icon">🔁</div><div><div class="pain-zh" id="v-gp-4-zh">習慣養成難以持續</div><div class="pain-en" id="v-gp-4-en">Habit Consistency</div></div></div>
+          <div class="pain-row" data-idx="5"><div class="pain-icon">🧠</div><div><div class="pain-zh" id="v-gp-5-zh">靠腦記太多事容易遺漏</div><div class="pain-en" id="v-gp-5-en">Mental Overload</div></div></div>
+        </div>
       </div>
       <div class="card feat-card">
         <div class="label">Core Features · 五大功能</div>
@@ -338,10 +417,56 @@
     <div>
       <div class="label" style="padding-left:2px">Real Scenarios · 一般使用場景</div>
       <div class="scenario-grid">
-        <div class="sc-card sc1"><div class="sc-emoji">📦</div><div class="sc-zh" id="v-gsc1-zh">蝦皮截圖，超商取貨</div><div class="sc-en" id="v-gsc1-en">Shopee Screenshot → Pickup Reminder</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><span id="v-gsc1-s1">上傳蝦皮取貨通知截圖</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><span id="v-gsc1-s2">OCR 自動解析：取貨碼、門市、期限</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><span id="v-gsc1-s3">地圖自動搜尋門市位置</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc1-s4">路過門市時推播「取貨碼：XXXXXX」</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#eef2ff;color:#4338ca">🤖 OCR 辨識</span><span class="sc-tag" style="background:#eff6ff;color:#1d4ed8">📍 路過觸發</span></div></div>
-        <div class="sc-card sc2"><div class="sc-emoji">🛒</div><div class="sc-zh" id="v-gsc2-zh">路過超市，購物清單</div><div class="sc-en" id="v-gsc2-en">Near Supermarket → Shopping List</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><span id="v-gsc2-s1">預先建立「家樂福」購物清單</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><span id="v-gsc2-s2">GPS 偵測到家樂福 200m 內</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc2-s3">彈出清單：衛生紙、洗碗精、雞蛋…</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#fef2f2;color:#991b1b">📍 地點觸發</span><span class="sc-tag" style="background:#fff7ed;color:#9a3412">📋 清單提醒</span></div></div>
-        <div class="sc-card sc3"><div class="sc-emoji">🗓️</div><div class="sc-zh" id="v-gsc3-zh">語音建任務，行程提醒</div><div class="sc-en" id="v-gsc3-en">Voice Input → Schedule Reminder</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><span id="v-gsc3-s1">說「下週二去家樂福買衛生紙」</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><span id="v-gsc3-s2">AI 解析：時間、地點、內容</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc3-s3">自動建立提醒，無需手動輸入</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#fff7ed;color:#9a3412">🎙️ 語音輸入</span><span class="sc-tag" style="background:#fef3c7;color:#92400e">🤖 NLU 解析</span></div></div>
-        <div class="sc-card sc4"><div class="sc-emoji">🏃</div><div class="sc-zh" id="v-gsc4-zh">路過健身房，習慣提醒</div><div class="sc-en" id="v-gsc4-en">Near Gym → Habit Nudge</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><span id="v-gsc4-s1">設定「健身房」地點 + 週三/五觸發</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><span id="v-gsc4-s2">週五下班路過健身房偵測到</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc4-s3">推播「今天是健身日，已連續 12 天！」</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#ecfdf5;color:#065f46">📍 地點 + 時間</span><span class="sc-tag" style="background:#d1fae5;color:#065f46">🔁 習慣養成</span></div></div>
+        <div class="sc-card sc1"><div class="sc-emoji">📦</div>
+          <div class="sc-zh" id="v-gsc1-zh">蝦皮截圖，超商取貨</div>
+          <div class="sc-en" id="v-gsc1-en">Shopee Screenshot → Pickup Reminder</div>
+          <div class="sc-steps" id="gsc1-steps">
+            <div class="sc-step" data-idx="1"><div class="sc-dot" style="background:#818cf8"></div><span id="v-gsc1-s1">上傳蝦皮取貨通知截圖</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="2"><div class="sc-dot" style="background:#818cf8"></div><span id="v-gsc1-s2">OCR 自動解析：取貨碼、門市、期限</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="3"><div class="sc-dot" style="background:#818cf8"></div><span id="v-gsc1-s3">地圖自動搜尋門市位置</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="4"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc1-s4">路過門市時推播「取貨碼：XXXXXX」</span></div>
+          </div>
+          <div class="sc-foot"><span class="sc-tag" style="background:#eef2ff;color:#4338ca">🤖 OCR 辨識</span><span class="sc-tag" style="background:#eff6ff;color:#1d4ed8">📍 路過觸發</span></div>
+        </div>
+        <div class="sc-card sc2"><div class="sc-emoji">🛒</div>
+          <div class="sc-zh" id="v-gsc2-zh">路過超市，購物清單</div>
+          <div class="sc-en" id="v-gsc2-en">Near Supermarket → Shopping List</div>
+          <div class="sc-steps" id="gsc2-steps">
+            <div class="sc-step" data-idx="1"><div class="sc-dot" style="background:#f87171"></div><span id="v-gsc2-s1">預先建立「家樂福」購物清單</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="2"><div class="sc-dot" style="background:#f87171"></div><span id="v-gsc2-s2">GPS 偵測到家樂福 200m 內</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="3"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc2-s3">彈出清單：衛生紙、洗碗精、雞蛋…</span></div>
+          </div>
+          <div class="sc-foot"><span class="sc-tag" style="background:#fef2f2;color:#991b1b">📍 地點觸發</span><span class="sc-tag" style="background:#fff7ed;color:#9a3412">📋 清單提醒</span></div>
+        </div>
+        <div class="sc-card sc3"><div class="sc-emoji">🗓️</div>
+          <div class="sc-zh" id="v-gsc3-zh">語音建任務，行程提醒</div>
+          <div class="sc-en" id="v-gsc3-en">Voice Input → Schedule Reminder</div>
+          <div class="sc-steps" id="gsc3-steps">
+            <div class="sc-step" data-idx="1"><div class="sc-dot" style="background:#fb923c"></div><span id="v-gsc3-s1">說「下週二去家樂福買衛生紙」</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="2"><div class="sc-dot" style="background:#fb923c"></div><span id="v-gsc3-s2">AI 解析：時間、地點、內容</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="3"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc3-s3">自動建立提醒，無需手動輸入</span></div>
+          </div>
+          <div class="sc-foot"><span class="sc-tag" style="background:#fff7ed;color:#9a3412">🎙️ 語音輸入</span><span class="sc-tag" style="background:#fef3c7;color:#92400e">🤖 NLU 解析</span></div>
+        </div>
+        <div class="sc-card sc4"><div class="sc-emoji">🏃</div>
+          <div class="sc-zh" id="v-gsc4-zh">路過健身房，習慣提醒</div>
+          <div class="sc-en" id="v-gsc4-en">Near Gym → Habit Nudge</div>
+          <div class="sc-steps" id="gsc4-steps">
+            <div class="sc-step" data-idx="1"><div class="sc-dot" style="background:#34d399"></div><span id="v-gsc4-s1">設定「健身房」地點 + 週三/五觸發</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="2"><div class="sc-dot" style="background:#34d399"></div><span id="v-gsc4-s2">週五下班路過健身房偵測到</span></div>
+            <div class="sc-divider"></div>
+            <div class="sc-step" data-idx="3"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc4-s3">推播「今天是健身日，已連續 12 天！」</span></div>
+          </div>
+          <div class="sc-foot"><span class="sc-tag" style="background:#ecfdf5;color:#065f46">📍 地點 + 時間</span><span class="sc-tag" style="background:#d1fae5;color:#065f46">🔁 習慣養成</span></div>
+        </div>
       </div>
     </div>
   </div><!-- /panel-general -->
@@ -352,10 +477,42 @@
     <div class="flow-title" id="v-flow-title">從「輸入」到「提醒」—— 全程 AI 自動化</div>
     <div class="flow-sub" id="v-flow-sub">Zero Manual Entry · 截圖、語音、感測器 → AI 自動解析 → 結構化任務 → 精準觸發</div>
     <div class="flow-steps">
-      <div class="flow-step"><div class="step-num">1</div><div class="step-ico">📥</div><div class="step-zh" id="v-fl1-zh">輸入來源</div><div class="step-en" id="v-fl1-en">Input Sources</div><div class="step-tags"><span class="step-tag st-indigo" id="v-fl1-t1">截圖（蝦皮 / 出院）</span><span class="step-tag st-indigo" id="v-fl1-t2">語音指令</span><span class="step-tag st-indigo" id="v-fl1-t3">GPS 感測器</span><span class="step-tag st-indigo" id="v-fl1-t4">手動文字輸入</span></div></div>
-      <div class="flow-step"><div class="step-num">2</div><div class="step-ico">🤖</div><div class="step-zh" id="v-fl2-zh">AI 分析層</div><div class="step-en" id="v-fl2-en">AI Processing</div><div class="step-tags"><span class="step-tag st-orange" id="v-fl2-t1">OCR 文字辨識</span><span class="step-tag st-orange" id="v-fl2-t2">NLU 語意理解</span><span class="step-tag st-orange" id="v-fl2-t3">行為基線分析</span><span class="step-tag st-orange" id="v-fl2-t4">地點自動定位</span></div></div>
-      <div class="flow-step"><div class="step-num">3</div><div class="step-ico">📋</div><div class="step-zh" id="v-fl3-zh">結構化任務</div><div class="step-en" id="v-fl3-en">Structured Tasks</div><div class="step-tags"><span class="step-tag st-indigo" id="v-fl3-t1">地點設定</span><span class="step-tag st-indigo" id="v-fl3-t2">時間設定</span><span class="step-tag st-indigo" id="v-fl3-t3">提醒內容</span><span class="step-tag st-indigo" id="v-fl3-t4">指派對象</span></div></div>
-      <div class="flow-step"><div class="step-num">4</div><div class="step-ico">🔔</div><div class="step-zh" id="v-fl4-zh">智慧觸發提醒</div><div class="step-en" id="v-fl4-en">Smart Trigger</div><div class="step-tags"><span class="step-tag st-emerald" id="v-fl4-t1">個人推播通知</span><span class="step-tag st-emerald" id="v-fl4-t2">家人 / 團隊警示</span><span class="step-tag st-emerald" id="v-fl4-t3">異常升級通知</span><span class="step-tag st-emerald" id="v-fl4-t4">習慣打卡回饋</span></div></div>
+      <div class="flow-step"><div class="step-num">1</div><div class="step-ico">📥</div>
+        <div class="step-zh" id="v-fl1-zh">輸入來源</div><div class="step-en" id="v-fl1-en">Input Sources</div>
+        <div class="step-tags" id="fl1-tags">
+          <span class="step-tag st-indigo" id="v-fl1-t1">截圖（蝦皮 / 出院）</span>
+          <span class="step-tag st-indigo" id="v-fl1-t2">語音指令</span>
+          <span class="step-tag st-indigo" id="v-fl1-t3">GPS 感測器</span>
+          <span class="step-tag st-indigo" id="v-fl1-t4">手動文字輸入</span>
+        </div>
+      </div>
+      <div class="flow-step"><div class="step-num">2</div><div class="step-ico">🤖</div>
+        <div class="step-zh" id="v-fl2-zh">AI 分析層</div><div class="step-en" id="v-fl2-en">AI Processing</div>
+        <div class="step-tags" id="fl2-tags">
+          <span class="step-tag st-orange" id="v-fl2-t1">OCR 文字辨識</span>
+          <span class="step-tag st-orange" id="v-fl2-t2">NLU 語意理解</span>
+          <span class="step-tag st-orange" id="v-fl2-t3">行為基線分析</span>
+          <span class="step-tag st-orange" id="v-fl2-t4">地點自動定位</span>
+        </div>
+      </div>
+      <div class="flow-step"><div class="step-num">3</div><div class="step-ico">📋</div>
+        <div class="step-zh" id="v-fl3-zh">結構化任務</div><div class="step-en" id="v-fl3-en">Structured Tasks</div>
+        <div class="step-tags" id="fl3-tags">
+          <span class="step-tag st-indigo" id="v-fl3-t1">地點設定</span>
+          <span class="step-tag st-indigo" id="v-fl3-t2">時間設定</span>
+          <span class="step-tag st-indigo" id="v-fl3-t3">提醒內容</span>
+          <span class="step-tag st-indigo" id="v-fl3-t4">指派對象</span>
+        </div>
+      </div>
+      <div class="flow-step"><div class="step-num">4</div><div class="step-ico">🔔</div>
+        <div class="step-zh" id="v-fl4-zh">智慧觸發提醒</div><div class="step-en" id="v-fl4-en">Smart Trigger</div>
+        <div class="step-tags" id="fl4-tags">
+          <span class="step-tag st-emerald" id="v-fl4-t1">個人推播通知</span>
+          <span class="step-tag st-emerald" id="v-fl4-t2">家人 / 團隊警示</span>
+          <span class="step-tag st-emerald" id="v-fl4-t3">異常升級通知</span>
+          <span class="step-tag st-emerald" id="v-fl4-t4">習慣打卡回饋</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -368,13 +525,20 @@
 </div><!-- /page -->
 </div><!-- /preview -->
 
-<!-- ══════════════ EDITOR PANEL ══════════════ -->
-<div class="editor">
+<!-- ══ EDITOR ══ -->
+<div class="editor" id="editor">
   <div class="editor-header">
     <div class="editor-title">Ai·Eki 內容編輯器</div>
-    <div class="editor-sub">即時修改左側預覽 · 存進度或匯出簡報</div>
-    <button class="export-btn" id="export-btn">下載簡報 HTML</button>
-    <button class="save-btn" id="save-btn">💾 儲存編輯進度</button>
+    <div class="editor-sub">即時同步左側預覽 · 雙語編輯 · 可新增移除項目</div>
+    <div class="lang-toggle">
+      <button class="lt-btn active" data-lang="both">中 + EN</button>
+      <button class="lt-btn" data-lang="zh">中文</button>
+      <button class="lt-btn" data-lang="en">English</button>
+    </div>
+    <div class="btn-row">
+      <button class="export-btn" id="export-btn">下載簡報 HTML</button>
+      <button class="save-btn" id="save-btn">💾 儲存進度</button>
+    </div>
   </div>
   <div class="editor-body">
 
@@ -382,30 +546,29 @@
     <div class="esec si open">
       <div class="esec-head">Hero 主視覺<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
-        <div class="field"><label>主標題（中）</label><textarea data-target="v-hero-zh" rows="2"></textarea></div>
-        <div class="field"><label>主標題（英）</label><textarea data-target="v-hero-en" rows="2"></textarea></div>
-        <div class="fgroup-label">亮點說明</div>
-        <div class="field"><label>亮點 1（中）</label><input type="text" data-target="v-s1-zh"></div>
-        <div class="field"><label>亮點 2（中）</label><input type="text" data-target="v-s2-zh"></div>
-        <div class="field"><label>亮點 3（中）</label><input type="text" data-target="v-s3-zh"></div>
+        <div class="field-zh"><div class="field"><label>主標題（中）</label><textarea data-target="v-hero-zh" rows="2"></textarea></div></div>
+        <div class="field-en"><div class="field"><label>Main Headline (EN)</label><textarea data-target="v-hero-en" rows="2"></textarea></div></div>
+        <div class="fgroup-label">亮點 Highlights</div>
+        <div class="field-zh"><div class="field"><label>亮點 1（中）</label><input type="text" data-target="v-s1-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Highlight 1 (EN)</label><input type="text" data-target="v-s1-en"></div></div>
+        <div class="field-zh"><div class="field"><label>亮點 2（中）</label><input type="text" data-target="v-s2-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Highlight 2 (EN)</label><input type="text" data-target="v-s2-en"></div></div>
+        <div class="field-zh"><div class="field"><label>亮點 3（中）</label><input type="text" data-target="v-s3-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Highlight 3 (EN)</label><input type="text" data-target="v-s3-en"></div></div>
       </div>
     </div>
 
     <!-- ELDER PAIN -->
     <div class="esec sr">
-      <div class="esec-head">長照痛點<span class="esec-chevron">▼</span></div>
+      <div class="esec-head">長照痛點 Elder Pain Points<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
-        <div class="field"><label>痛點 1</label><input type="text" data-target="v-ep1"></div>
-        <div class="field"><label>痛點 2</label><input type="text" data-target="v-ep2"></div>
-        <div class="field"><label>痛點 3</label><input type="text" data-target="v-ep3"></div>
-        <div class="field"><label>痛點 4</label><input type="text" data-target="v-ep4"></div>
-        <div class="field"><label>痛點 5</label><input type="text" data-target="v-ep5"></div>
+        <div class="elist" id="ed-elder-pain" data-preview="elder-pain-list" data-prefix="ep" data-dot=""></div>
       </div>
     </div>
 
     <!-- FEATURES -->
     <div class="esec sv">
-      <div class="esec-head">五大功能<span class="esec-chevron">▼</span></div>
+      <div class="esec-head">五大功能 Features<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
         <div class="field"><label>功能 1</label><input type="text" data-target="v-f1"></div>
         <div class="field"><label>功能 2</label><input type="text" data-target="v-f2"></div>
@@ -417,101 +580,87 @@
 
     <!-- ELDER SCENARIOS -->
     <div class="esec si">
-      <div class="esec-head">長照場景<span class="esec-chevron">▼</span></div>
+      <div class="esec-head">長照場景 Elder Scenarios<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
         <div class="fgroup-label">場景 1</div>
-        <div class="field"><label>標題（中）</label><input type="text" data-target="v-esc1-zh"></div>
-        <div class="field"><label>步驟 1</label><input type="text" data-target="v-esc1-s1"></div>
-        <div class="field"><label>步驟 2</label><input type="text" data-target="v-esc1-s2"></div>
-        <div class="field"><label>結果</label><input type="text" data-target="v-esc1-s3"></div>
+        <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-esc1-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-esc1-en"></div></div>
+        <div class="elist" id="ed-esc1-steps" data-preview="esc1-steps" data-prefix="esc1-s" data-type="step" data-dot="#818cf8"></div>
+
         <div class="fgroup-label">場景 2</div>
-        <div class="field"><label>標題（中）</label><input type="text" data-target="v-esc2-zh"></div>
-        <div class="field"><label>步驟 1</label><input type="text" data-target="v-esc2-s1"></div>
-        <div class="field"><label>步驟 2</label><input type="text" data-target="v-esc2-s2"></div>
-        <div class="field"><label>結果</label><input type="text" data-target="v-esc2-s3"></div>
+        <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-esc2-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-esc2-en"></div></div>
+        <div class="elist" id="ed-esc2-steps" data-preview="esc2-steps" data-prefix="esc2-s" data-type="step" data-dot="#f87171"></div>
+
         <div class="fgroup-label">場景 3</div>
-        <div class="field"><label>標題（中）</label><input type="text" data-target="v-esc3-zh"></div>
-        <div class="field"><label>步驟 1</label><input type="text" data-target="v-esc3-s1"></div>
-        <div class="field"><label>步驟 2</label><input type="text" data-target="v-esc3-s2"></div>
-        <div class="field"><label>結果</label><input type="text" data-target="v-esc3-s3"></div>
+        <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-esc3-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-esc3-en"></div></div>
+        <div class="elist" id="ed-esc3-steps" data-preview="esc3-steps" data-prefix="esc3-s" data-type="step" data-dot="#fb923c"></div>
+
         <div class="fgroup-label">場景 4</div>
-        <div class="field"><label>標題（中）</label><input type="text" data-target="v-esc4-zh"></div>
-        <div class="field"><label>步驟 1</label><input type="text" data-target="v-esc4-s1"></div>
-        <div class="field"><label>步驟 2</label><input type="text" data-target="v-esc4-s2"></div>
-        <div class="field"><label>結果</label><input type="text" data-target="v-esc4-s3"></div>
+        <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-esc4-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-esc4-en"></div></div>
+        <div class="elist" id="ed-esc4-steps" data-preview="esc4-steps" data-prefix="esc4-s" data-type="step" data-dot="#34d399"></div>
       </div>
     </div>
 
     <!-- GENERAL PAIN -->
     <div class="esec sr">
-      <div class="esec-head">一般使用者痛點<span class="esec-chevron">▼</span></div>
+      <div class="esec-head">一般痛點 General Pain Points<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
-        <div class="field"><label>痛點 1</label><input type="text" data-target="v-gp1"></div>
-        <div class="field"><label>痛點 2</label><input type="text" data-target="v-gp2"></div>
-        <div class="field"><label>痛點 3</label><input type="text" data-target="v-gp3"></div>
-        <div class="field"><label>痛點 4</label><input type="text" data-target="v-gp4"></div>
-        <div class="field"><label>痛點 5</label><input type="text" data-target="v-gp5"></div>
+        <div class="elist" id="ed-gen-pain" data-preview="gen-pain-list" data-prefix="gp" data-dot=""></div>
       </div>
     </div>
 
     <!-- GENERAL SCENARIOS -->
     <div class="esec so">
-      <div class="esec-head">一般使用場景<span class="esec-chevron">▼</span></div>
+      <div class="esec-head">一般場景 General Scenarios<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
-        <div class="fgroup-label">場景 1（蝦皮 OCR）</div>
-        <div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc1-zh"></div>
-        <div class="field"><label>步驟 1</label><input type="text" data-target="v-gsc1-s1"></div>
-        <div class="field"><label>步驟 2</label><input type="text" data-target="v-gsc1-s2"></div>
-        <div class="field"><label>步驟 3</label><input type="text" data-target="v-gsc1-s3"></div>
-        <div class="field"><label>結果</label><input type="text" data-target="v-gsc1-s4"></div>
-        <div class="fgroup-label">場景 2（超市清單）</div>
-        <div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc2-zh"></div>
-        <div class="field"><label>步驟 1</label><input type="text" data-target="v-gsc2-s1"></div>
-        <div class="field"><label>步驟 2</label><input type="text" data-target="v-gsc2-s2"></div>
-        <div class="field"><label>結果</label><input type="text" data-target="v-gsc2-s3"></div>
-        <div class="fgroup-label">場景 3（語音建任務）</div>
-        <div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc3-zh"></div>
-        <div class="field"><label>步驟 1</label><input type="text" data-target="v-gsc3-s1"></div>
-        <div class="field"><label>步驟 2</label><input type="text" data-target="v-gsc3-s2"></div>
-        <div class="field"><label>結果</label><input type="text" data-target="v-gsc3-s3"></div>
-        <div class="fgroup-label">場景 4（習慣追蹤）</div>
-        <div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc4-zh"></div>
-        <div class="field"><label>步驟 1</label><input type="text" data-target="v-gsc4-s1"></div>
-        <div class="field"><label>步驟 2</label><input type="text" data-target="v-gsc4-s2"></div>
-        <div class="field"><label>結果</label><input type="text" data-target="v-gsc4-s3"></div>
+        <div class="fgroup-label">場景 1</div>
+        <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc1-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-gsc1-en"></div></div>
+        <div class="elist" id="ed-gsc1-steps" data-preview="gsc1-steps" data-prefix="gsc1-s" data-type="step" data-dot="#818cf8"></div>
+
+        <div class="fgroup-label">場景 2</div>
+        <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc2-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-gsc2-en"></div></div>
+        <div class="elist" id="ed-gsc2-steps" data-preview="gsc2-steps" data-prefix="gsc2-s" data-type="step" data-dot="#f87171"></div>
+
+        <div class="fgroup-label">場景 3</div>
+        <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc3-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-gsc3-en"></div></div>
+        <div class="elist" id="ed-gsc3-steps" data-preview="gsc3-steps" data-prefix="gsc3-s" data-type="step" data-dot="#fb923c"></div>
+
+        <div class="fgroup-label">場景 4</div>
+        <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc4-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-gsc4-en"></div></div>
+        <div class="elist" id="ed-gsc4-steps" data-preview="gsc4-steps" data-prefix="gsc4-s" data-type="step" data-dot="#34d399"></div>
       </div>
     </div>
 
     <!-- AI FLOW -->
     <div class="esec se">
-      <div class="esec-head">AI 流程<span class="esec-chevron">▼</span></div>
+      <div class="esec-head">AI 流程 AI Flow<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
-        <div class="field"><label>流程標題</label><input type="text" data-target="v-flow-title"></div>
-        <div class="fgroup-label">步驟名稱</div>
-        <div class="field"><label>步驟 1</label><input type="text" data-target="v-fl1-zh"></div>
-        <div class="field"><label>步驟 2</label><input type="text" data-target="v-fl2-zh"></div>
-        <div class="field"><label>步驟 3</label><input type="text" data-target="v-fl3-zh"></div>
-        <div class="field"><label>步驟 4</label><input type="text" data-target="v-fl4-zh"></div>
-        <div class="fgroup-label">步驟 1 標籤</div>
-        <div class="field"><label>標籤 1</label><input type="text" data-target="v-fl1-t1"></div>
-        <div class="field"><label>標籤 2</label><input type="text" data-target="v-fl1-t2"></div>
-        <div class="field"><label>標籤 3</label><input type="text" data-target="v-fl1-t3"></div>
-        <div class="field"><label>標籤 4</label><input type="text" data-target="v-fl1-t4"></div>
-        <div class="fgroup-label">步驟 2 標籤</div>
-        <div class="field"><label>標籤 1</label><input type="text" data-target="v-fl2-t1"></div>
-        <div class="field"><label>標籤 2</label><input type="text" data-target="v-fl2-t2"></div>
-        <div class="field"><label>標籤 3</label><input type="text" data-target="v-fl2-t3"></div>
-        <div class="field"><label>標籤 4</label><input type="text" data-target="v-fl2-t4"></div>
-        <div class="fgroup-label">步驟 3 標籤</div>
-        <div class="field"><label>標籤 1</label><input type="text" data-target="v-fl3-t1"></div>
-        <div class="field"><label>標籤 2</label><input type="text" data-target="v-fl3-t2"></div>
-        <div class="field"><label>標籤 3</label><input type="text" data-target="v-fl3-t3"></div>
-        <div class="field"><label>標籤 4</label><input type="text" data-target="v-fl3-t4"></div>
-        <div class="fgroup-label">步驟 4 標籤</div>
-        <div class="field"><label>標籤 1</label><input type="text" data-target="v-fl4-t1"></div>
-        <div class="field"><label>標籤 2</label><input type="text" data-target="v-fl4-t2"></div>
-        <div class="field"><label>標籤 3</label><input type="text" data-target="v-fl4-t3"></div>
-        <div class="field"><label>標籤 4</label><input type="text" data-target="v-fl4-t4"></div>
+        <div class="field-zh"><div class="field"><label>流程標題（中）</label><input type="text" data-target="v-flow-title"></div></div>
+        <div class="field-en"><div class="field"><label>Subtitle (EN)</label><input type="text" data-target="v-flow-sub"></div></div>
+        <div class="fgroup-label">步驟名稱 Step Names</div>
+        <div class="field-zh"><div class="field"><label>步驟 1（中）</label><input type="text" data-target="v-fl1-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Step 1 (EN)</label><input type="text" data-target="v-fl1-en"></div></div>
+        <div class="field-zh"><div class="field"><label>步驟 2（中）</label><input type="text" data-target="v-fl2-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Step 2 (EN)</label><input type="text" data-target="v-fl2-en"></div></div>
+        <div class="field-zh"><div class="field"><label>步驟 3（中）</label><input type="text" data-target="v-fl3-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Step 3 (EN)</label><input type="text" data-target="v-fl3-en"></div></div>
+        <div class="field-zh"><div class="field"><label>步驟 4（中）</label><input type="text" data-target="v-fl4-zh"></div></div>
+        <div class="field-en"><div class="field"><label>Step 4 (EN)</label><input type="text" data-target="v-fl4-en"></div></div>
+        <div class="fgroup-label">步驟 1 標籤 Tags</div>
+        <div class="elist" id="ed-fl1-tags" data-preview="fl1-tags" data-prefix="fl1-t" data-type="tag" data-tag-class="st-indigo"></div>
+        <div class="fgroup-label">步驟 2 標籤 Tags</div>
+        <div class="elist" id="ed-fl2-tags" data-preview="fl2-tags" data-prefix="fl2-t" data-type="tag" data-tag-class="st-orange"></div>
+        <div class="fgroup-label">步驟 3 標籤 Tags</div>
+        <div class="elist" id="ed-fl3-tags" data-preview="fl3-tags" data-prefix="fl3-t" data-type="tag" data-tag-class="st-indigo"></div>
+        <div class="fgroup-label">步驟 4 標籤 Tags</div>
+        <div class="elist" id="ed-fl4-tags" data-preview="fl4-tags" data-prefix="fl4-t" data-type="tag" data-tag-class="st-emerald"></div>
       </div>
     </div>
 
@@ -519,56 +668,249 @@
 </div><!-- /editor -->
 
 <script>
-  // ── Init: populate all inputs from visual content
-  document.querySelectorAll('[data-target]').forEach(el => {
-    const target = document.getElementById(el.dataset.target);
-    if (!target) return;
-    el.value = target.textContent.trim();
-    el.addEventListener('input', () => { target.textContent = el.value; });
-  });
+// ── Static field sync (data-target → preview element)
+document.querySelectorAll('[data-target]').forEach(el => {
+  const target = document.getElementById(el.dataset.target);
+  if (!target) return;
+  el.value = target.textContent.trim();
+  el.addEventListener('input', () => { target.textContent = el.value; });
+});
 
-  // ── Section collapse toggle
-  document.querySelectorAll('.esec-head').forEach(head => {
-    head.addEventListener('click', () => head.closest('.esec').classList.toggle('open'));
-  });
+// ── Section collapse
+document.querySelectorAll('.esec-head').forEach(head => {
+  head.addEventListener('click', () => head.closest('.esec').classList.toggle('open'));
+});
 
-  // ── Save progress: bake current values into attributes, export full editor
-  document.getElementById('save-btn').addEventListener('click', () => {
-    // Write current input/textarea values back into HTML attributes so outerHTML captures them
-    document.querySelectorAll('.editor input[data-target], .editor textarea[data-target]').forEach(el => {
-      if (el.tagName === 'TEXTAREA') {
-        el.textContent = el.value;
-      } else {
-        el.setAttribute('value', el.value);
-      }
+// ── Language toggle
+document.querySelectorAll('.lt-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lt-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const editor = document.getElementById('editor');
+    editor.classList.remove('zh-only', 'en-only');
+    if (btn.dataset.lang === 'zh') editor.classList.add('zh-only');
+    if (btn.dataset.lang === 'en') editor.classList.add('en-only');
+  });
+});
+
+// ── Dynamic list manager
+// Supports type: "pain" (pain-row items), "step" (scenario steps), "tag" (flow tags)
+
+let _uid = 100; // counter for new element IDs
+function uid() { return ++_uid; }
+
+function initPainList(editorEl) {
+  const previewList = document.getElementById(editorEl.dataset.preview);
+  const prefix = editorEl.dataset.prefix;
+  let counter = 0;
+
+  function makeEditorItem(idx, zhText, enText, icon) {
+    const item = document.createElement('div');
+    item.className = 'elist-item';
+    item.dataset.idx = idx;
+    item.innerHTML = `
+      <div class="elist-item-head">
+        <span class="elist-item-num">#${idx}</span>
+        <button class="elist-del" title="刪除此項">×</button>
+      </div>
+      <div class="field-zh"><div class="field"><label>圖示 Icon</label><input type="text" class="icon-input" value="${icon}" style="width:60px;display:inline"></div></div>
+      <div class="field-zh"><div class="field"><label>中文</label><input type="text" data-target="v-${prefix}-${idx}-zh" value="${zhText}"></div></div>
+      <div class="field-en"><div class="field"><label>English</label><input type="text" data-target="v-${prefix}-${idx}-en" value="${enText}"></div></div>`;
+    // wire static inputs
+    item.querySelectorAll('[data-target]').forEach(el => {
+      const t = document.getElementById(el.dataset.target);
+      if (t) el.addEventListener('input', () => { t.textContent = el.value; });
     });
-    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const ts   = new Date().toISOString().slice(0,10);
-    const a    = Object.assign(document.createElement('a'), { href: url, download: `ai-eki-editor-${ts}.html` });
-    a.click();
-    URL.revokeObjectURL(url);
+    // wire icon
+    item.querySelector('.icon-input').addEventListener('input', e => {
+      const row = previewList.querySelector(`[data-idx="${idx}"] .pain-icon`);
+      if (row) row.textContent = e.target.value;
+    });
+    // wire delete
+    item.querySelector('.elist-del').addEventListener('click', () => {
+      previewList.querySelector(`[data-idx="${idx}"]`)?.remove();
+      item.remove();
+    });
+    return item;
+  }
+
+  // Init from existing preview rows
+  previewList.querySelectorAll('.pain-row').forEach(row => {
+    const idx = parseInt(row.dataset.idx);
+    counter = Math.max(counter, idx);
+    const icon = row.querySelector('.pain-icon')?.textContent.trim() || '📌';
+    const zh   = row.querySelector('.pain-zh')?.textContent.trim() || '';
+    const en   = row.querySelector('.pain-en')?.textContent.trim() || '';
+    editorEl.appendChild(makeEditorItem(idx, zh, en, icon));
   });
 
-  // ── Export: clone preview, strip editor artefacts, download
-  document.getElementById('export-btn').addEventListener('click', () => {
-    const styleEl = document.querySelector('style');
-    const previewEl = document.querySelector('.preview');
-
-    // Build standalone HTML (re-uses the same CSS, strips editor-only rules)
-    const exportCSS = styleEl.textContent
-      .replace(/\/\* ── EDITOR[\s\S]*?(?=\/\* ══)/m, '') // strip editor CSS block
-      .replace(/body\s*\{[\s\S]*?\}/, 'body { font-family: "Segoe UI","PingFang TC","Noto Sans TC",sans-serif; background:#f4f6f9; color:#1e293b; padding:32px 24px; font-size:13px; line-height:1.5; }');
-
-    const html = `<!DOCTYPE html>\n<html lang="zh-TW">\n<head>\n<meta charset="UTF-8">\n<title>Ai·Eki</title>\n<style>${exportCSS}</style>\n</head>\n<body>\n<input type="radio" name="tab" id="t-elder" checked>\n<input type="radio" name="tab" id="t-gen">\n${previewEl.innerHTML}\n</body>\n</html>`;
-
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const a    = Object.assign(document.createElement('a'), { href: url, download: 'ai-eki-overview-edited.html' });
-    a.click();
-    URL.revokeObjectURL(url);
+  // Add button
+  const addBtn = document.createElement('button');
+  addBtn.className = 'elist-add';
+  addBtn.textContent = '＋ 新增痛點';
+  addBtn.addEventListener('click', () => {
+    counter++;
+    const idx = counter;
+    // Add to preview
+    const row = document.createElement('div');
+    row.className = 'pain-row'; row.dataset.idx = idx;
+    row.innerHTML = `<div class="pain-icon">📌</div><div><div class="pain-zh" id="v-${prefix}-${idx}-zh">新痛點</div><div class="pain-en" id="v-${prefix}-${idx}-en">New pain point</div></div>`;
+    previewList.appendChild(row);
+    // Add editor item
+    const edItem = makeEditorItem(idx, '新痛點', 'New pain point', '📌');
+    editorEl.insertBefore(edItem, addBtn);
   });
+  editorEl.appendChild(addBtn);
+}
+
+function initStepList(editorEl) {
+  const previewList = document.getElementById(editorEl.dataset.preview);
+  const prefix = editorEl.dataset.prefix;
+  const dot = editorEl.dataset.dot || '#818cf8';
+  let counter = 0;
+
+  function makeEditorItem(idx, text) {
+    const item = document.createElement('div');
+    item.className = 'elist-item';
+    item.dataset.idx = idx;
+    item.innerHTML = `
+      <div class="elist-item-head">
+        <span class="elist-item-num">步驟 ${idx}</span>
+        <button class="elist-del" title="刪除">×</button>
+      </div>
+      <div class="field-zh"><div class="field"><label>內容</label><input type="text" data-target="v-${prefix}${idx}" value="${text}"></div></div>`;
+    item.querySelectorAll('[data-target]').forEach(el => {
+      const t = document.getElementById(el.dataset.target);
+      if (t) el.addEventListener('input', () => { t.textContent = el.value; });
+    });
+    item.querySelector('.elist-del').addEventListener('click', () => {
+      // Remove the sc-step and preceding sc-divider
+      const stepEl = previewList.querySelector(`.sc-step[data-idx="${idx}"]`);
+      if (stepEl) {
+        const prev = stepEl.previousElementSibling;
+        if (prev?.classList.contains('sc-divider')) prev.remove();
+        stepEl.remove();
+      }
+      item.remove();
+    });
+    return item;
+  }
+
+  previewList.querySelectorAll('.sc-step').forEach(step => {
+    const idx = parseInt(step.dataset.idx);
+    counter = Math.max(counter, idx);
+    const span = step.querySelector('span');
+    // Ensure span has an id
+    if (!span.id) span.id = `v-${prefix}${idx}`;
+    editorEl.appendChild(makeEditorItem(idx, span.textContent.trim()));
+  });
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'elist-add';
+  addBtn.textContent = '＋ 新增步驟';
+  addBtn.addEventListener('click', () => {
+    counter++;
+    const idx = counter;
+    const spanId = `v-${prefix}${idx}`;
+    // Add divider + step to preview
+    const div = document.createElement('div'); div.className = 'sc-divider';
+    const stepEl = document.createElement('div');
+    stepEl.className = 'sc-step'; stepEl.dataset.idx = idx;
+    stepEl.innerHTML = `<div class="sc-dot" style="background:${dot}"></div><span id="${spanId}">新步驟</span>`;
+    previewList.appendChild(div);
+    previewList.appendChild(stepEl);
+    const edItem = makeEditorItem(idx, '新步驟');
+    editorEl.insertBefore(edItem, addBtn);
+  });
+  editorEl.appendChild(addBtn);
+}
+
+function initTagList(editorEl) {
+  const previewList = document.getElementById(editorEl.dataset.preview);
+  const prefix = editorEl.dataset.prefix;
+  const tagClass = editorEl.dataset.tagClass || 'st-indigo';
+  let counter = 0;
+
+  function makeEditorItem(idx, text) {
+    const item = document.createElement('div');
+    item.className = 'elist-item';
+    item.dataset.idx = idx;
+    item.innerHTML = `
+      <div class="elist-item-head">
+        <span class="elist-item-num">標籤 ${idx}</span>
+        <button class="elist-del" title="刪除">×</button>
+      </div>
+      <div class="field-zh"><div class="field"><label>內容</label><input type="text" data-target="v-${prefix}${idx}" value="${text}"></div></div>`;
+    item.querySelectorAll('[data-target]').forEach(el => {
+      const t = document.getElementById(el.dataset.target);
+      if (t) el.addEventListener('input', () => { t.textContent = el.value; });
+    });
+    item.querySelector('.elist-del').addEventListener('click', () => {
+      document.getElementById(`v-${prefix}${idx}`)?.remove();
+      item.remove();
+    });
+    return item;
+  }
+
+  previewList.querySelectorAll('.step-tag').forEach(tag => {
+    const idx = parseInt(tag.id?.replace(`v-${prefix}`, '') || ++counter);
+    counter = Math.max(counter, idx);
+    if (!tag.id) tag.id = `v-${prefix}${idx}`;
+    editorEl.appendChild(makeEditorItem(idx, tag.textContent.trim()));
+  });
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'elist-add';
+  addBtn.textContent = '＋ 新增標籤';
+  addBtn.addEventListener('click', () => {
+    counter++;
+    const idx = counter;
+    const tagEl = document.createElement('span');
+    tagEl.className = `step-tag ${tagClass}`;
+    tagEl.id = `v-${prefix}${idx}`;
+    tagEl.textContent = '新標籤';
+    previewList.appendChild(tagEl);
+    const edItem = makeEditorItem(idx, '新標籤');
+    editorEl.insertBefore(edItem, addBtn);
+  });
+  editorEl.appendChild(addBtn);
+}
+
+// Init all dynamic lists
+document.querySelectorAll('.elist').forEach(el => {
+  const type = el.dataset.type;
+  if (!type)            initPainList(el);
+  else if (type === 'step') initStepList(el);
+  else if (type === 'tag')  initTagList(el);
+});
+
+// ── Save progress
+document.getElementById('save-btn').addEventListener('click', () => {
+  document.querySelectorAll('.editor input, .editor textarea').forEach(el => {
+    if (el.tagName === 'TEXTAREA') el.textContent = el.value;
+    else el.setAttribute('value', el.value);
+  });
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const ts   = new Date().toISOString().slice(0,10);
+  const a    = Object.assign(document.createElement('a'), { href: url, download: `ai-eki-editor-${ts}.html` });
+  a.click(); URL.revokeObjectURL(url);
+});
+
+// ── Export presentation
+document.getElementById('export-btn').addEventListener('click', () => {
+  const styleEl  = document.querySelector('style');
+  const previewEl = document.querySelector('.preview');
+  const exportCSS = styleEl.textContent
+    .replace(/\/\* ── EDITOR[\s\S]*?(?=\/\* ══)/m, '')
+    .replace(/body\s*\{[\s\S]*?\}/, 'body{font-family:"Segoe UI","PingFang TC","Noto Sans TC",sans-serif;background:#f4f6f9;color:#1e293b;padding:32px 24px;font-size:13px;line-height:1.5;}');
+  const html = `<!DOCTYPE html>\n<html lang="zh-TW">\n<head>\n<meta charset="UTF-8">\n<title>Ai·Eki</title>\n<style>${exportCSS}</style>\n</head>\n<body>\n<input type="radio" name="tab" id="t-elder" checked>\n<input type="radio" name="tab" id="t-gen">\n${previewEl.innerHTML}\n</body>\n</html>`;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement('a'), { href: url, download: 'ai-eki-overview-edited.html' });
+  a.click(); URL.revokeObjectURL(url);
+});
 </script>
 </body>
 </html>

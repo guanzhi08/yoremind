@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ai·Eki Editor</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
+    display: flex; height: 100vh; overflow: hidden;
+    background: #f4f6f9; color: #1e293b; font-size: 13px; line-height: 1.5;
+  }
+
+  /* ── PREVIEW ── */
+  .preview { flex: 1; overflow-y: auto; padding: 24px 20px; }
+  .page { max-width: 1060px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+
+  /* ── EDITOR PANEL ── */
+  .editor {
+    width: 340px; flex-shrink: 0;
+    background: #fff; border-left: 1px solid #e2e8f0;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .editor-header { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; }
+  .editor-title  { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+  .editor-sub    { font-size: 10px; color: #94a3b8; margin-bottom: 10px; }
+  .export-btn {
+    width: 100%; padding: 8px; background: #6366f1; color: #fff;
+    border: none; border-radius: 8px; font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+  .export-btn:hover { background: #4f46e5; }
+  .editor-body { flex: 1; overflow-y: auto; padding: 10px; }
+
+  /* ── EDIT SECTION ── */
+  .esec { margin-bottom: 7px; border: 1px solid #e8ecf0; border-radius: 10px; overflow: hidden; }
+  .esec-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; cursor: pointer; user-select: none;
+    font-size: 11px; font-weight: 700;
+  }
+  .esec-head:hover { filter: brightness(0.96); }
+  .esec-chevron { font-size: 9px; transition: transform 0.18s; }
+  .esec.open .esec-chevron { transform: rotate(180deg); }
+  .esec-body {
+    display: none; padding: 10px 12px;
+    background: #fafbfc; border-top: 1px solid #e8ecf0;
+  }
+  .esec.open .esec-body { display: block; }
+
+  /* section themes */
+  .si .esec-head { background: #eef2ff; color: #4338ca; }
+  .so .esec-head { background: #fff7ed; color: #c2410c; }
+  .se .esec-head { background: #ecfdf5; color: #065f46; }
+  .sr .esec-head { background: #fef2f2; color: #991b1b; }
+  .sv .esec-head { background: #f5f3ff; color: #5b21b6; }
+
+  /* ── FIELD ── */
+  .field { margin-bottom: 8px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label {
+    display: block; font-size: 10px; font-weight: 700; color: #94a3b8;
+    letter-spacing: 0.5px; margin-bottom: 3px; text-transform: uppercase;
+  }
+  .field input, .field textarea {
+    width: 100%; padding: 5px 8px; border: 1px solid #e2e8f0;
+    border-radius: 6px; font-size: 12px; font-family: inherit;
+    color: #1e293b; background: #fff; resize: vertical; line-height: 1.5;
+  }
+  .field textarea { min-height: 46px; }
+  .field input:focus, .field textarea:focus {
+    outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px #eef2ff;
+  }
+  .fgroup-label {
+    font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: 1px;
+    text-transform: uppercase; padding: 6px 0 5px;
+    border-bottom: 1px solid #f1f5f9; margin-bottom: 7px; margin-top: 4px;
+  }
+
+  /* ══════════════════════════════
+     VISUAL STYLES (from overview)
+  ══════════════════════════════ */
+  .label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #94a3b8; margin-bottom: 12px;
+  }
+  .card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 20px 22px; }
+
+  .hero {
+    background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
+    padding: 32px 38px; display: grid; grid-template-columns: 1fr auto; gap: 36px; align-items: center;
+  }
+  .hero-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .hero-pill { background: #eef2ff; color: #6366f1; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+  .hero-pill.orange { background: #fff7ed; color: #ea580c; }
+  .hero-name { font-size: 50px; font-weight: 800; color: #0f172a; letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
+  .hero-name .dot { color: #6366f1; }
+  .hero-tw { font-size: 12px; color: #94a3b8; margin-bottom: 16px; }
+  .hero-tw span { color: #6366f1; font-weight: 600; }
+  .hero-desc-zh { font-size: 16px; font-weight: 600; color: #334155; margin-bottom: 3px; }
+  .hero-desc-en { font-size: 11px; color: #94a3b8; font-style: italic; }
+  .hero-stats { display: flex; flex-direction: column; gap: 7px; min-width: 200px; }
+  .stat-row { display: flex; align-items: center; gap: 11px; background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 9px; padding: 9px 13px; }
+  .stat-icon { font-size: 17px; flex-shrink: 0; }
+  .stat-zh { font-size: 12px; font-weight: 600; color: #334155; }
+  .stat-en { font-size: 10px; color: #94a3b8; }
+
+  #t-elder, #t-gen { display: none; }
+  .tab-bar { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 8px; display: flex; gap: 6px; }
+  .tab-btn { flex: 1; padding: 10px 16px; border-radius: 9px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; color: #64748b; background: transparent; user-select: none; }
+  .tab-badge { font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 20px; background: #f1f5f9; color: #94a3b8; }
+  #t-elder:checked ~ .preview .tab-bar label[for="t-elder"],
+  #t-gen:checked   ~ .preview .tab-bar label[for="t-gen"]   { background: #6366f1; color: #fff; }
+  #t-elder:checked ~ .preview .tab-bar label[for="t-elder"] .tab-badge,
+  #t-gen:checked   ~ .preview .tab-bar label[for="t-gen"]   .tab-badge { background: rgba(255,255,255,0.22); color: rgba(255,255,255,0.9); }
+  .tab-panel { display: none; flex-direction: column; gap: 14px; }
+  #t-elder:checked ~ .preview #panel-elder  { display: flex; }
+  #t-gen:checked   ~ .preview #panel-general { display: flex; }
+
+  .three-col { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 12px; }
+  .pain-card { border-left: 3px solid #fca5a5; }
+  .pain-row { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f1f5f9; }
+  .pain-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .pain-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+  .pain-zh { font-size: 12px; font-weight: 600; color: #1e293b; }
+  .pain-en { font-size: 10px; color: #94a3b8; }
+  .feat-card { border-left: 3px solid #c4b5fd; }
+  .feat-list { display: flex; flex-direction: column; gap: 6px; }
+  .feat-row { display: flex; align-items: center; gap: 11px; background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px; padding: 8px 11px; }
+  .feat-ico { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .ico-indigo { background: #eef2ff; } .ico-blue { background: #eff6ff; } .ico-amber { background: #fffbeb; } .ico-violet { background: #f5f3ff; } .ico-emerald { background: #f0fdf4; }
+  .feat-zh { font-size: 12px; font-weight: 600; color: #1e293b; }
+  .feat-en { font-size: 10px; color: #94a3b8; }
+  .role-card { border-left: 3px solid #6ee7b7; }
+  .role-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid #f1f5f9; }
+  .role-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .role-emoji { font-size: 22px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+  .role-name-zh { font-size: 12px; font-weight: 700; color: #1e293b; }
+  .role-name-en { font-size: 10px; color: #94a3b8; margin-bottom: 5px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .tag-indigo { background: #eef2ff; color: #4338ca; } .tag-orange { background: #fff7ed; color: #c2410c; } .tag-emerald { background: #f0fdf4; color: #065f46; } .tag-sky { background: #f0f9ff; color: #0369a1; }
+
+  .devices-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 20px 26px; }
+  .devices-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .device-col { display: flex; flex-direction: column; }
+  .device-role-header { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
+  .device-role-emoji { font-size: 20px; }
+  .device-role-zh { font-size: 12px; font-weight: 700; color: #1e293b; }
+  .device-role-en { font-size: 10px; color: #94a3b8; }
+  .device-list { display: flex; flex-direction: column; gap: 8px; }
+  .device-item { display: flex; align-items: flex-start; gap: 11px; background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 9px; padding: 10px 12px; }
+  .device-icon-wrap { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .device-zh { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+  .device-en { font-size: 10px; color: #94a3b8; margin-bottom: 6px; }
+  .device-uses { display: flex; flex-wrap: wrap; gap: 4px; }
+  .device-use { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; border: 1px solid transparent; }
+  .divider-col { width: 1px; background: #f1f5f9; margin: 0 2px; }
+
+  .flow-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 22px 26px; }
+  .flow-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+  .flow-sub   { font-size: 11px; color: #94a3b8; margin-bottom: 18px; }
+  .flow-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: start; position: relative; }
+  .flow-steps::before { content: ""; position: absolute; top: 21px; left: calc(12.5% + 5px); width: calc(75% - 10px); height: 1px; background: #e2e8f0; z-index: 0; }
+  .flow-step { background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 10px; padding: 14px 12px; position: relative; z-index: 1; }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; background: #eef2ff; color: #6366f1; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+  .step-ico { font-size: 18px; margin-bottom: 5px; }
+  .step-zh  { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+  .step-en  { font-size: 10px; color: #94a3b8; margin-bottom: 8px; }
+  .step-tags { display: flex; flex-direction: column; gap: 3px; }
+  .step-tag { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 500; border: 1px solid transparent; }
+  .st-indigo  { background: #eef2ff; color: #4338ca; border-color: #e0e7ff; }
+  .st-orange  { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .st-emerald { background: #f0fdf4; color: #065f46; border-color: #d1fae5; }
+
+  .scenario-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .sc-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 18px 16px; display: flex; flex-direction: column; }
+  .sc1 { border-top: 2px solid #a5b4fc; } .sc2 { border-top: 2px solid #fca5a5; } .sc3 { border-top: 2px solid #fdba74; } .sc4 { border-top: 2px solid #6ee7b7; }
+  .sc-emoji { font-size: 24px; margin-bottom: 9px; }
+  .sc-zh { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+  .sc-en { font-size: 10px; color: #94a3b8; margin-bottom: 12px; }
+  .sc-steps { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+  .sc-step { display: flex; align-items: flex-start; gap: 7px; font-size: 11px; color: #475569; }
+  .sc-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .sc-divider { width: 1px; height: 9px; background: #e2e8f0; margin-left: 2px; }
+  .sc-foot { padding-top: 10px; margin-top: 10px; border-top: 1px solid #f1f5f9; display: flex; flex-wrap: wrap; gap: 4px; }
+  .sc-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+
+  .footer { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #94a3b8; margin-bottom: 7px; }
+  .tech-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tech-pill { background: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .brand { font-size: 26px; font-weight: 800; color: #0f172a; letter-spacing: -1.5px; }
+  .brand span { color: #6366f1; }
+</style>
+</head>
+<body>
+
+<!-- CSS-only tab radio inputs must be siblings of .preview -->
+<input type="radio" name="tab" id="t-elder" checked>
+<input type="radio" name="tab" id="t-gen">
+
+<!-- ══════════════ PREVIEW ══════════════ -->
+<div class="preview">
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">
+        <span class="hero-pill">AI-Powered</span>
+        <span class="hero-pill orange">Location Reminders</span>
+      </div>
+      <div class="hero-name">Ai<span class="dot">·</span>Eki</div>
+      <div class="hero-tw">台語「<span>要記得</span>」× AI 記得你的一切</div>
+      <div class="hero-desc-zh" id="v-hero-zh">時間 × 地點 × AI —— 在對的地方、對的時間，提醒對的事</div>
+      <div class="hero-desc-en" id="v-hero-en">The right reminder, at the right place, at the right time — powered by AI</div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-row"><div class="stat-icon">📍</div><div><div class="stat-zh" id="v-s1-zh">地點 + 時間雙觸發</div><div class="stat-en" id="v-s1-en">Geofence × Time Conditions</div></div></div>
+      <div class="stat-row"><div class="stat-icon">🤖</div><div><div class="stat-zh" id="v-s2-zh">AI 自動建立任務</div><div class="stat-en" id="v-s2-en">Screenshot / Voice → Zero Input</div></div></div>
+      <div class="stat-row"><div class="stat-icon">🧠</div><div><div class="stat-zh" id="v-s3-zh">行為異常監測</div><div class="stat-en" id="v-s3-en">Behavioral Anomaly Detection</div></div></div>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <label for="t-elder" class="tab-btn" id="v-tab1-label">👴 長照長者場景<span class="tab-badge" id="v-tab1-badge">核心受眾 20%</span></label>
+    <label for="t-gen"   class="tab-btn" id="v-tab2-label">👥 一般使用者場景<span class="tab-badge" id="v-tab2-badge">延伸受眾 100%</span></label>
+  </div>
+
+  <!-- TAB 1 ELDER -->
+  <div class="tab-panel" id="panel-elder">
+    <div class="three-col">
+      <!-- Pain -->
+      <div class="card pain-card">
+        <div class="label">Pain Points · 核心痛點</div>
+        <div class="pain-row"><div class="pain-icon">💊</div><div><div class="pain-zh" id="v-ep1">忘記吃藥</div><div class="pain-en">Missed Medication</div></div></div>
+        <div class="pain-row"><div class="pain-icon">🚶</div><div><div class="pain-zh" id="v-ep2">迷路走失風險</div><div class="pain-en">Wandering Risk</div></div></div>
+        <div class="pain-row"><div class="pain-icon">😓</div><div><div class="pain-zh" id="v-ep3">照顧者分身乏術</div><div class="pain-en">Caregiver Burnout</div></div></div>
+        <div class="pain-row"><div class="pain-icon">🚨</div><div><div class="pain-zh" id="v-ep4">緊急狀況無法即時通知</div><div class="pain-en">Delayed Emergency Alerts</div></div></div>
+        <div class="pain-row"><div class="pain-icon">📋</div><div><div class="pain-zh" id="v-ep5">社工個案記錄繁瑣</div><div class="pain-en">Tedious Case Management</div></div></div>
+      </div>
+      <!-- Features -->
+      <div class="card feat-card">
+        <div class="label">Core Features · 五大功能</div>
+        <div class="feat-list">
+          <div class="feat-row"><div class="feat-ico ico-indigo">⏰</div><div><div class="feat-zh" id="v-f1">時間觸發提醒</div><div class="feat-en">Time-Based Triggers</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-blue">📍</div><div><div class="feat-zh" id="v-f2">地點地理圍欄</div><div class="feat-en">Location Geofencing</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-amber">🧠</div><div><div class="feat-zh" id="v-f3">行為異常偵測</div><div class="feat-en">Behavioral Anomaly Detection</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-violet">🤖</div><div><div class="feat-zh" id="v-f4">AI 自動建立任務</div><div class="feat-en">AI Auto Task Creation</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-emerald">🔔</div><div><div class="feat-zh" id="v-f5">多角色智慧推播</div><div class="feat-en">Multi-Role Smart Push</div></div></div>
+        </div>
+      </div>
+      <!-- Roles -->
+      <div class="card role-card">
+        <div class="label">User Roles · 使用角色</div>
+        <div class="role-item"><div class="role-emoji">👴</div><div><div class="role-name-zh" id="v-er1">長者</div><div class="role-name-en">Elder</div><div class="tag-row"><span class="tag tag-indigo">被動接收</span><span class="tag tag-indigo">大字介面</span><span class="tag tag-indigo">語音提醒</span></div></div></div>
+        <div class="role-item"><div class="role-emoji">👨‍👩‍👦</div><div><div class="role-name-zh" id="v-er2">家人</div><div class="role-name-en">Family</div><div class="tag-row"><span class="tag tag-orange">即時監看</span><span class="tag tag-orange">異常通知</span><span class="tag tag-orange">遠端管理</span></div></div></div>
+        <div class="role-item"><div class="role-emoji">👩‍💼</div><div><div class="role-name-zh" id="v-er3">社工 / 照護員</div><div class="role-name-en">Social Worker</div><div class="tag-row"><span class="tag tag-emerald">批次指派</span><span class="tag tag-emerald">AI 輔助建檔</span><span class="tag tag-emerald">日報摘要</span></div></div></div>
+      </div>
+    </div>
+
+    <!-- Devices Elder -->
+    <div class="devices-card">
+      <div class="label">Devices & Touchpoints · 使用載體</div>
+      <div class="devices-grid">
+        <div class="device-col">
+          <div class="device-role-header"><div class="device-role-emoji">👴</div><div><div class="device-role-zh">長者</div><div class="device-role-en">Elder</div></div></div>
+          <div class="device-list">
+            <div class="device-item"><div class="device-icon-wrap" style="background:#eef2ff">📱</div><div><div class="device-zh" id="v-ed1-name">平板電腦</div><div class="device-en">Tablet — Large Screen</div><div class="device-uses"><span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">全螢幕提醒彈出</span><span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">追劇 / 視訊通話</span><span class="device-use" style="background:#eef2ff;color:#4338ca;border-color:#e0e7ff">大字介面易操作</span></div></div></div>
+            <div class="device-item"><div class="device-icon-wrap" style="background:#f0fdf4">⌚</div><div><div class="device-zh" id="v-ed2-name">智慧手錶</div><div class="device-en">Smartwatch — Health Monitor</div><div class="device-uses"><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">心率 / 血氧監測</span><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">跌倒偵測</span><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">SOS 一鍵求援</span><span class="device-use" style="background:#f0fdf4;color:#065f46;border-color:#d1fae5">GPS 定位</span></div></div></div>
+          </div>
+        </div>
+        <div class="divider-col"></div>
+        <div class="device-col">
+          <div class="device-role-header"><div class="device-role-emoji">👨‍👩‍👦</div><div><div class="device-role-zh">家人</div><div class="device-role-en">Family</div></div></div>
+          <div class="device-list"><div class="device-item"><div class="device-icon-wrap" style="background:#fff7ed">📲</div><div><div class="device-zh">智慧型手機</div><div class="device-en">Mobile — Always On</div><div class="device-uses"><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">即時異常推播</span><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">GPS 即時位置</span><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">遠端新增提醒</span><span class="device-use" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">截圖上傳建任務</span></div></div></div></div>
+        </div>
+        <div class="divider-col"></div>
+        <div class="device-col">
+          <div class="device-role-header"><div class="device-role-emoji">👩‍💼</div><div><div class="device-role-zh">社工 / 照護員</div><div class="device-role-en">Social Worker</div></div></div>
+          <div class="device-list"><div class="device-item"><div class="device-icon-wrap" style="background:#f5f3ff">💻</div><div><div class="device-zh">電腦 Web 管理後台</div><div class="device-en">Desktop — Full Dashboard</div><div class="device-uses"><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">完整個案資訊</span><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">AI 輔助建檔</span><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">批次任務指派</span><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">每日 AI 摘要</span><span class="device-use" style="background:#f5f3ff;color:#5b21b6;border-color:#ede9fe">異常標記追蹤</span></div></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenarios Elder -->
+    <div>
+      <div class="label" style="padding-left:2px">Real Scenarios · 長照實際場景</div>
+      <div class="scenario-grid">
+        <div class="sc-card sc1"><div class="sc-emoji">🏥</div><div class="sc-zh" id="v-esc1-zh">靠近診所，回診提醒</div><div class="sc-en" id="v-esc1-en">Near Clinic → Appointment Alert</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><span id="v-esc1-s1">GPS 偵測到診所 300m 內</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><span id="v-esc1-s2">符合早上 09–11 時段條件</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc1-s3">推播「記得帶健保卡＋藥袋」</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#eef2ff;color:#4338ca">📍 地點觸發</span><span class="sc-tag" style="background:#eff6ff;color:#1d4ed8">⏰ 時間範圍</span></div></div>
+        <div class="sc-card sc2"><div class="sc-emoji">🌙</div><div class="sc-zh" id="v-esc2-zh">深夜離家，立即警示</div><div class="sc-en" id="v-esc2-en">Late Night Exit → Family Alert</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><span id="v-esc2-s1">23:00 後離開居家圍欄範圍</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><span id="v-esc2-s2">非常規行為偵測觸發升級</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc2-s3">即時通知家人 + GPS 共享位置</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#fef2f2;color:#991b1b">🚨 離開範圍</span><span class="sc-tag" style="background:#fff7ed;color:#9a3412">🧠 異常偵測</span></div></div>
+        <div class="sc-card sc3"><div class="sc-emoji">📄</div><div class="sc-zh" id="v-esc3-zh">出院截圖，自動建任務</div><div class="sc-en" id="v-esc3-en">Discharge Summary → Auto Tasks</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><span id="v-esc3-s1">家人上傳出院診斷截圖</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><span id="v-esc3-s2">AI 解析用藥清單、回診日、衛教</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc3-s3">自動建立每日服藥 + 回診提醒</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#fff7ed;color:#9a3412">🤖 OCR + AI</span><span class="sc-tag" style="background:#fef3c7;color:#92400e">📋 零手動輸入</span></div></div>
+        <div class="sc-card sc4"><div class="sc-emoji">🗣️</div><div class="sc-zh" id="v-esc4-zh">社工語音，批次指派</div><div class="sc-en" id="v-esc4-en">Voice Command → Batch Assignment</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><span id="v-esc4-s1">社工說「週四新店區帶藥袋來」</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><span id="v-esc4-s2">AI 解析條件、篩選符合個案</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-esc4-s3">N 個個案各自收到精準提醒</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#ecfdf5;color:#065f46">🎙️ 語音輸入</span><span class="sc-tag" style="background:#d1fae5;color:#065f46">👥 批次指派</span></div></div>
+      </div>
+    </div>
+  </div><!-- /panel-elder -->
+
+  <!-- TAB 2 GENERAL -->
+  <div class="tab-panel" id="panel-general">
+    <div class="three-col">
+      <div class="card pain-card">
+        <div class="label">Pain Points · 日常痛點</div>
+        <div class="pain-row"><div class="pain-icon">📦</div><div><div class="pain-zh" id="v-gp1">包裹到了忘記取貨</div><div class="pain-en">Missed Package Pickup</div></div></div>
+        <div class="pain-row"><div class="pain-icon">🛒</div><div><div class="pain-zh" id="v-gp2">路過超市忘了順手買</div><div class="pain-en">Forgot to Shop While Passing By</div></div></div>
+        <div class="pain-row"><div class="pain-icon">📅</div><div><div class="pain-zh" id="v-gp3">忙碌中忘記預約行程</div><div class="pain-en">Missed Appointments</div></div></div>
+        <div class="pain-row"><div class="pain-icon">🔁</div><div><div class="pain-zh" id="v-gp4">習慣養成難以持續</div><div class="pain-en">Habit Consistency</div></div></div>
+        <div class="pain-row"><div class="pain-icon">🧠</div><div><div class="pain-zh" id="v-gp5">靠腦記太多事容易遺漏</div><div class="pain-en">Mental Overload</div></div></div>
+      </div>
+      <div class="card feat-card">
+        <div class="label">Core Features · 五大功能</div>
+        <div class="feat-list">
+          <div class="feat-row"><div class="feat-ico ico-indigo">⏰</div><div><div class="feat-zh">時間觸發提醒</div><div class="feat-en">Time-Based Triggers</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-blue">📍</div><div><div class="feat-zh">地點地理圍欄</div><div class="feat-en">Location Geofencing</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-amber">🧠</div><div><div class="feat-zh">行為習慣追蹤</div><div class="feat-en">Habit & Behavior Tracking</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-violet">🤖</div><div><div class="feat-zh">AI 自動建立任務</div><div class="feat-en">AI Auto Task Creation</div></div></div>
+          <div class="feat-row"><div class="feat-ico ico-emerald">🔔</div><div><div class="feat-zh">個人化智慧推播</div><div class="feat-en">Personalized Smart Push</div></div></div>
+        </div>
+      </div>
+      <div class="card role-card">
+        <div class="label">User Roles · 使用對象</div>
+        <div class="role-item"><div class="role-emoji">🙋</div><div><div class="role-name-zh" id="v-gr1">個人用戶</div><div class="role-name-en">Individual</div><div class="tag-row"><span class="tag tag-indigo">自我管理</span><span class="tag tag-indigo">購物清單</span><span class="tag tag-indigo">習慣追蹤</span></div></div></div>
+        <div class="role-item"><div class="role-emoji">👨‍👩‍👦</div><div><div class="role-name-zh" id="v-gr2">家庭群組</div><div class="role-name-en">Family Group</div><div class="tag-row"><span class="tag tag-orange">共享清單</span><span class="tag tag-orange">家事分工</span><span class="tag tag-orange">接送提醒</span></div></div></div>
+        <div class="role-item"><div class="role-emoji">🏢</div><div><div class="role-name-zh" id="v-gr3">小型團隊</div><div class="role-name-en">Small Teams</div><div class="tag-row"><span class="tag tag-sky">外勤人員</span><span class="tag tag-sky">任務指派</span><span class="tag tag-sky">到點回報</span></div></div></div>
+      </div>
+    </div>
+
+    <!-- Scenarios General -->
+    <div>
+      <div class="label" style="padding-left:2px">Real Scenarios · 一般使用場景</div>
+      <div class="scenario-grid">
+        <div class="sc-card sc1"><div class="sc-emoji">📦</div><div class="sc-zh" id="v-gsc1-zh">蝦皮截圖，超商取貨</div><div class="sc-en" id="v-gsc1-en">Shopee Screenshot → Pickup Reminder</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><span id="v-gsc1-s1">上傳蝦皮取貨通知截圖</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><span id="v-gsc1-s2">OCR 自動解析：取貨碼、門市、期限</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><span id="v-gsc1-s3">地圖自動搜尋門市位置</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc1-s4">路過門市時推播「取貨碼：XXXXXX」</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#eef2ff;color:#4338ca">🤖 OCR 辨識</span><span class="sc-tag" style="background:#eff6ff;color:#1d4ed8">📍 路過觸發</span></div></div>
+        <div class="sc-card sc2"><div class="sc-emoji">🛒</div><div class="sc-zh" id="v-gsc2-zh">路過超市，購物清單</div><div class="sc-en" id="v-gsc2-en">Near Supermarket → Shopping List</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><span id="v-gsc2-s1">預先建立「家樂福」購物清單</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><span id="v-gsc2-s2">GPS 偵測到家樂福 200m 內</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc2-s3">彈出清單：衛生紙、洗碗精、雞蛋…</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#fef2f2;color:#991b1b">📍 地點觸發</span><span class="sc-tag" style="background:#fff7ed;color:#9a3412">📋 清單提醒</span></div></div>
+        <div class="sc-card sc3"><div class="sc-emoji">🗓️</div><div class="sc-zh" id="v-gsc3-zh">語音建任務，行程提醒</div><div class="sc-en" id="v-gsc3-en">Voice Input → Schedule Reminder</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><span id="v-gsc3-s1">說「下週二去家樂福買衛生紙」</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><span id="v-gsc3-s2">AI 解析：時間、地點、內容</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc3-s3">自動建立提醒，無需手動輸入</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#fff7ed;color:#9a3412">🎙️ 語音輸入</span><span class="sc-tag" style="background:#fef3c7;color:#92400e">🤖 NLU 解析</span></div></div>
+        <div class="sc-card sc4"><div class="sc-emoji">🏃</div><div class="sc-zh" id="v-gsc4-zh">路過健身房，習慣提醒</div><div class="sc-en" id="v-gsc4-en">Near Gym → Habit Nudge</div><div class="sc-steps"><div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><span id="v-gsc4-s1">設定「健身房」地點 + 週三/五觸發</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><span id="v-gsc4-s2">週五下班路過健身房偵測到</span></div><div class="sc-divider" style="margin-left:2px"></div><div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><span id="v-gsc4-s3">推播「今天是健身日，已連續 12 天！」</span></div></div><div class="sc-foot"><span class="sc-tag" style="background:#ecfdf5;color:#065f46">📍 地點 + 時間</span><span class="sc-tag" style="background:#d1fae5;color:#065f46">🔁 習慣養成</span></div></div>
+      </div>
+    </div>
+  </div><!-- /panel-general -->
+
+  <!-- AI FLOW -->
+  <div class="flow-card">
+    <div class="label">AI Pipeline · 智慧任務流程</div>
+    <div class="flow-title" id="v-flow-title">從「輸入」到「提醒」—— 全程 AI 自動化</div>
+    <div class="flow-sub" id="v-flow-sub">Zero Manual Entry · 截圖、語音、感測器 → AI 自動解析 → 結構化任務 → 精準觸發</div>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="step-num">1</div><div class="step-ico">📥</div><div class="step-zh" id="v-fl1-zh">輸入來源</div><div class="step-en" id="v-fl1-en">Input Sources</div><div class="step-tags"><span class="step-tag st-indigo" id="v-fl1-t1">截圖（蝦皮 / 出院）</span><span class="step-tag st-indigo" id="v-fl1-t2">語音指令</span><span class="step-tag st-indigo" id="v-fl1-t3">GPS 感測器</span><span class="step-tag st-indigo" id="v-fl1-t4">手動文字輸入</span></div></div>
+      <div class="flow-step"><div class="step-num">2</div><div class="step-ico">🤖</div><div class="step-zh" id="v-fl2-zh">AI 分析層</div><div class="step-en" id="v-fl2-en">AI Processing</div><div class="step-tags"><span class="step-tag st-orange" id="v-fl2-t1">OCR 文字辨識</span><span class="step-tag st-orange" id="v-fl2-t2">NLU 語意理解</span><span class="step-tag st-orange" id="v-fl2-t3">行為基線分析</span><span class="step-tag st-orange" id="v-fl2-t4">地點自動定位</span></div></div>
+      <div class="flow-step"><div class="step-num">3</div><div class="step-ico">📋</div><div class="step-zh" id="v-fl3-zh">結構化任務</div><div class="step-en" id="v-fl3-en">Structured Tasks</div><div class="step-tags"><span class="step-tag st-indigo" id="v-fl3-t1">地點設定</span><span class="step-tag st-indigo" id="v-fl3-t2">時間設定</span><span class="step-tag st-indigo" id="v-fl3-t3">提醒內容</span><span class="step-tag st-indigo" id="v-fl3-t4">指派對象</span></div></div>
+      <div class="flow-step"><div class="step-num">4</div><div class="step-ico">🔔</div><div class="step-zh" id="v-fl4-zh">智慧觸發提醒</div><div class="step-en" id="v-fl4-en">Smart Trigger</div><div class="step-tags"><span class="step-tag st-emerald" id="v-fl4-t1">個人推播通知</span><span class="step-tag st-emerald" id="v-fl4-t2">家人 / 團隊警示</span><span class="step-tag st-emerald" id="v-fl4-t3">異常升級通知</span><span class="step-tag st-emerald" id="v-fl4-t4">習慣打卡回饋</span></div></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div><div class="footer-label">Tech Stack · 技術架構</div><div class="tech-row"><span class="tech-pill">FastAPI + PostgreSQL</span><span class="tech-pill">React PWA</span><span class="tech-pill">Firebase FCM</span><span class="tech-pill">OpenStreetMap</span><span class="tech-pill">Claude AI (OCR + NLU)</span><span class="tech-pill">Haversine Geofencing</span><span class="tech-pill">Web Speech API</span></div></div>
+    <div class="brand">Ai<span>·</span>Eki</div>
+  </div>
+
+</div><!-- /page -->
+</div><!-- /preview -->
+
+<!-- ══════════════ EDITOR PANEL ══════════════ -->
+<div class="editor">
+  <div class="editor-header">
+    <div class="editor-title">Ai·Eki 內容編輯器</div>
+    <div class="editor-sub">即時修改左側預覽，確認後匯出 HTML</div>
+    <button class="export-btn" id="export-btn">下載修改後的 HTML</button>
+  </div>
+  <div class="editor-body">
+
+    <!-- HERO -->
+    <div class="esec si open">
+      <div class="esec-head">Hero 主視覺<span class="esec-chevron">▼</span></div>
+      <div class="esec-body">
+        <div class="field"><label>主標題（中）</label><textarea data-target="v-hero-zh" rows="2"></textarea></div>
+        <div class="field"><label>主標題（英）</label><textarea data-target="v-hero-en" rows="2"></textarea></div>
+        <div class="fgroup-label">亮點說明</div>
+        <div class="field"><label>亮點 1（中）</label><input type="text" data-target="v-s1-zh"></div>
+        <div class="field"><label>亮點 2（中）</label><input type="text" data-target="v-s2-zh"></div>
+        <div class="field"><label>亮點 3（中）</label><input type="text" data-target="v-s3-zh"></div>
+      </div>
+    </div>
+
+    <!-- ELDER PAIN -->
+    <div class="esec sr">
+      <div class="esec-head">長照痛點<span class="esec-chevron">▼</span></div>
+      <div class="esec-body">
+        <div class="field"><label>痛點 1</label><input type="text" data-target="v-ep1"></div>
+        <div class="field"><label>痛點 2</label><input type="text" data-target="v-ep2"></div>
+        <div class="field"><label>痛點 3</label><input type="text" data-target="v-ep3"></div>
+        <div class="field"><label>痛點 4</label><input type="text" data-target="v-ep4"></div>
+        <div class="field"><label>痛點 5</label><input type="text" data-target="v-ep5"></div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="esec sv">
+      <div class="esec-head">五大功能<span class="esec-chevron">▼</span></div>
+      <div class="esec-body">
+        <div class="field"><label>功能 1</label><input type="text" data-target="v-f1"></div>
+        <div class="field"><label>功能 2</label><input type="text" data-target="v-f2"></div>
+        <div class="field"><label>功能 3</label><input type="text" data-target="v-f3"></div>
+        <div class="field"><label>功能 4</label><input type="text" data-target="v-f4"></div>
+        <div class="field"><label>功能 5</label><input type="text" data-target="v-f5"></div>
+      </div>
+    </div>
+
+    <!-- ELDER SCENARIOS -->
+    <div class="esec si">
+      <div class="esec-head">長照場景<span class="esec-chevron">▼</span></div>
+      <div class="esec-body">
+        <div class="fgroup-label">場景 1</div>
+        <div class="field"><label>標題（中）</label><input type="text" data-target="v-esc1-zh"></div>
+        <div class="field"><label>步驟 1</label><input type="text" data-target="v-esc1-s1"></div>
+        <div class="field"><label>步驟 2</label><input type="text" data-target="v-esc1-s2"></div>
+        <div class="field"><label>結果</label><input type="text" data-target="v-esc1-s3"></div>
+        <div class="fgroup-label">場景 2</div>
+        <div class="field"><label>標題（中）</label><input type="text" data-target="v-esc2-zh"></div>
+        <div class="field"><label>步驟 1</label><input type="text" data-target="v-esc2-s1"></div>
+        <div class="field"><label>步驟 2</label><input type="text" data-target="v-esc2-s2"></div>
+        <div class="field"><label>結果</label><input type="text" data-target="v-esc2-s3"></div>
+        <div class="fgroup-label">場景 3</div>
+        <div class="field"><label>標題（中）</label><input type="text" data-target="v-esc3-zh"></div>
+        <div class="field"><label>步驟 1</label><input type="text" data-target="v-esc3-s1"></div>
+        <div class="field"><label>步驟 2</label><input type="text" data-target="v-esc3-s2"></div>
+        <div class="field"><label>結果</label><input type="text" data-target="v-esc3-s3"></div>
+        <div class="fgroup-label">場景 4</div>
+        <div class="field"><label>標題（中）</label><input type="text" data-target="v-esc4-zh"></div>
+        <div class="field"><label>步驟 1</label><input type="text" data-target="v-esc4-s1"></div>
+        <div class="field"><label>步驟 2</label><input type="text" data-target="v-esc4-s2"></div>
+        <div class="field"><label>結果</label><input type="text" data-target="v-esc4-s3"></div>
+      </div>
+    </div>
+
+    <!-- GENERAL PAIN -->
+    <div class="esec sr">
+      <div class="esec-head">一般使用者痛點<span class="esec-chevron">▼</span></div>
+      <div class="esec-body">
+        <div class="field"><label>痛點 1</label><input type="text" data-target="v-gp1"></div>
+        <div class="field"><label>痛點 2</label><input type="text" data-target="v-gp2"></div>
+        <div class="field"><label>痛點 3</label><input type="text" data-target="v-gp3"></div>
+        <div class="field"><label>痛點 4</label><input type="text" data-target="v-gp4"></div>
+        <div class="field"><label>痛點 5</label><input type="text" data-target="v-gp5"></div>
+      </div>
+    </div>
+
+    <!-- GENERAL SCENARIOS -->
+    <div class="esec so">
+      <div class="esec-head">一般使用場景<span class="esec-chevron">▼</span></div>
+      <div class="esec-body">
+        <div class="fgroup-label">場景 1（蝦皮 OCR）</div>
+        <div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc1-zh"></div>
+        <div class="field"><label>步驟 1</label><input type="text" data-target="v-gsc1-s1"></div>
+        <div class="field"><label>步驟 2</label><input type="text" data-target="v-gsc1-s2"></div>
+        <div class="field"><label>步驟 3</label><input type="text" data-target="v-gsc1-s3"></div>
+        <div class="field"><label>結果</label><input type="text" data-target="v-gsc1-s4"></div>
+        <div class="fgroup-label">場景 2（超市清單）</div>
+        <div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc2-zh"></div>
+        <div class="field"><label>步驟 1</label><input type="text" data-target="v-gsc2-s1"></div>
+        <div class="field"><label>步驟 2</label><input type="text" data-target="v-gsc2-s2"></div>
+        <div class="field"><label>結果</label><input type="text" data-target="v-gsc2-s3"></div>
+        <div class="fgroup-label">場景 3（語音建任務）</div>
+        <div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc3-zh"></div>
+        <div class="field"><label>步驟 1</label><input type="text" data-target="v-gsc3-s1"></div>
+        <div class="field"><label>步驟 2</label><input type="text" data-target="v-gsc3-s2"></div>
+        <div class="field"><label>結果</label><input type="text" data-target="v-gsc3-s3"></div>
+        <div class="fgroup-label">場景 4（習慣追蹤）</div>
+        <div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc4-zh"></div>
+        <div class="field"><label>步驟 1</label><input type="text" data-target="v-gsc4-s1"></div>
+        <div class="field"><label>步驟 2</label><input type="text" data-target="v-gsc4-s2"></div>
+        <div class="field"><label>結果</label><input type="text" data-target="v-gsc4-s3"></div>
+      </div>
+    </div>
+
+    <!-- AI FLOW -->
+    <div class="esec se">
+      <div class="esec-head">AI 流程<span class="esec-chevron">▼</span></div>
+      <div class="esec-body">
+        <div class="field"><label>流程標題</label><input type="text" data-target="v-flow-title"></div>
+        <div class="fgroup-label">步驟名稱</div>
+        <div class="field"><label>步驟 1</label><input type="text" data-target="v-fl1-zh"></div>
+        <div class="field"><label>步驟 2</label><input type="text" data-target="v-fl2-zh"></div>
+        <div class="field"><label>步驟 3</label><input type="text" data-target="v-fl3-zh"></div>
+        <div class="field"><label>步驟 4</label><input type="text" data-target="v-fl4-zh"></div>
+        <div class="fgroup-label">步驟 1 標籤</div>
+        <div class="field"><label>標籤 1</label><input type="text" data-target="v-fl1-t1"></div>
+        <div class="field"><label>標籤 2</label><input type="text" data-target="v-fl1-t2"></div>
+        <div class="field"><label>標籤 3</label><input type="text" data-target="v-fl1-t3"></div>
+        <div class="field"><label>標籤 4</label><input type="text" data-target="v-fl1-t4"></div>
+        <div class="fgroup-label">步驟 2 標籤</div>
+        <div class="field"><label>標籤 1</label><input type="text" data-target="v-fl2-t1"></div>
+        <div class="field"><label>標籤 2</label><input type="text" data-target="v-fl2-t2"></div>
+        <div class="field"><label>標籤 3</label><input type="text" data-target="v-fl2-t3"></div>
+        <div class="field"><label>標籤 4</label><input type="text" data-target="v-fl2-t4"></div>
+        <div class="fgroup-label">步驟 3 標籤</div>
+        <div class="field"><label>標籤 1</label><input type="text" data-target="v-fl3-t1"></div>
+        <div class="field"><label>標籤 2</label><input type="text" data-target="v-fl3-t2"></div>
+        <div class="field"><label>標籤 3</label><input type="text" data-target="v-fl3-t3"></div>
+        <div class="field"><label>標籤 4</label><input type="text" data-target="v-fl3-t4"></div>
+        <div class="fgroup-label">步驟 4 標籤</div>
+        <div class="field"><label>標籤 1</label><input type="text" data-target="v-fl4-t1"></div>
+        <div class="field"><label>標籤 2</label><input type="text" data-target="v-fl4-t2"></div>
+        <div class="field"><label>標籤 3</label><input type="text" data-target="v-fl4-t3"></div>
+        <div class="field"><label>標籤 4</label><input type="text" data-target="v-fl4-t4"></div>
+      </div>
+    </div>
+
+  </div><!-- /editor-body -->
+</div><!-- /editor -->
+
+<script>
+  // ── Init: populate all inputs from visual content
+  document.querySelectorAll('[data-target]').forEach(el => {
+    const target = document.getElementById(el.dataset.target);
+    if (!target) return;
+    el.value = target.textContent.trim();
+    el.addEventListener('input', () => { target.textContent = el.value; });
+  });
+
+  // ── Section collapse toggle
+  document.querySelectorAll('.esec-head').forEach(head => {
+    head.addEventListener('click', () => head.closest('.esec').classList.toggle('open'));
+  });
+
+  // ── Export: clone preview, strip editor artefacts, download
+  document.getElementById('export-btn').addEventListener('click', () => {
+    const styleEl = document.querySelector('style');
+    const previewEl = document.querySelector('.preview');
+
+    // Build standalone HTML (re-uses the same CSS, strips editor-only rules)
+    const exportCSS = styleEl.textContent
+      .replace(/\/\* ── EDITOR[\s\S]*?(?=\/\* ══)/m, '') // strip editor CSS block
+      .replace(/body\s*\{[\s\S]*?\}/, 'body { font-family: "Segoe UI","PingFang TC","Noto Sans TC",sans-serif; background:#f4f6f9; color:#1e293b; padding:32px 24px; font-size:13px; line-height:1.5; }');
+
+    const html = `<!DOCTYPE html>\n<html lang="zh-TW">\n<head>\n<meta charset="UTF-8">\n<title>Ai·Eki</title>\n<style>${exportCSS}</style>\n</head>\n<body>\n<input type="radio" name="tab" id="t-elder" checked>\n<input type="radio" name="tab" id="t-gen">\n${previewEl.innerHTML}\n</body>\n</html>`;
+
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+    const a    = Object.assign(document.createElement('a'), { href: url, download: 'ai-eki-overview-edited.html' });
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+</script>
+</body>
+</html>

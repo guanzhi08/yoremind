@@ -10,16 +10,16 @@
   body {
     font-family: "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
     display: flex; height: 100vh; overflow: hidden;
-    background: #f4f6f9; color: #1e293b; font-size: 13px; line-height: 1.5;
+    background: #f4f6f9; color: #1e293b; font-size: 16px; line-height: 1.6;
   }
 
   /* ── PREVIEW ── */
-  .preview { flex: 1; overflow-y: auto; padding: 24px 20px; }
-  .page { max-width: 1060px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .preview { flex: 1; overflow-y: auto; padding: 28px 24px; }
+  .page { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
 
   /* ── EDITOR PANEL ── */
   .editor {
-    width: 350px; flex-shrink: 0;
+    width: 360px; flex-shrink: 0;
     background: #fff; border-left: 1px solid #e2e8f0;
     display: flex; flex-direction: column; overflow: hidden;
   }
@@ -60,7 +60,6 @@
   .esec.open .esec-chevron { transform: rotate(180deg); }
   .esec-body { display: none; padding: 10px 12px; background: #fafbfc; border-top: 1px solid #e8ecf0; }
   .esec.open .esec-body { display: block; }
-
   .si .esec-head { background: #eef2ff; color: #4338ca; }
   .so .esec-head { background: #fff7ed; color: #c2410c; }
   .se .esec-head { background: #ecfdf5; color: #065f46; }
@@ -80,13 +79,10 @@
     color: #1e293b; background: #fff; resize: vertical; line-height: 1.5;
   }
   .field textarea { min-height: 40px; }
-  .field input:focus, .field textarea:focus {
-    outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px #eef2ff;
-  }
+  .field input:focus, .field textarea:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px #eef2ff; }
   .field-en .field input, .field-en .field textarea { border-color: #dbeafe; }
   .field-en .field input:focus, .field-en .field textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px #eff6ff; }
   .field-en label { color: #60a5fa; }
-
   .fgroup-label {
     font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: 1px;
     text-transform: uppercase; padding: 6px 0 5px;
@@ -96,9 +92,9 @@
   /* ── DYNAMIC LIST ── */
   .elist-item {
     background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 8px;
-    padding: 8px 10px; margin-bottom: 6px; position: relative;
+    padding: 8px 10px; margin-bottom: 6px;
   }
-  .elist-item-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .elist-item-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; }
   .elist-item-num  { font-size: 10px; font-weight: 700; color: #94a3b8; }
   .elist-del {
     width: 20px; height: 20px; border-radius: 50%; border: none;
@@ -114,123 +110,154 @@
   }
   .elist-add:hover { background: #eef2ff; }
 
+  /* ── EMOJI PICKER ── */
+  .epicker-wrap { position: relative; display: inline-block; margin-bottom: 6px; }
+  .epicker-btn {
+    font-size: 24px; background: #f8fafc; border: 1.5px solid #e2e8f0;
+    border-radius: 8px; padding: 4px 10px; cursor: pointer; line-height: 1;
+  }
+  .epicker-btn:hover { background: #eef2ff; border-color: #a5b4fc; }
+  .epicker-panel {
+    display: none; position: absolute; left: 0; top: calc(100% + 6px);
+    z-index: 999; background: #fff; border: 1.5px solid #e2e8f0;
+    border-radius: 14px; padding: 12px; width: 272px;
+    box-shadow: 0 10px 32px rgba(0,0,0,0.14);
+  }
+  .epicker-panel.open { display: block; }
+  .epicker-search {
+    width: 100%; padding: 7px 10px; border: 1.5px solid #e2e8f0;
+    border-radius: 8px; font-size: 12px; font-family: inherit; margin-bottom: 8px;
+  }
+  .epicker-search:focus { outline: none; border-color: #6366f1; }
+  .epicker-grid {
+    display: flex; flex-wrap: wrap; gap: 3px;
+    max-height: 180px; overflow-y: auto;
+  }
+  .epicker-item {
+    font-size: 22px; background: none; border: 1.5px solid transparent;
+    border-radius: 7px; padding: 3px 5px; cursor: pointer; line-height: 1;
+  }
+  .epicker-item:hover { background: #eef2ff; border-color: #c7d2fe; }
+  .epicker-cat { width: 100%; font-size: 9px; font-weight: 700; color: #94a3b8;
+    text-transform: uppercase; letter-spacing: 1px; padding: 5px 2px 3px; }
+  .epicker-empty { font-size: 12px; color: #94a3b8; padding: 12px; text-align: center; }
+
   /* language visibility */
   .editor.zh-only .field-en { display: none; }
   .editor.en-only .field-zh { display: none; }
 
-  /* ══════════════════════════════
-     VISUAL STYLES (preview)
-  ══════════════════════════════ */
+  /* ══ PREVIEW VISUAL STYLES ══ */
   .label {
-    font-size: 10px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase; color: #94a3b8; margin-bottom: 12px;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #94a3b8; margin-bottom: 14px;
   }
-  .card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 20px 22px; }
+  .card { background: #fff; border: 1px solid #e8ecf0; border-radius: 14px; padding: 24px 26px; }
+
   .hero {
-    background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
-    padding: 32px 38px; display: grid; grid-template-columns: 1fr auto; gap: 36px; align-items: center;
+    background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
+    padding: 38px 44px; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center;
   }
-  .hero-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-  .hero-pill { background: #eef2ff; color: #6366f1; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+  .hero-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .hero-pill { background: #eef2ff; color: #6366f1; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; }
   .hero-pill.orange { background: #fff7ed; color: #ea580c; }
-  .hero-name { font-size: 50px; font-weight: 800; color: #0f172a; letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
+  .hero-name { font-size: 62px; font-weight: 800; color: #0f172a; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
   .hero-name .dot { color: #6366f1; }
-  .hero-tw { font-size: 12px; color: #94a3b8; margin-bottom: 16px; }
+  .hero-tw { font-size: 15px; color: #94a3b8; margin-bottom: 18px; }
   .hero-tw span { color: #6366f1; font-weight: 600; }
-  .hero-desc-zh { font-size: 16px; font-weight: 600; color: #334155; margin-bottom: 3px; }
-  .hero-desc-en { font-size: 11px; color: #94a3b8; font-style: italic; }
-  .hero-stats { display: flex; flex-direction: column; gap: 7px; min-width: 200px; }
-  .stat-row { display: flex; align-items: center; gap: 11px; background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 9px; padding: 9px 13px; }
-  .stat-icon { font-size: 17px; flex-shrink: 0; }
-  .stat-zh { font-size: 12px; font-weight: 600; color: #334155; }
-  .stat-en { font-size: 10px; color: #94a3b8; }
+  .hero-desc-zh { font-size: 20px; font-weight: 600; color: #334155; margin-bottom: 5px; }
+  .hero-desc-en { font-size: 14px; color: #94a3b8; font-style: italic; }
+  .hero-stats { display: flex; flex-direction: column; gap: 9px; min-width: 230px; }
+  .stat-row { display: flex; align-items: center; gap: 13px; background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 10px; padding: 11px 15px; }
+  .stat-icon { font-size: 22px; flex-shrink: 0; }
+  .stat-zh { font-size: 15px; font-weight: 600; color: #334155; }
+  .stat-en { font-size: 12px; color: #94a3b8; }
 
   #t-elder, #t-gen { display: none; }
-  .tab-bar { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 8px; display: flex; gap: 6px; }
-  .tab-btn { flex: 1; padding: 10px 16px; border-radius: 9px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; color: #64748b; background: transparent; user-select: none; }
-  .tab-badge { font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 20px; background: #f1f5f9; color: #94a3b8; }
+  .tab-bar { background: #fff; border: 1px solid #e8ecf0; border-radius: 14px; padding: 9px; display: flex; gap: 7px; }
+  .tab-btn { flex: 1; padding: 12px 18px; border-radius: 10px; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; color: #64748b; background: transparent; user-select: none; }
+  .tab-badge { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 20px; background: #f1f5f9; color: #94a3b8; }
   #t-elder:checked ~ .preview .tab-bar label[for="t-elder"],
   #t-gen:checked   ~ .preview .tab-bar label[for="t-gen"]   { background: #6366f1; color: #fff; }
   #t-elder:checked ~ .preview .tab-bar label[for="t-elder"] .tab-badge,
   #t-gen:checked   ~ .preview .tab-bar label[for="t-gen"]   .tab-badge { background: rgba(255,255,255,0.22); color: rgba(255,255,255,0.9); }
-  .tab-panel { display: none; flex-direction: column; gap: 14px; }
+  .tab-panel { display: none; flex-direction: column; gap: 18px; }
   #t-elder:checked ~ .preview #panel-elder  { display: flex; }
   #t-gen:checked   ~ .preview #panel-general { display: flex; }
 
-  .three-col { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 12px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 14px; }
   .pain-card { border-left: 3px solid #fca5a5; }
-  .pain-row { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f1f5f9; }
+  .pain-row { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid #f1f5f9; }
   .pain-row:last-child { border-bottom: none; padding-bottom: 0; }
-  .pain-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
-  .pain-zh { font-size: 12px; font-weight: 600; color: #1e293b; }
-  .pain-en { font-size: 10px; color: #94a3b8; }
+  .pain-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .pain-zh { font-size: 15px; font-weight: 600; color: #1e293b; }
+  .pain-en { font-size: 12px; color: #94a3b8; }
   .feat-card { border-left: 3px solid #c4b5fd; }
-  .feat-list { display: flex; flex-direction: column; gap: 6px; }
-  .feat-row { display: flex; align-items: center; gap: 11px; background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px; padding: 8px 11px; }
-  .feat-ico { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .feat-list { display: flex; flex-direction: column; gap: 8px; }
+  .feat-row { display: flex; align-items: center; gap: 13px; background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 10px; padding: 10px 13px; }
+  .feat-ico { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
   .ico-indigo { background: #eef2ff; } .ico-blue { background: #eff6ff; } .ico-amber { background: #fffbeb; } .ico-violet { background: #f5f3ff; } .ico-emerald { background: #f0fdf4; }
-  .feat-zh { font-size: 12px; font-weight: 600; color: #1e293b; }
-  .feat-en { font-size: 10px; color: #94a3b8; }
+  .feat-zh { font-size: 15px; font-weight: 600; color: #1e293b; }
+  .feat-en { font-size: 12px; color: #94a3b8; }
   .role-card { border-left: 3px solid #6ee7b7; }
-  .role-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid #f1f5f9; }
+  .role-item { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid #f1f5f9; }
   .role-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .role-emoji { font-size: 22px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
-  .role-name-zh { font-size: 12px; font-weight: 700; color: #1e293b; }
-  .role-name-en { font-size: 10px; color: #94a3b8; margin-bottom: 5px; }
-  .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
-  .tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .role-emoji { font-size: 28px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+  .role-name-zh { font-size: 15px; font-weight: 700; color: #1e293b; }
+  .role-name-en { font-size: 12px; color: #94a3b8; margin-bottom: 6px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
   .tag-indigo { background: #eef2ff; color: #4338ca; } .tag-orange { background: #fff7ed; color: #c2410c; } .tag-emerald { background: #f0fdf4; color: #065f46; } .tag-sky { background: #f0f9ff; color: #0369a1; }
 
-  .devices-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 20px 26px; }
-  .devices-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .devices-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 14px; padding: 24px 30px; }
+  .devices-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .device-col { display: flex; flex-direction: column; }
-  .device-role-header { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
-  .device-role-emoji { font-size: 20px; }
-  .device-role-zh { font-size: 12px; font-weight: 700; color: #1e293b; }
-  .device-role-en { font-size: 10px; color: #94a3b8; }
-  .device-list { display: flex; flex-direction: column; gap: 8px; }
-  .device-item { display: flex; align-items: flex-start; gap: 11px; background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 9px; padding: 10px 12px; }
-  .device-icon-wrap { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .device-zh { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
-  .device-en { font-size: 10px; color: #94a3b8; margin-bottom: 6px; }
-  .device-uses { display: flex; flex-wrap: wrap; gap: 4px; }
-  .device-use { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; border: 1px solid transparent; }
+  .device-role-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+  .device-role-emoji { font-size: 24px; }
+  .device-role-zh { font-size: 15px; font-weight: 700; color: #1e293b; }
+  .device-role-en { font-size: 12px; color: #94a3b8; }
+  .device-list { display: flex; flex-direction: column; gap: 10px; }
+  .device-item { display: flex; align-items: flex-start; gap: 13px; background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 10px; padding: 12px 14px; }
+  .device-icon-wrap { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .device-zh { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 3px; }
+  .device-en { font-size: 12px; color: #94a3b8; margin-bottom: 7px; }
+  .device-uses { display: flex; flex-wrap: wrap; gap: 5px; }
+  .device-use { font-size: 12px; font-weight: 500; padding: 3px 9px; border-radius: 5px; border: 1px solid transparent; }
   .divider-col { width: 1px; background: #f1f5f9; margin: 0 2px; }
 
-  .flow-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 22px 26px; }
-  .flow-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
-  .flow-sub   { font-size: 11px; color: #94a3b8; margin-bottom: 18px; }
-  .flow-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: start; position: relative; }
-  .flow-steps::before { content: ""; position: absolute; top: 21px; left: calc(12.5% + 5px); width: calc(75% - 10px); height: 1px; background: #e2e8f0; z-index: 0; }
-  .flow-step { background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 10px; padding: 14px 12px; position: relative; z-index: 1; }
-  .step-num { width: 22px; height: 22px; border-radius: 50%; background: #eef2ff; color: #6366f1; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
-  .step-ico { font-size: 18px; margin-bottom: 5px; }
-  .step-zh  { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
-  .step-en  { font-size: 10px; color: #94a3b8; margin-bottom: 8px; }
-  .step-tags { display: flex; flex-direction: column; gap: 3px; }
-  .step-tag { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 500; border: 1px solid transparent; }
+  .flow-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 14px; padding: 26px 30px; }
+  .flow-title { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+  .flow-sub   { font-size: 13px; color: #94a3b8; margin-bottom: 22px; }
+  .flow-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; align-items: start; position: relative; }
+  .flow-steps::before { content: ""; position: absolute; top: 22px; left: calc(12.5% + 5px); width: calc(75% - 10px); height: 1px; background: #e2e8f0; z-index: 0; }
+  .flow-step { background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 12px; padding: 16px 14px; position: relative; z-index: 1; }
+  .step-num { width: 26px; height: 26px; border-radius: 50%; background: #eef2ff; color: #6366f1; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 9px; }
+  .step-ico { font-size: 22px; margin-bottom: 7px; }
+  .step-zh  { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 3px; }
+  .step-en  { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
+  .step-tags { display: flex; flex-direction: column; gap: 4px; }
+  .step-tag { font-size: 12px; padding: 3px 9px; border-radius: 5px; font-weight: 500; border: 1px solid transparent; }
   .st-indigo  { background: #eef2ff; color: #4338ca; border-color: #e0e7ff; }
   .st-orange  { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
   .st-emerald { background: #f0fdf4; color: #065f46; border-color: #d1fae5; }
 
-  .scenario-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .sc-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 18px 16px; display: flex; flex-direction: column; }
+  .scenario-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .sc-card { background: #fff; border: 1px solid #e8ecf0; border-radius: 14px; padding: 20px 18px; display: flex; flex-direction: column; }
   .sc1 { border-top: 2px solid #a5b4fc; } .sc2 { border-top: 2px solid #fca5a5; } .sc3 { border-top: 2px solid #fdba74; } .sc4 { border-top: 2px solid #6ee7b7; }
-  .sc-emoji { font-size: 24px; margin-bottom: 9px; }
-  .sc-zh { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
-  .sc-en { font-size: 10px; color: #94a3b8; margin-bottom: 12px; }
-  .sc-steps { display: flex; flex-direction: column; gap: 5px; flex: 1; }
-  .sc-step { display: flex; align-items: flex-start; gap: 7px; font-size: 11px; color: #475569; }
-  .sc-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
-  .sc-divider { width: 1px; height: 9px; background: #e2e8f0; margin-left: 2px; }
-  .sc-foot { padding-top: 10px; margin-top: 10px; border-top: 1px solid #f1f5f9; display: flex; flex-wrap: gap: 4px; }
-  .sc-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .sc-emoji { font-size: 30px; margin-bottom: 11px; }
+  .sc-zh { font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 3px; }
+  .sc-en { font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
+  .sc-steps { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .sc-step { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: #475569; }
+  .sc-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .sc-divider { width: 1px; height: 10px; background: #e2e8f0; margin-left: 3px; }
+  .sc-foot { padding-top: 12px; margin-top: 12px; border-top: 1px solid #f1f5f9; display: flex; flex-wrap: wrap; gap: 5px; }
+  .sc-tag { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
 
-  .footer { background: #fff; border: 1px solid #e8ecf0; border-radius: 12px; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; }
-  .footer-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #94a3b8; margin-bottom: 7px; }
-  .tech-row { display: flex; flex-wrap: wrap; gap: 5px; }
-  .tech-pill { background: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
-  .brand { font-size: 26px; font-weight: 800; color: #0f172a; letter-spacing: -1.5px; }
+  .footer { background: #fff; border: 1px solid #e8ecf0; border-radius: 14px; padding: 16px 26px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px; }
+  .tech-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tech-pill { background: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
+  .brand { font-size: 32px; font-weight: 800; color: #0f172a; letter-spacing: -1.5px; }
   .brand span { color: #6366f1; }
 </style>
 </head>
@@ -243,7 +270,6 @@
 <div class="preview">
 <div class="page">
 
-  <!-- HERO -->
   <div class="hero">
     <div>
       <div class="hero-eyebrow">
@@ -262,7 +288,6 @@
     </div>
   </div>
 
-  <!-- TAB BAR -->
   <div class="tab-bar">
     <label for="t-elder" class="tab-btn">👴 長照長者場景<span class="tab-badge">核心受眾 20%</span></label>
     <label for="t-gen"   class="tab-btn">👥 一般使用者場景<span class="tab-badge">延伸受眾 100%</span></label>
@@ -271,7 +296,6 @@
   <!-- TAB 1 ELDER -->
   <div class="tab-panel" id="panel-elder">
     <div class="three-col">
-      <!-- Pain -->
       <div class="card pain-card">
         <div class="label">Pain Points · 核心痛點</div>
         <div id="elder-pain-list">
@@ -282,7 +306,6 @@
           <div class="pain-row" data-idx="5"><div class="pain-icon">📋</div><div><div class="pain-zh" id="v-ep-5-zh">社工個案記錄繁瑣</div><div class="pain-en" id="v-ep-5-en">Tedious Case Management</div></div></div>
         </div>
       </div>
-      <!-- Features -->
       <div class="card feat-card">
         <div class="label">Core Features · 五大功能</div>
         <div class="feat-list">
@@ -293,7 +316,6 @@
           <div class="feat-row"><div class="feat-ico ico-emerald">🔔</div><div><div class="feat-zh" id="v-f5">多角色智慧推播</div><div class="feat-en">Multi-Role Smart Push</div></div></div>
         </div>
       </div>
-      <!-- Roles -->
       <div class="card role-card">
         <div class="label">User Roles · 使用角色</div>
         <div class="role-item"><div class="role-emoji">👴</div><div><div class="role-name-zh" id="v-er1">長者</div><div class="role-name-en">Elder</div><div class="tag-row"><span class="tag tag-indigo">被動接收</span><span class="tag tag-indigo">大字介面</span><span class="tag tag-indigo">語音提醒</span></div></div></div>
@@ -302,7 +324,6 @@
       </div>
     </div>
 
-    <!-- Devices -->
     <div class="devices-card">
       <div class="label">Devices & Touchpoints · 使用載體</div>
       <div class="devices-grid">
@@ -326,7 +347,6 @@
       </div>
     </div>
 
-    <!-- Scenarios Elder -->
     <div>
       <div class="label" style="padding-left:2px">Real Scenarios · 長照實際場景</div>
       <div class="scenario-grid">
@@ -412,8 +432,6 @@
         <div class="role-item"><div class="role-emoji">🏢</div><div><div class="role-name-zh" id="v-gr3">小型團隊</div><div class="role-name-en">Small Teams</div><div class="tag-row"><span class="tag tag-sky">外勤人員</span><span class="tag tag-sky">任務指派</span><span class="tag tag-sky">到點回報</span></div></div></div>
       </div>
     </div>
-
-    <!-- Scenarios General -->
     <div>
       <div class="label" style="padding-left:2px">Real Scenarios · 一般使用場景</div>
       <div class="scenario-grid">
@@ -471,7 +489,6 @@
     </div>
   </div><!-- /panel-general -->
 
-  <!-- AI FLOW -->
   <div class="flow-card">
     <div class="label">AI Pipeline · 智慧任務流程</div>
     <div class="flow-title" id="v-flow-title">從「輸入」到「提醒」—— 全程 AI 自動化</div>
@@ -516,14 +533,12 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
     <div><div class="footer-label">Tech Stack · 技術架構</div><div class="tech-row"><span class="tech-pill">FastAPI + PostgreSQL</span><span class="tech-pill">React PWA</span><span class="tech-pill">Firebase FCM</span><span class="tech-pill">OpenStreetMap</span><span class="tech-pill">Claude AI (OCR + NLU)</span><span class="tech-pill">Haversine Geofencing</span><span class="tech-pill">Web Speech API</span></div></div>
     <div class="brand">Ai<span>·</span>Eki</div>
   </div>
 
-</div><!-- /page -->
-</div><!-- /preview -->
+</div></div><!-- /page /preview -->
 
 <!-- ══ EDITOR ══ -->
 <div class="editor" id="editor">
@@ -542,7 +557,6 @@
   </div>
   <div class="editor-body">
 
-    <!-- HERO -->
     <div class="esec si open">
       <div class="esec-head">Hero 主視覺<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
@@ -558,15 +572,13 @@
       </div>
     </div>
 
-    <!-- ELDER PAIN -->
     <div class="esec sr">
       <div class="esec-head">長照痛點 Elder Pain Points<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
-        <div class="elist" id="ed-elder-pain" data-preview="elder-pain-list" data-prefix="ep" data-dot=""></div>
+        <div class="elist" data-preview="elder-pain-list" data-prefix="ep" data-type="pain"></div>
       </div>
     </div>
 
-    <!-- FEATURES -->
     <div class="esec sv">
       <div class="esec-head">五大功能 Features<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
@@ -578,67 +590,57 @@
       </div>
     </div>
 
-    <!-- ELDER SCENARIOS -->
     <div class="esec si">
       <div class="esec-head">長照場景 Elder Scenarios<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
         <div class="fgroup-label">場景 1</div>
         <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-esc1-zh"></div></div>
         <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-esc1-en"></div></div>
-        <div class="elist" id="ed-esc1-steps" data-preview="esc1-steps" data-prefix="esc1-s" data-type="step" data-dot="#818cf8"></div>
-
+        <div class="elist" data-preview="esc1-steps" data-prefix="esc1-s" data-type="step" data-dot="#818cf8"></div>
         <div class="fgroup-label">場景 2</div>
         <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-esc2-zh"></div></div>
         <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-esc2-en"></div></div>
-        <div class="elist" id="ed-esc2-steps" data-preview="esc2-steps" data-prefix="esc2-s" data-type="step" data-dot="#f87171"></div>
-
+        <div class="elist" data-preview="esc2-steps" data-prefix="esc2-s" data-type="step" data-dot="#f87171"></div>
         <div class="fgroup-label">場景 3</div>
         <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-esc3-zh"></div></div>
         <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-esc3-en"></div></div>
-        <div class="elist" id="ed-esc3-steps" data-preview="esc3-steps" data-prefix="esc3-s" data-type="step" data-dot="#fb923c"></div>
-
+        <div class="elist" data-preview="esc3-steps" data-prefix="esc3-s" data-type="step" data-dot="#fb923c"></div>
         <div class="fgroup-label">場景 4</div>
         <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-esc4-zh"></div></div>
         <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-esc4-en"></div></div>
-        <div class="elist" id="ed-esc4-steps" data-preview="esc4-steps" data-prefix="esc4-s" data-type="step" data-dot="#34d399"></div>
+        <div class="elist" data-preview="esc4-steps" data-prefix="esc4-s" data-type="step" data-dot="#34d399"></div>
       </div>
     </div>
 
-    <!-- GENERAL PAIN -->
     <div class="esec sr">
       <div class="esec-head">一般痛點 General Pain Points<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
-        <div class="elist" id="ed-gen-pain" data-preview="gen-pain-list" data-prefix="gp" data-dot=""></div>
+        <div class="elist" data-preview="gen-pain-list" data-prefix="gp" data-type="pain"></div>
       </div>
     </div>
 
-    <!-- GENERAL SCENARIOS -->
     <div class="esec so">
       <div class="esec-head">一般場景 General Scenarios<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
         <div class="fgroup-label">場景 1</div>
         <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc1-zh"></div></div>
         <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-gsc1-en"></div></div>
-        <div class="elist" id="ed-gsc1-steps" data-preview="gsc1-steps" data-prefix="gsc1-s" data-type="step" data-dot="#818cf8"></div>
-
+        <div class="elist" data-preview="gsc1-steps" data-prefix="gsc1-s" data-type="step" data-dot="#818cf8"></div>
         <div class="fgroup-label">場景 2</div>
         <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc2-zh"></div></div>
         <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-gsc2-en"></div></div>
-        <div class="elist" id="ed-gsc2-steps" data-preview="gsc2-steps" data-prefix="gsc2-s" data-type="step" data-dot="#f87171"></div>
-
+        <div class="elist" data-preview="gsc2-steps" data-prefix="gsc2-s" data-type="step" data-dot="#f87171"></div>
         <div class="fgroup-label">場景 3</div>
         <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc3-zh"></div></div>
         <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-gsc3-en"></div></div>
-        <div class="elist" id="ed-gsc3-steps" data-preview="gsc3-steps" data-prefix="gsc3-s" data-type="step" data-dot="#fb923c"></div>
-
+        <div class="elist" data-preview="gsc3-steps" data-prefix="gsc3-s" data-type="step" data-dot="#fb923c"></div>
         <div class="fgroup-label">場景 4</div>
         <div class="field-zh"><div class="field"><label>標題（中）</label><input type="text" data-target="v-gsc4-zh"></div></div>
         <div class="field-en"><div class="field"><label>Title (EN)</label><input type="text" data-target="v-gsc4-en"></div></div>
-        <div class="elist" id="ed-gsc4-steps" data-preview="gsc4-steps" data-prefix="gsc4-s" data-type="step" data-dot="#34d399"></div>
+        <div class="elist" data-preview="gsc4-steps" data-prefix="gsc4-s" data-type="step" data-dot="#34d399"></div>
       </div>
     </div>
 
-    <!-- AI FLOW -->
     <div class="esec se">
       <div class="esec-head">AI 流程 AI Flow<span class="esec-chevron">▼</span></div>
       <div class="esec-body">
@@ -653,27 +655,177 @@
         <div class="field-en"><div class="field"><label>Step 3 (EN)</label><input type="text" data-target="v-fl3-en"></div></div>
         <div class="field-zh"><div class="field"><label>步驟 4（中）</label><input type="text" data-target="v-fl4-zh"></div></div>
         <div class="field-en"><div class="field"><label>Step 4 (EN)</label><input type="text" data-target="v-fl4-en"></div></div>
-        <div class="fgroup-label">步驟 1 標籤 Tags</div>
-        <div class="elist" id="ed-fl1-tags" data-preview="fl1-tags" data-prefix="fl1-t" data-type="tag" data-tag-class="st-indigo"></div>
-        <div class="fgroup-label">步驟 2 標籤 Tags</div>
-        <div class="elist" id="ed-fl2-tags" data-preview="fl2-tags" data-prefix="fl2-t" data-type="tag" data-tag-class="st-orange"></div>
-        <div class="fgroup-label">步驟 3 標籤 Tags</div>
-        <div class="elist" id="ed-fl3-tags" data-preview="fl3-tags" data-prefix="fl3-t" data-type="tag" data-tag-class="st-indigo"></div>
-        <div class="fgroup-label">步驟 4 標籤 Tags</div>
-        <div class="elist" id="ed-fl4-tags" data-preview="fl4-tags" data-prefix="fl4-t" data-type="tag" data-tag-class="st-emerald"></div>
+        <div class="fgroup-label">步驟 1 標籤</div>
+        <div class="elist" data-preview="fl1-tags" data-prefix="fl1-t" data-type="tag" data-tag-class="st-indigo"></div>
+        <div class="fgroup-label">步驟 2 標籤</div>
+        <div class="elist" data-preview="fl2-tags" data-prefix="fl2-t" data-type="tag" data-tag-class="st-orange"></div>
+        <div class="fgroup-label">步驟 3 標籤</div>
+        <div class="elist" data-preview="fl3-tags" data-prefix="fl3-t" data-type="tag" data-tag-class="st-indigo"></div>
+        <div class="fgroup-label">步驟 4 標籤</div>
+        <div class="elist" data-preview="fl4-tags" data-prefix="fl4-t" data-type="tag" data-tag-class="st-emerald"></div>
       </div>
     </div>
 
-  </div><!-- /editor-body -->
-</div><!-- /editor -->
+  </div>
+</div>
 
 <script>
-// ── Static field sync (data-target → preview element)
+// ── Emoji dataset with bilingual keywords
+const EMOJI_DATA = [
+  // 健康醫療
+  {e:'💊',k:['藥','吃藥','medicine','pill','medication']},
+  {e:'🏥',k:['醫院','診所','hospital','clinic','medical']},
+  {e:'🩺',k:['醫生','看診','doctor','stethoscope','checkup']},
+  {e:'💉',k:['針','注射','injection','syringe','vaccine']},
+  {e:'🩹',k:['傷口','繃帶','bandage','wound','injury']},
+  {e:'🧬',k:['基因','科學','science','dna','biology']},
+  {e:'❤️',k:['心','心臟','heart','love','care','health']},
+  {e:'🫀',k:['心臟','heart','organ','cardiac']},
+  {e:'🩸',k:['血','血液','blood','test']},
+  {e:'🧪',k:['實驗','檢驗','test','lab','experiment']},
+  // 人物
+  {e:'👴',k:['長者','老人','elder','elderly','grandfather','grandpa']},
+  {e:'👵',k:['長者','老人','elder','elderly','grandmother','grandma']},
+  {e:'👨‍👩‍👦',k:['家人','家庭','family','parent']},
+  {e:'👩‍💼',k:['社工','工作','social worker','professional','office']},
+  {e:'👨‍⚕️',k:['醫生','護士','doctor','nurse','medical']},
+  {e:'👩‍⚕️',k:['護士','醫療','nurse','caregiver','medical']},
+  {e:'🙋',k:['用戶','個人','user','individual','person','me']},
+  {e:'👥',k:['團隊','群組','team','group','people']},
+  {e:'🤝',k:['合作','協助','cooperation','support','handshake']},
+  {e:'👶',k:['嬰兒','小孩','baby','child','infant']},
+  // 提醒警示
+  {e:'🔔',k:['通知','提醒','notification','reminder','bell','alert']},
+  {e:'🚨',k:['緊急','警示','emergency','alert','warning','sos']},
+  {e:'⚠️',k:['警告','warning','caution','danger']},
+  {e:'📢',k:['廣播','通知','announce','broadcast','speaker']},
+  {e:'🔕',k:['靜音','mute','silent','off']},
+  {e:'✅',k:['完成','確認','done','complete','check','ok']},
+  {e:'❌',k:['錯誤','取消','error','cancel','remove','delete']},
+  // 地點導航
+  {e:'📍',k:['位置','地點','地圖','location','pin','map','here']},
+  {e:'🗺️',k:['地圖','map','navigation','route']},
+  {e:'🏠',k:['家','居家','home','house','indoor']},
+  {e:'🏥',k:['醫院','hospital']},
+  {e:'🏪',k:['商店','超市','store','shop','supermarket','market']},
+  {e:'🏋️',k:['健身房','gym','fitness','exercise','workout']},
+  {e:'🚶',k:['走路','行走','散步','walk','wander','stroll']},
+  {e:'🚗',k:['車','交通','car','transport','drive','vehicle']},
+  {e:'🚌',k:['公車','bus','transport','commute']},
+  {e:'🛒',k:['購物','超市','shopping','cart','grocery','buy']},
+  // 時間
+  {e:'⏰',k:['時間','鬧鐘','time','alarm','clock','wake']},
+  {e:'📅',k:['日曆','行程','calendar','schedule','date','appointment']},
+  {e:'⏱️',k:['計時','timer','stopwatch','countdown']},
+  {e:'🌙',k:['夜晚','深夜','night','moon','sleep','late']},
+  {e:'☀️',k:['早上','白天','morning','sun','day','daytime']},
+  {e:'🌅',k:['早晨','sunrise','dawn','morning']},
+  // 科技 AI
+  {e:'🤖',k:['AI','機器人','robot','ai','automation','bot']},
+  {e:'🧠',k:['AI','智慧','思考','brain','smart','intelligence','ml']},
+  {e:'📱',k:['手機','平板','mobile','phone','tablet','app']},
+  {e:'💻',k:['電腦','桌機','computer','desktop','laptop','web']},
+  {e:'⌚',k:['手錶','智慧手錶','watch','smartwatch','wearable']},
+  {e:'📷',k:['拍照','截圖','camera','screenshot','photo','image']},
+  {e:'🎙️',k:['語音','麥克風','voice','microphone','speech','audio']},
+  {e:'🛰️',k:['GPS','衛星','satellite','gps','signal']},
+  {e:'💡',k:['想法','點子','idea','light','innovation','tip']},
+  {e:'🔧',k:['設定','工具','setting','tool','wrench','config']},
+  // 日常生活
+  {e:'📦',k:['包裹','取貨','package','parcel','delivery','box']},
+  {e:'📋',k:['清單','記錄','list','checklist','note','task']},
+  {e:'📄',k:['文件','單據','document','paper','report','record']},
+  {e:'🗣️',k:['說話','語音','speak','voice','talk','chat']},
+  {e:'🔁',k:['習慣','重複','habit','repeat','loop','routine']},
+  {e:'🏃',k:['運動','跑步','exercise','run','fitness','sport']},
+  {e:'😓',k:['疲累','壓力','tired','stress','burnout','exhaust']},
+  {e:'🍽️',k:['飲食','用餐','food','meal','eat','diet']},
+  {e:'💼',k:['工作','業務','work','business','job','office']},
+  {e:'📊',k:['資料','報告','data','chart','report','analytics']},
+  {e:'🎯',k:['目標','精準','target','goal','accuracy','focus']},
+  {e:'🔍',k:['搜尋','分析','search','analyze','find','detect']},
+];
+
+// ── Emoji picker factory
+function createEmojiPicker(currentEmoji, onSelect) {
+  const wrap = document.createElement('div');
+  wrap.className = 'epicker-wrap';
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'epicker-btn';
+  btn.textContent = currentEmoji;
+
+  const panel = document.createElement('div');
+  panel.className = 'epicker-panel';
+
+  const searchEl = document.createElement('input');
+  searchEl.type = 'text';
+  searchEl.className = 'epicker-search';
+  searchEl.placeholder = '搜尋圖示 / Search emoji…';
+
+  const grid = document.createElement('div');
+  grid.className = 'epicker-grid';
+
+  function renderGrid(q) {
+    grid.innerHTML = '';
+    const lq = q.toLowerCase();
+    const items = q ? EMOJI_DATA.filter(d => d.k.some(k => k.includes(lq)) || d.e === q) : EMOJI_DATA;
+    if (!items.length) {
+      const msg = document.createElement('div');
+      msg.className = 'epicker-empty';
+      msg.textContent = '找不到符合圖示';
+      grid.appendChild(msg);
+      return;
+    }
+    items.forEach(d => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'epicker-item';
+      b.textContent = d.e;
+      b.title = d.k[0];
+      b.addEventListener('click', () => {
+        btn.textContent = d.e;
+        onSelect(d.e);
+        panel.classList.remove('open');
+      });
+      grid.appendChild(b);
+    });
+  }
+
+  searchEl.addEventListener('input', () => renderGrid(searchEl.value.trim()));
+  renderGrid('');
+  panel.appendChild(searchEl);
+  panel.appendChild(grid);
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const willOpen = !panel.classList.contains('open');
+    document.querySelectorAll('.epicker-panel.open').forEach(p => p.classList.remove('open'));
+    if (willOpen) {
+      panel.classList.add('open');
+      searchEl.value = '';
+      renderGrid('');
+      setTimeout(() => searchEl.focus(), 60);
+    }
+  });
+  panel.addEventListener('click', e => e.stopPropagation());
+
+  wrap.appendChild(btn);
+  wrap.appendChild(panel);
+  return wrap;
+}
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.epicker-panel.open').forEach(p => p.classList.remove('open'));
+});
+
+// ── Static field sync
 document.querySelectorAll('[data-target]').forEach(el => {
-  const target = document.getElementById(el.dataset.target);
-  if (!target) return;
-  el.value = target.textContent.trim();
-  el.addEventListener('input', () => { target.textContent = el.value; });
+  const t = document.getElementById(el.dataset.target);
+  if (!t) return;
+  el.value = t.textContent.trim();
+  el.addEventListener('input', () => { t.textContent = el.value; });
 });
 
 // ── Section collapse
@@ -686,200 +838,264 @@ document.querySelectorAll('.lt-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.lt-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const editor = document.getElementById('editor');
-    editor.classList.remove('zh-only', 'en-only');
-    if (btn.dataset.lang === 'zh') editor.classList.add('zh-only');
-    if (btn.dataset.lang === 'en') editor.classList.add('en-only');
+    const ed = document.getElementById('editor');
+    ed.classList.remove('zh-only', 'en-only');
+    if (btn.dataset.lang === 'zh') ed.classList.add('zh-only');
+    if (btn.dataset.lang === 'en') ed.classList.add('en-only');
   });
 });
 
-// ── Dynamic list manager
-// Supports type: "pain" (pain-row items), "step" (scenario steps), "tag" (flow tags)
+// ── Pain list
+function initPainList(el) {
+  const preview = document.getElementById(el.dataset.preview);
+  const prefix  = el.dataset.prefix;
+  let counter   = 0;
 
-let _uid = 100; // counter for new element IDs
-function uid() { return ++_uid; }
-
-function initPainList(editorEl) {
-  const previewList = document.getElementById(editorEl.dataset.preview);
-  const prefix = editorEl.dataset.prefix;
-  let counter = 0;
-
-  function makeEditorItem(idx, zhText, enText, icon) {
+  function makeItem(idx, icon, zh, en) {
     const item = document.createElement('div');
     item.className = 'elist-item';
     item.dataset.idx = idx;
-    item.innerHTML = `
-      <div class="elist-item-head">
-        <span class="elist-item-num">#${idx}</span>
-        <button class="elist-del" title="刪除此項">×</button>
-      </div>
-      <div class="field-zh"><div class="field"><label>圖示 Icon</label><input type="text" class="icon-input" value="${icon}" style="width:60px;display:inline"></div></div>
-      <div class="field-zh"><div class="field"><label>中文</label><input type="text" data-target="v-${prefix}-${idx}-zh" value="${zhText}"></div></div>
-      <div class="field-en"><div class="field"><label>English</label><input type="text" data-target="v-${prefix}-${idx}-en" value="${enText}"></div></div>`;
-    // wire static inputs
-    item.querySelectorAll('[data-target]').forEach(el => {
-      const t = document.getElementById(el.dataset.target);
-      if (t) el.addEventListener('input', () => { t.textContent = el.value; });
-    });
-    // wire icon
-    item.querySelector('.icon-input').addEventListener('input', e => {
-      const row = previewList.querySelector(`[data-idx="${idx}"] .pain-icon`);
-      if (row) row.textContent = e.target.value;
-    });
-    // wire delete
-    item.querySelector('.elist-del').addEventListener('click', () => {
-      previewList.querySelector(`[data-idx="${idx}"]`)?.remove();
+
+    const head = document.createElement('div');
+    head.className = 'elist-item-head';
+    const num = document.createElement('span');
+    num.className = 'elist-item-num';
+    num.textContent = `#${idx}`;
+    const del = document.createElement('button');
+    del.className = 'elist-del';
+    del.type = 'button';
+    del.textContent = '×';
+    del.addEventListener('click', () => {
+      preview.querySelector(`[data-idx="${idx}"]`)?.remove();
       item.remove();
     });
+    head.appendChild(num);
+    head.appendChild(del);
+    item.appendChild(head);
+
+    // Emoji picker row
+    const iconLabel = document.createElement('div');
+    iconLabel.style.cssText = 'font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;';
+    iconLabel.textContent = '圖示 Icon';
+    const picker = createEmojiPicker(icon, newIcon => {
+      const iconEl = preview.querySelector(`[data-idx="${idx}"] .pain-icon`);
+      if (iconEl) iconEl.textContent = newIcon;
+    });
+    item.appendChild(iconLabel);
+    item.appendChild(picker);
+
+    // ZH field
+    const zhWrap = document.createElement('div');
+    zhWrap.className = 'field-zh';
+    const zhField = document.createElement('div');
+    zhField.className = 'field';
+    const zhLabel = document.createElement('label');
+    zhLabel.textContent = '中文';
+    const zhInput = document.createElement('input');
+    zhInput.type = 'text';
+    zhInput.value = zh;
+    zhInput.dataset.target = `v-${prefix}-${idx}-zh`;
+    const tZh = document.getElementById(`v-${prefix}-${idx}-zh`);
+    if (tZh) zhInput.addEventListener('input', () => { tZh.textContent = zhInput.value; });
+    zhField.appendChild(zhLabel);
+    zhField.appendChild(zhInput);
+    zhWrap.appendChild(zhField);
+    item.appendChild(zhWrap);
+
+    // EN field
+    const enWrap = document.createElement('div');
+    enWrap.className = 'field-en';
+    const enField = document.createElement('div');
+    enField.className = 'field';
+    const enLabel = document.createElement('label');
+    enLabel.textContent = 'English';
+    const enInput = document.createElement('input');
+    enInput.type = 'text';
+    enInput.value = en;
+    enInput.dataset.target = `v-${prefix}-${idx}-en`;
+    const tEn = document.getElementById(`v-${prefix}-${idx}-en`);
+    if (tEn) enInput.addEventListener('input', () => { tEn.textContent = enInput.value; });
+    enField.appendChild(enLabel);
+    enField.appendChild(enInput);
+    enWrap.appendChild(enField);
+    item.appendChild(enWrap);
+
     return item;
   }
 
-  // Init from existing preview rows
-  previewList.querySelectorAll('.pain-row').forEach(row => {
-    const idx = parseInt(row.dataset.idx);
-    counter = Math.max(counter, idx);
+  preview.querySelectorAll('.pain-row').forEach(row => {
+    const idx  = parseInt(row.dataset.idx);
+    counter    = Math.max(counter, idx);
     const icon = row.querySelector('.pain-icon')?.textContent.trim() || '📌';
-    const zh   = row.querySelector('.pain-zh')?.textContent.trim() || '';
-    const en   = row.querySelector('.pain-en')?.textContent.trim() || '';
-    editorEl.appendChild(makeEditorItem(idx, zh, en, icon));
+    const zh   = row.querySelector('.pain-zh')?.textContent.trim()   || '';
+    const en   = row.querySelector('.pain-en')?.textContent.trim()   || '';
+    el.appendChild(makeItem(idx, icon, zh, en));
   });
 
-  // Add button
   const addBtn = document.createElement('button');
   addBtn.className = 'elist-add';
+  addBtn.type = 'button';
   addBtn.textContent = '＋ 新增痛點';
   addBtn.addEventListener('click', () => {
     counter++;
     const idx = counter;
-    // Add to preview
     const row = document.createElement('div');
-    row.className = 'pain-row'; row.dataset.idx = idx;
+    row.className = 'pain-row';
+    row.dataset.idx = idx;
     row.innerHTML = `<div class="pain-icon">📌</div><div><div class="pain-zh" id="v-${prefix}-${idx}-zh">新痛點</div><div class="pain-en" id="v-${prefix}-${idx}-en">New pain point</div></div>`;
-    previewList.appendChild(row);
-    // Add editor item
-    const edItem = makeEditorItem(idx, '新痛點', 'New pain point', '📌');
-    editorEl.insertBefore(edItem, addBtn);
+    preview.appendChild(row);
+    el.insertBefore(makeItem(idx, '📌', '新痛點', 'New pain point'), addBtn);
   });
-  editorEl.appendChild(addBtn);
+  el.appendChild(addBtn);
 }
 
-function initStepList(editorEl) {
-  const previewList = document.getElementById(editorEl.dataset.preview);
-  const prefix = editorEl.dataset.prefix;
-  const dot = editorEl.dataset.dot || '#818cf8';
-  let counter = 0;
+// ── Step list
+function initStepList(el) {
+  const preview = document.getElementById(el.dataset.preview);
+  const prefix  = el.dataset.prefix;
+  const dot     = el.dataset.dot || '#818cf8';
+  let counter   = 0;
 
-  function makeEditorItem(idx, text) {
+  function makeItem(idx, text) {
     const item = document.createElement('div');
-    item.className = 'elist-item';
+    item.className = 'elist-item field-zh';
     item.dataset.idx = idx;
-    item.innerHTML = `
-      <div class="elist-item-head">
-        <span class="elist-item-num">步驟 ${idx}</span>
-        <button class="elist-del" title="刪除">×</button>
-      </div>
-      <div class="field-zh"><div class="field"><label>內容</label><input type="text" data-target="v-${prefix}${idx}" value="${text}"></div></div>`;
-    item.querySelectorAll('[data-target]').forEach(el => {
-      const t = document.getElementById(el.dataset.target);
-      if (t) el.addEventListener('input', () => { t.textContent = el.value; });
-    });
-    item.querySelector('.elist-del').addEventListener('click', () => {
-      // Remove the sc-step and preceding sc-divider
-      const stepEl = previewList.querySelector(`.sc-step[data-idx="${idx}"]`);
+    const head = document.createElement('div');
+    head.className = 'elist-item-head';
+    const num = document.createElement('span');
+    num.className = 'elist-item-num';
+    num.textContent = `步驟 ${idx}`;
+    const del = document.createElement('button');
+    del.className = 'elist-del';
+    del.type = 'button';
+    del.textContent = '×';
+    del.addEventListener('click', () => {
+      const stepEl = preview.querySelector(`.sc-step[data-idx="${idx}"]`);
       if (stepEl) {
-        const prev = stepEl.previousElementSibling;
-        if (prev?.classList.contains('sc-divider')) prev.remove();
+        stepEl.previousElementSibling?.classList.contains('sc-divider') && stepEl.previousElementSibling.remove();
         stepEl.remove();
       }
       item.remove();
     });
+    head.appendChild(num);
+    head.appendChild(del);
+    const field = document.createElement('div');
+    field.className = 'field';
+    const label = document.createElement('label');
+    label.textContent = '內容';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = text;
+    const spanId = `v-${prefix}${idx}`;
+    const t = document.getElementById(spanId);
+    if (t) input.addEventListener('input', () => { t.textContent = input.value; });
+    field.appendChild(label);
+    field.appendChild(input);
+    item.appendChild(head);
+    item.appendChild(field);
     return item;
   }
 
-  previewList.querySelectorAll('.sc-step').forEach(step => {
+  preview.querySelectorAll('.sc-step').forEach(step => {
     const idx = parseInt(step.dataset.idx);
     counter = Math.max(counter, idx);
     const span = step.querySelector('span');
-    // Ensure span has an id
     if (!span.id) span.id = `v-${prefix}${idx}`;
-    editorEl.appendChild(makeEditorItem(idx, span.textContent.trim()));
+    el.appendChild(makeItem(idx, span.textContent.trim()));
   });
 
   const addBtn = document.createElement('button');
   addBtn.className = 'elist-add';
+  addBtn.type = 'button';
   addBtn.textContent = '＋ 新增步驟';
   addBtn.addEventListener('click', () => {
     counter++;
     const idx = counter;
     const spanId = `v-${prefix}${idx}`;
-    // Add divider + step to preview
-    const div = document.createElement('div'); div.className = 'sc-divider';
-    const stepEl = document.createElement('div');
-    stepEl.className = 'sc-step'; stepEl.dataset.idx = idx;
-    stepEl.innerHTML = `<div class="sc-dot" style="background:${dot}"></div><span id="${spanId}">新步驟</span>`;
-    previewList.appendChild(div);
-    previewList.appendChild(stepEl);
-    const edItem = makeEditorItem(idx, '新步驟');
-    editorEl.insertBefore(edItem, addBtn);
+    const div = document.createElement('div');
+    div.className = 'sc-divider';
+    const step = document.createElement('div');
+    step.className = 'sc-step';
+    step.dataset.idx = idx;
+    step.innerHTML = `<div class="sc-dot" style="background:${dot}"></div><span id="${spanId}">新步驟</span>`;
+    preview.appendChild(div);
+    preview.appendChild(step);
+    el.insertBefore(makeItem(idx, '新步驟'), addBtn);
   });
-  editorEl.appendChild(addBtn);
+  el.appendChild(addBtn);
 }
 
-function initTagList(editorEl) {
-  const previewList = document.getElementById(editorEl.dataset.preview);
-  const prefix = editorEl.dataset.prefix;
-  const tagClass = editorEl.dataset.tagClass || 'st-indigo';
-  let counter = 0;
+// ── Tag list
+function initTagList(el) {
+  const preview  = document.getElementById(el.dataset.preview);
+  const prefix   = el.dataset.prefix;
+  const tagClass = el.dataset.tagClass || 'st-indigo';
+  let counter    = 0;
 
-  function makeEditorItem(idx, text) {
+  function makeItem(idx, text) {
     const item = document.createElement('div');
-    item.className = 'elist-item';
+    item.className = 'elist-item field-zh';
     item.dataset.idx = idx;
-    item.innerHTML = `
-      <div class="elist-item-head">
-        <span class="elist-item-num">標籤 ${idx}</span>
-        <button class="elist-del" title="刪除">×</button>
-      </div>
-      <div class="field-zh"><div class="field"><label>內容</label><input type="text" data-target="v-${prefix}${idx}" value="${text}"></div></div>`;
-    item.querySelectorAll('[data-target]').forEach(el => {
-      const t = document.getElementById(el.dataset.target);
-      if (t) el.addEventListener('input', () => { t.textContent = el.value; });
-    });
-    item.querySelector('.elist-del').addEventListener('click', () => {
+    const head = document.createElement('div');
+    head.className = 'elist-item-head';
+    const num = document.createElement('span');
+    num.className = 'elist-item-num';
+    num.textContent = `標籤 ${idx}`;
+    const del = document.createElement('button');
+    del.className = 'elist-del';
+    del.type = 'button';
+    del.textContent = '×';
+    del.addEventListener('click', () => {
       document.getElementById(`v-${prefix}${idx}`)?.remove();
       item.remove();
     });
+    head.appendChild(num);
+    head.appendChild(del);
+    const field = document.createElement('div');
+    field.className = 'field';
+    const label = document.createElement('label');
+    label.textContent = '內容';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = text;
+    const t = document.getElementById(`v-${prefix}${idx}`);
+    if (t) input.addEventListener('input', () => { t.textContent = input.value; });
+    field.appendChild(label);
+    field.appendChild(input);
+    item.appendChild(head);
+    item.appendChild(field);
     return item;
   }
 
-  previewList.querySelectorAll('.step-tag').forEach(tag => {
-    const idx = parseInt(tag.id?.replace(`v-${prefix}`, '') || ++counter);
+  preview.querySelectorAll('.step-tag').forEach(tag => {
+    const m = tag.id?.match(/\d+$/);
+    const idx = m ? parseInt(m[0]) : ++counter;
     counter = Math.max(counter, idx);
     if (!tag.id) tag.id = `v-${prefix}${idx}`;
-    editorEl.appendChild(makeEditorItem(idx, tag.textContent.trim()));
+    el.appendChild(makeItem(idx, tag.textContent.trim()));
   });
 
   const addBtn = document.createElement('button');
   addBtn.className = 'elist-add';
+  addBtn.type = 'button';
   addBtn.textContent = '＋ 新增標籤';
   addBtn.addEventListener('click', () => {
     counter++;
     const idx = counter;
-    const tagEl = document.createElement('span');
-    tagEl.className = `step-tag ${tagClass}`;
-    tagEl.id = `v-${prefix}${idx}`;
-    tagEl.textContent = '新標籤';
-    previewList.appendChild(tagEl);
-    const edItem = makeEditorItem(idx, '新標籤');
-    editorEl.insertBefore(edItem, addBtn);
+    const tag = document.createElement('span');
+    tag.className = `step-tag ${tagClass}`;
+    tag.id = `v-${prefix}${idx}`;
+    tag.textContent = '新標籤';
+    preview.appendChild(tag);
+    el.insertBefore(makeItem(idx, '新標籤'), addBtn);
   });
-  editorEl.appendChild(addBtn);
+  el.appendChild(addBtn);
 }
 
 // Init all dynamic lists
 document.querySelectorAll('.elist').forEach(el => {
   const type = el.dataset.type;
-  if (!type)            initPainList(el);
+  if (type === 'pain')      initPainList(el);
   else if (type === 'step') initStepList(el);
   else if (type === 'tag')  initTagList(el);
 });
@@ -890,12 +1106,13 @@ document.getElementById('save-btn').addEventListener('click', () => {
     if (el.tagName === 'TEXTAREA') el.textContent = el.value;
     else el.setAttribute('value', el.value);
   });
+  // Snapshot emoji picker current values into button text (already in DOM, outerHTML captures it)
   const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const url  = URL.createObjectURL(blob);
   const ts   = new Date().toISOString().slice(0,10);
-  const a    = Object.assign(document.createElement('a'), { href: url, download: `ai-eki-editor-${ts}.html` });
-  a.click(); URL.revokeObjectURL(url);
+  Object.assign(document.createElement('a'), { href: url, download: `ai-eki-editor-${ts}.html` }).click();
+  URL.revokeObjectURL(url);
 });
 
 // ── Export presentation
@@ -904,12 +1121,12 @@ document.getElementById('export-btn').addEventListener('click', () => {
   const previewEl = document.querySelector('.preview');
   const exportCSS = styleEl.textContent
     .replace(/\/\* ── EDITOR[\s\S]*?(?=\/\* ══)/m, '')
-    .replace(/body\s*\{[\s\S]*?\}/, 'body{font-family:"Segoe UI","PingFang TC","Noto Sans TC",sans-serif;background:#f4f6f9;color:#1e293b;padding:32px 24px;font-size:13px;line-height:1.5;}');
+    .replace(/body\s*\{[\s\S]*?\}/, 'body{font-family:"Segoe UI","PingFang TC","Noto Sans TC",sans-serif;background:#f4f6f9;color:#1e293b;padding:36px 28px;font-size:16px;line-height:1.6;}');
   const html = `<!DOCTYPE html>\n<html lang="zh-TW">\n<head>\n<meta charset="UTF-8">\n<title>Ai·Eki</title>\n<style>${exportCSS}</style>\n</head>\n<body>\n<input type="radio" name="tab" id="t-elder" checked>\n<input type="radio" name="tab" id="t-gen">\n${previewEl.innerHTML}\n</body>\n</html>`;
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const url  = URL.createObjectURL(blob);
-  const a    = Object.assign(document.createElement('a'), { href: url, download: 'ai-eki-overview-edited.html' });
-  a.click(); URL.revokeObjectURL(url);
+  Object.assign(document.createElement('a'), { href: url, download: 'ai-eki-overview-edited.html' }).click();
+  URL.revokeObjectURL(url);
 });
 </script>
 </body>

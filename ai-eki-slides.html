@@ -46,8 +46,8 @@ body {
 .sl-sub   { font-size: 17px; color: #64748b; }
 
 /* ── COVER SLIDE ── */
-.cover-body { flex: 1; display: flex; align-items: center; justify-content: space-between; }
-.cover-left { max-width: 580px; }
+.cover-body { flex: 1; display: flex; align-items: center; justify-content: flex-start; gap: 56px; }
+.cover-left { max-width: 520px; }
 .cover-logo { font-size: 86px; font-weight: 900; color: #0f172a; letter-spacing: -4px; line-height: 1; margin-bottom: 16px; }
 .cover-logo span { color: #6366f1; }
 .cover-tag  { font-size: 24px; font-weight: 600; color: #334155; margin-bottom: 8px; }
@@ -64,52 +64,52 @@ body {
 
 /* ── PROFILE SLIDE ── */
 .profile-grid {
-  display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; flex: 1;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; flex: 1;
 }
 .prof-card {
   background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
-  padding: 18px 10px; display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 22px 16px; display: flex; flex-direction: column; align-items: center; gap: 14px;
   text-align: center;
 }
-.prof-emoji { font-size: 36px; }
-.prof-zh { font-size: 16px; font-weight: 700; color: #1e293b; line-height: 1.4; }
+.prof-emoji { font-size: 46px; }
+.prof-zh { font-size: 18px; font-weight: 700; color: #1e293b; line-height: 1.5; }
 
 /* ── PAIN SLIDE ── */
-.pain-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; flex: 1; }
+.pain-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; flex: 1; }
 .pain-card {
   background: #fff; border: 1px solid #fca5a5; border-top: 3px solid #f87171;
-  border-radius: 14px; padding: 20px 16px; display: flex; flex-direction: column; gap: 12px;
+  border-radius: 12px; padding: 14px 12px; display: flex; flex-direction: column; gap: 8px;
 }
-.pain-ico { font-size: 34px; }
-.pain-title { font-size: 18px; font-weight: 700; color: #1e293b; }
-.pain-desc  { font-size: 14px; color: #64748b; line-height: 1.6; flex: 1; }
+.pain-ico { font-size: 30px; }
+.pain-title { font-size: 17px; font-weight: 700; color: #1e293b; }
+.pain-desc  { font-size: 13px; color: #64748b; line-height: 1.55; flex: 1; }
 
 /* ── FEATURE SLIDE ── */
-.feat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; flex: 1; }
+.feat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; flex: 1; }
 .feat-card {
-  background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
-  padding: 20px 16px; display: flex; flex-direction: column; gap: 10px;
+  background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
+  padding: 14px 12px; display: flex; flex-direction: column; gap: 8px;
 }
-.feat-num { font-size: 12px; font-weight: 800; color: #6366f1; letter-spacing: 1px; }
+.feat-num { font-size: 11px; font-weight: 800; color: #6366f1; letter-spacing: 1px; }
 .feat-ico-wrap {
-  width: 48px; height: 48px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; font-size: 24px;
+  width: 42px; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
 }
 .fi1 { background: #eef2ff; } .fi2 { background: #eff6ff; }
 .fi3 { background: #f5f3ff; } .fi4 { background: #fffbeb; } .fi5 { background: #f0fdf4; }
-.feat-title { font-size: 18px; font-weight: 700; color: #1e293b; }
-.feat-desc  { font-size: 14px; color: #64748b; line-height: 1.6; flex: 1; }
-.feat-tags  { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.feat-title { font-size: 17px; font-weight: 700; color: #1e293b; }
+.feat-desc  { font-size: 13px; color: #64748b; line-height: 1.55; flex: 1; }
+.feat-tags  { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
 .ftag { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
 .ftag-i { background: #eef2ff; color: #4338ca; }
 .ftag-g { background: #f0fdf4; color: #065f46; }
 .ftag-o { background: #fff7ed; color: #c2410c; }
 
 /* ── DEVICE SLIDE ── */
-.device-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; flex: 1; }
+.device-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; flex: 1; }
 .dev-card {
-  background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
-  padding: 22px 18px; display: flex; flex-direction: column; gap: 10px;
+  background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
+  padding: 16px 14px; display: flex; flex-direction: column; gap: 8px;
 }
 .dev-card.highlight { border-color: #fde68a; background: #fffbeb; }
 .dev-ico-wrap { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
@@ -122,27 +122,27 @@ body {
 .dev-badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; background: #fef3c7; color: #92400e; margin-top: auto; width: fit-content; }
 
 /* ── SCENARIO SLIDE ── */
-.scene-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
+.scene-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; }
 .scene-card {
-  background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 16px;
-  padding: 24px 22px; display: flex; flex-direction: column;
+  background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 14px;
+  padding: 18px 18px; display: flex; flex-direction: column;
 }
-.scene-emoji { font-size: 36px; margin-bottom: 10px; }
-.scene-title { font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
-.scene-sub   { font-size: 13px; color: #94a3b8; margin-bottom: 16px; }
+.scene-emoji { font-size: 32px; margin-bottom: 8px; }
+.scene-title { font-size: 19px; font-weight: 700; color: #1e293b; margin-bottom: 3px; }
+.scene-sub   { font-size: 12px; color: #94a3b8; margin-bottom: 12px; }
 .scene-steps { display: flex; flex-direction: column; gap: 0; flex: 1; }
-.sc-step { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; }
-.sc-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
-.sc-text { font-size: 16px; color: #334155; line-height: 1.5; }
-.sc-div  { width: 1px; height: 10px; background: #e2e8f0; margin-left: 4px; }
-.scene-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #e8ecf0; }
-.stag { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
+.sc-step { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; }
+.sc-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.sc-text { font-size: 15px; color: #334155; line-height: 1.5; }
+.sc-div  { width: 1px; height: 8px; background: #e2e8f0; margin-left: 4px; }
+.scene-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e8ecf0; }
+.stag { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
 
 /* ── EXTEND SLIDE ── */
-.extend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1; }
+.extend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; }
 .ext-card {
-  background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
-  padding: 22px 20px; display: flex; flex-direction: column; gap: 12px;
+  background: #fff; border: 1px solid #e8ecf0; border-radius: 12px;
+  padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;
 }
 .ext-head { display: flex; align-items: center; gap: 12px; }
 .ext-emoji { font-size: 30px; }
@@ -291,13 +291,11 @@ body {
       <div class="sl-title" id="e-s2-title">誰是我們的核心用戶？</div>
       <div class="sl-sub" id="e-s2-sub">以退休長者為設計核心，透過真實生活情境打造 AI 生活夥伴</div>
     </div>
-    <div class="profile-grid" style="grid-template-columns:repeat(6,1fr)">
-      <div class="prof-card"><div class="prof-emoji" id="e-p2-ico">💊</div><div class="prof-zh" id="e-p2-zh">定期用藥或保健食品</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p3-ico">🏥</div><div class="prof-zh" id="e-p3-zh">定期復健或健康檢查</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p4-ico">🚌</div><div class="prof-zh" id="e-p4-zh">常與同齡友人結伴出遊</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p5-ico">📸</div><div class="prof-zh" id="e-p5-zh">出遊愛拍照分享買名產</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p6-ico">🥘</div><div class="prof-zh" id="e-p6-zh">偶爾自炊，定期採買</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p7-ico">🔍</div><div class="prof-zh" id="e-p7-zh">有時忘記東西放在哪</div></div>
+    <div class="profile-grid">
+      <div class="prof-card"><div class="prof-emoji" id="e-p2-ico">💊</div><div class="prof-zh" id="e-p2-zh">定期用藥、復健與健康檢查</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p4-ico">🚌</div><div class="prof-zh" id="e-p4-zh">常與同齡友人結伴出遊拍照</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p6-ico">🥘</div><div class="prof-zh" id="e-p6-zh">偶爾自炊，定期採買食材</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p7-ico">🔍</div><div class="prof-zh" id="e-p7-zh">有時忘記東西放在哪裡</div></div>
     </div>
   </div>
 
@@ -328,8 +326,8 @@ body {
       <div class="feat-card">
         <div class="feat-num">01</div>
         <div class="feat-ico-wrap fi1" id="e-f1-ico">⏰</div>
-        <div class="feat-title" id="e-f1-title">時間觸發提醒</div>
-        <div class="feat-desc" id="e-f1-desc">服藥、復健、固定行程由主機語音精準播報，不再遺漏</div>
+        <div class="feat-title" id="e-f1-title">語音 + 虛擬電話提醒</div>
+        <div class="feat-desc" id="e-f1-desc">主機語音播報提醒；長時間未回應，自動撥打虛擬電話確認</div>
         <div class="feat-tags"><span class="ftag ftag-i">解決痛點 1</span></div>
       </div>
       <div class="feat-card">
@@ -350,7 +348,7 @@ body {
         <div class="feat-num">04</div>
         <div class="feat-ico-wrap fi4" id="e-f4-ico">🏠</div>
         <div class="feat-title" id="e-f4-title">家庭 AI 中樞</div>
-        <div class="feat-desc" id="e-f4-desc">低功耗主機 24/7 語音播報、BLE 室內物品定位、本地 AI 護隱私</div>
+        <div class="feat-desc" id="e-f4-desc">語音播報 + 虛擬電話雙重提醒，BLE 室內定位，本地 AI 不上雲</div>
         <div class="feat-tags"><span class="ftag ftag-i">解決痛點 3</span><span class="ftag ftag-o">公司產品</span></div>
       </div>
       <div class="feat-card">
@@ -386,7 +384,7 @@ body {
         <div class="dev-ico-wrap" style="background:#fef3c7">🖥️</div>
         <div><div class="dev-role">AI 中樞 ★ 核心差異化</div><div class="dev-name" id="e-d2-name">低功耗主機</div><div class="dev-en" id="e-d2-en">Mini PC / Chromebox · 15–35W · 24/7</div></div>
         <div class="dev-uses">
-          <div class="du" id="e-d2-u1">語音播報提醒，傳遍全室</div>
+          <div class="du" id="e-d2-u1">語音播報 + 虛擬電話雙重提醒</div>
           <div class="du" id="e-d2-u2">本地 AI 運算，健康數據不上雲</div>
           <div class="du" id="e-d2-u3">BLE 接收，室內物品定位</div>
           <div class="du" id="e-d2-u4">照片影片存儲，回憶觸發中樞</div>
@@ -421,7 +419,7 @@ body {
     <div class="sl-head">
       <div class="sl-badge">場景一：健康照護</div>
       <div class="sl-title" id="e-s6-title">每天的健康任務，AI 自動完成</div>
-      <div class="sl-sub" id="e-s6-sub">主機語音提醒 + 平板確認 + 未回應通知家人</div>
+      <div class="sl-sub" id="e-s6-sub">主機語音提醒 → 未回應自動撥打虛擬電話 → 通知家人</div>
     </div>
     <div class="scene-cols">
       <div class="scene-card">
@@ -433,11 +431,12 @@ body {
           <div class="sc-div"></div>
           <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc1-s2">平板顯示全螢幕確認畫面，點擊完成</div></div>
           <div class="sc-div"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc1-s3">60 秒未確認 → 自動通知家人</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc1-s3">60 秒未確認 → 自動撥打虛擬電話，同步通知家人</div></div>
         </div>
         <div class="scene-tags">
           <span class="stag" style="background:#eef2ff;color:#4338ca">⏰ 時間觸發</span>
-          <span class="stag" style="background:#f0fdf4;color:#065f46">🏠 AI 中樞播報</span>
+          <span class="stag" style="background:#f0fdf4;color:#065f46">🔊 語音播報</span>
+          <span class="stag" style="background:#f5f3ff;color:#5b21b6">📞 虛擬電話</span>
           <span class="stag" style="background:#fff7ed;color:#c2410c">👨‍👩‍👦 家人通知</span>
         </div>
       </div>
@@ -675,13 +674,11 @@ body {
         <div class="esec-body">
           <div class="field"><label>標題</label><input type="text" data-target="e-s2-title"></div>
           <div class="field"><label>副標</label><input type="text" data-target="e-s2-sub"></div>
-          <div class="fgroup">6 個特徵</div>
+          <div class="fgroup">4 個特徵</div>
           <div class="field"><label>特徵 1</label><input type="text" data-target="e-p2-zh"></div>
-          <div class="field"><label>特徵 2</label><input type="text" data-target="e-p3-zh"></div>
-          <div class="field"><label>特徵 3</label><input type="text" data-target="e-p4-zh"></div>
-          <div class="field"><label>特徵 4</label><input type="text" data-target="e-p5-zh"></div>
-          <div class="field"><label>特徵 5</label><input type="text" data-target="e-p6-zh"></div>
-          <div class="field"><label>特徵 6</label><input type="text" data-target="e-p7-zh"></div>
+          <div class="field"><label>特徵 2</label><input type="text" data-target="e-p4-zh"></div>
+          <div class="field"><label>特徵 3</label><input type="text" data-target="e-p6-zh"></div>
+          <div class="field"><label>特徵 4</label><input type="text" data-target="e-p7-zh"></div>
         </div>
       </div>
 

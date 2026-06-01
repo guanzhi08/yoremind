@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ai·Eki — 商業提案</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Segoe UI","PingFang TC","Noto Sans TC",sans-serif;
+  display: flex; height: 100vh; overflow: hidden;
+  color: #1e293b; font-size: 15px;
+}
+
+/* ── DECK ── */
+.deck { flex: 1; position: relative; overflow: hidden; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  padding: 44px 64px 80px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.22s;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+
+/* Slide backgrounds */
+.sl-cover   { background: linear-gradient(135deg, #eef2ff 0%, #f0fdf4 100%); }
+.sl-profile { background: #fafaf8; }
+.sl-pain    { background: #fff9f9; }
+.sl-feature { background: #fff; }
+.sl-device  { background: #f8faff; }
+.sl-scene   { background: #fff; }
+.sl-extend  { background: #f8fffe; }
+.sl-summary { background: #faf5ff; }
+
+/* Slide header */
+.sl-head { margin-bottom: 28px; }
+.sl-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #6366f1;
+  background: #eef2ff; padding: 4px 12px; border-radius: 20px;
+  margin-bottom: 10px;
+}
+.sl-title { font-size: 30px; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 6px; }
+.sl-sub   { font-size: 15px; color: #64748b; }
+
+/* ── COVER SLIDE ── */
+.cover-body { flex: 1; display: flex; align-items: center; justify-content: space-between; }
+.cover-left { max-width: 600px; }
+.cover-logo { font-size: 80px; font-weight: 900; color: #0f172a; letter-spacing: -4px; line-height: 1; margin-bottom: 16px; }
+.cover-logo span { color: #6366f1; }
+.cover-tag  { font-size: 22px; font-weight: 600; color: #334155; margin-bottom: 8px; }
+.cover-en   { font-size: 14px; color: #94a3b8; font-style: italic; margin-bottom: 28px; }
+.cover-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+.cpill { padding: 7px 18px; border-radius: 24px; font-size: 13px; font-weight: 600; }
+.cpill-i { background: #6366f1; color: #fff; }
+.cpill-g { background: #e2e8f0; color: #475569; }
+.cover-right { display: flex; flex-direction: column; gap: 12px; min-width: 240px; }
+.cover-stat { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px 18px; }
+.cs-num { font-size: 32px; font-weight: 800; color: #6366f1; }
+.cs-label { font-size: 12px; color: #64748b; }
+.cover-arrow { text-align: center; margin-top: 12px; color: #c7d2fe; font-size: 13px; }
+
+/* ── PROFILE SLIDE ── */
+.profile-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; flex: 1;
+}
+.prof-card {
+  background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
+  padding: 18px 16px; display: flex; flex-direction: column; gap: 8px;
+}
+.prof-emoji { font-size: 28px; }
+.prof-zh { font-size: 14px; font-weight: 700; color: #1e293b; }
+.prof-en { font-size: 11px; color: #94a3b8; }
+
+/* ── PAIN SLIDE ── */
+.pain-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; flex: 1; }
+.pain-card {
+  background: #fff; border: 1px solid #fca5a5; border-top: 3px solid #f87171;
+  border-radius: 14px; padding: 20px 16px; display: flex; flex-direction: column; gap: 10px;
+}
+.pain-ico { font-size: 30px; }
+.pain-title { font-size: 15px; font-weight: 700; color: #1e293b; }
+.pain-desc  { font-size: 12px; color: #64748b; line-height: 1.6; flex: 1; }
+
+/* ── FEATURE SLIDE ── */
+.feat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; flex: 1; }
+.feat-card {
+  background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
+  padding: 20px 16px; display: flex; flex-direction: column; gap: 10px;
+}
+.feat-num { font-size: 11px; font-weight: 800; color: #6366f1; letter-spacing: 1px; }
+.feat-ico-wrap {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+}
+.fi1 { background: #eef2ff; } .fi2 { background: #eff6ff; }
+.fi3 { background: #f5f3ff; } .fi4 { background: #fffbeb; } .fi5 { background: #f0fdf4; }
+.feat-title { font-size: 15px; font-weight: 700; color: #1e293b; }
+.feat-desc  { font-size: 12px; color: #64748b; line-height: 1.6; flex: 1; }
+.feat-tags  { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.ftag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+.ftag-i { background: #eef2ff; color: #4338ca; }
+.ftag-g { background: #f0fdf4; color: #065f46; }
+.ftag-o { background: #fff7ed; color: #c2410c; }
+
+/* ── DEVICE SLIDE ── */
+.device-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; flex: 1; }
+.dev-card {
+  background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
+  padding: 22px 18px; display: flex; flex-direction: column; gap: 10px;
+}
+.dev-card.highlight { border-color: #fde68a; background: #fffbeb; }
+.dev-ico-wrap { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+.dev-role { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #94a3b8; margin-bottom: 2px; }
+.dev-name { font-size: 16px; font-weight: 700; color: #1e293b; }
+.dev-en   { font-size: 11px; color: #94a3b8; margin-bottom: 4px; }
+.dev-uses { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.du { font-size: 12px; color: #475569; display: flex; align-items: flex-start; gap: 6px; }
+.du::before { content: "·"; color: #6366f1; font-weight: 700; flex-shrink: 0; }
+.dev-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: #fef3c7; color: #92400e; margin-top: auto; width: fit-content; }
+
+/* ── SCENARIO SLIDE ── */
+.scene-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
+.scene-card {
+  background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 16px;
+  padding: 24px 22px; display: flex; flex-direction: column;
+}
+.scene-emoji { font-size: 32px; margin-bottom: 12px; }
+.scene-title { font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+.scene-sub   { font-size: 12px; color: #94a3b8; margin-bottom: 18px; }
+.scene-steps { display: flex; flex-direction: column; gap: 0; flex: 1; }
+.sc-step { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; }
+.sc-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.sc-text { font-size: 14px; color: #334155; line-height: 1.5; }
+.sc-div  { width: 1px; height: 10px; background: #e2e8f0; margin-left: 3px; }
+.scene-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #e8ecf0; }
+.stag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+
+/* ── EXTEND SLIDE ── */
+.extend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1; }
+.ext-card {
+  background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
+  padding: 20px 20px; display: flex; flex-direction: column; gap: 10px;
+}
+.ext-head { display: flex; align-items: center; gap: 12px; }
+.ext-emoji { font-size: 26px; }
+.ext-audience { font-size: 15px; font-weight: 700; color: #1e293b; }
+.ext-audience-en { font-size: 11px; color: #94a3b8; }
+.ext-points { display: flex; flex-direction: column; gap: 6px; }
+.ep { font-size: 13px; color: #475569; display: flex; align-items: flex-start; gap: 7px; }
+.ep-dot { width: 6px; height: 6px; border-radius: 50%; background: #6ee7b7; flex-shrink: 0; margin-top: 5px; }
+.ext-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.etag { font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 20px; background: #f0fdf4; color: #065f46; }
+
+/* ── SUMMARY SLIDE ── */
+.sum-cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; flex: 1; }
+.sum-points { display: flex; flex-direction: column; gap: 14px; }
+.sum-point {
+  background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
+  padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px;
+}
+.sp-ico { font-size: 24px; flex-shrink: 0; }
+.sp-title { font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+.sp-desc  { font-size: 13px; color: #64748b; line-height: 1.6; }
+.sum-next {
+  background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
+  padding: 22px 20px; display: flex; flex-direction: column;
+}
+.sn-title { font-size: 14px; font-weight: 700; color: #4338ca; letter-spacing: 0.5px; margin-bottom: 14px; }
+.sn-steps { display: flex; flex-direction: column; gap: 10px; }
+.sn-step { display: flex; align-items: flex-start; gap: 11px; }
+.sn-num { width: 24px; height: 24px; border-radius: 50%; background: #eef2ff; color: #6366f1; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sn-text { font-size: 13px; color: #334155; line-height: 1.6; }
+.sum-brand { text-align: right; margin-top: auto; padding-top: 14px; font-size: 36px; font-weight: 900; color: #0f172a; letter-spacing: -2px; }
+.sum-brand span { color: #6366f1; }
+
+/* ── NAV ── */
+.nav {
+  position: fixed; bottom: 20px;
+  left: calc(50% - 160px); /* adjusted for editor */
+  display: flex; align-items: center; gap: 16px;
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 40px;
+  padding: 9px 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.nav-btn {
+  width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #e2e8f0;
+  background: #f8fafc; color: #374151; font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-btn:hover { background: #eef2ff; border-color: #a5b4fc; color: #6366f1; }
+.nav-dots { display: flex; gap: 5px; align-items: center; }
+.nav-dot { width: 7px; height: 7px; border-radius: 50%; background: #e2e8f0; border: none; cursor: pointer; padding: 0; }
+.nav-dot.on { background: #6366f1; width: 20px; border-radius: 4px; }
+.nav-counter { font-size: 12px; font-weight: 600; color: #64748b; min-width: 40px; text-align: center; }
+
+/* ── EDITOR PANEL ── */
+.editor-wrap { position: relative; flex-shrink: 0; }
+.editor-toggle {
+  position: absolute; left: -36px; top: 50%; transform: translateY(-50%);
+  width: 36px; height: 72px; background: #fff; border: 1px solid #e2e8f0;
+  border-right: none; border-radius: 8px 0 0 8px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #6366f1; writing-mode: vertical-rl;
+  text-orientation: mixed; letter-spacing: 1px;
+}
+.editor-toggle:hover { background: #eef2ff; }
+.editor {
+  width: 320px; height: 100vh; background: #fff; border-left: 1px solid #e2e8f0;
+  display: flex; flex-direction: column; overflow: hidden;
+  transition: width 0.2s;
+}
+.editor.collapsed { width: 0; overflow: hidden; }
+.editor-header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; }
+.editor-title { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+.editor-slide-label { font-size: 10px; color: #6366f1; font-weight: 600; margin-bottom: 8px; }
+.btn-row { display: flex; gap: 5px; }
+.e-btn {
+  flex: 1; padding: 6px; border: none; border-radius: 7px;
+  font-size: 10px; font-weight: 700; cursor: pointer; font-family: inherit;
+}
+.e-btn-save   { background: #10b981; color: #fff; }
+.e-btn-export { background: #6366f1; color: #fff; }
+.e-btn-save:hover   { background: #059669; }
+.e-btn-export:hover { background: #4f46e5; }
+.editor-body { flex: 1; overflow-y: auto; padding: 10px; }
+
+/* Editor field */
+.esec { margin-bottom: 7px; border: 1px solid #e8ecf0; border-radius: 10px; overflow: hidden; }
+.esec-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 11px; cursor: pointer; user-select: none;
+  font-size: 10px; font-weight: 700; background: #f8fafc;
+}
+.esec-head:hover { background: #eef2ff; }
+.esec-body { display: none; padding: 10px 11px; background: #fff; border-top: 1px solid #f1f5f9; }
+.esec.open .esec-body { display: block; }
+.field { margin-bottom: 6px; }
+.field label { display: block; font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 3px; }
+.field input, .field textarea {
+  width: 100%; padding: 5px 7px; border: 1px solid #e2e8f0;
+  border-radius: 5px; font-size: 11px; font-family: inherit;
+  color: #1e293b; background: #fff; resize: vertical;
+}
+.field textarea { min-height: 38px; line-height: 1.5; }
+.field input:focus, .field textarea:focus { outline: none; border-color: #6366f1; }
+.fgroup { font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; padding: 5px 0 4px; border-bottom: 1px solid #f1f5f9; margin: 4px 0 5px; }
+</style>
+</head>
+<body>
+
+<!-- ══ DECK ══ -->
+<div class="deck">
+
+  <!-- S1: COVER -->
+  <div class="slide sl-cover active" id="s1">
+    <div class="cover-body">
+      <div class="cover-left">
+        <div class="cover-logo" id="e-logo">Ai<span>·</span>Eki</div>
+        <div class="cover-tag" id="e-cover-tag">時間 × 地點 × AI —— 在對的地方、對的時間，提醒對的事</div>
+        <div class="cover-en" id="e-cover-en">The right reminder, at the right place, at the right time</div>
+        <div class="cover-pills">
+          <span class="cpill cpill-i" id="e-cpill1">AI 生活提醒平台</span>
+          <span class="cpill cpill-g" id="e-cpill2">商業提案 2026</span>
+          <span class="cpill cpill-g" id="e-cpill3">PC 產品生態核心</span>
+        </div>
+      </div>
+      <div class="cover-right">
+        <div class="cover-stat">
+          <div class="cs-num" id="e-cs1-num">20%</div>
+          <div class="cs-label" id="e-cs1-label">核心受眾 — 退休長者，真實需求深度驗證</div>
+        </div>
+        <div class="cover-stat">
+          <div class="cs-num" id="e-cs2-num">80%</div>
+          <div class="cs-label" id="e-cs2-label">延伸受眾 — 同一平台服務全年齡層</div>
+        </div>
+        <div class="cover-stat">
+          <div class="cs-num" id="e-cs3-num">5</div>
+          <div class="cs-label" id="e-cs3-label">核心功能，對應真實生活痛點</div>
+        </div>
+      </div>
+    </div>
+    <div class="cover-arrow" id="e-cover-arrow">以退休長者為設計核心 → 擴展到全民應用</div>
+  </div>
+
+  <!-- S2: PROFILE -->
+  <div class="slide sl-profile" id="s2">
+    <div class="sl-head">
+      <div class="sl-badge">核心受眾 20%</div>
+      <div class="sl-title" id="e-s2-title">誰是我們的核心用戶？</div>
+      <div class="sl-sub" id="e-s2-sub">以退休長者為設計核心，打造真正理解他們需求的 AI 生活夥伴</div>
+    </div>
+    <div class="profile-grid">
+      <div class="prof-card"><div class="prof-emoji" id="e-p1-ico">👨‍👩‍👧</div><div class="prof-zh" id="e-p1-zh">兒女長大各自忙碌</div><div class="prof-en" id="e-p1-en">Empty nesters, living independently</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p2-ico">💊</div><div class="prof-zh" id="e-p2-zh">定期用藥或保健食品</div><div class="prof-en" id="e-p2-en">Regular medication & supplements</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p3-ico">🏥</div><div class="prof-zh" id="e-p3-zh">定期復健或健康檢查</div><div class="prof-en" id="e-p3-en">Periodic rehab & health checkups</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p4-ico">🚌</div><div class="prof-zh" id="e-p4-zh">常與同齡友人結伴出遊</div><div class="prof-en" id="e-p4-en">Regular group outings with peers</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p5-ico">📸</div><div class="prof-zh" id="e-p5-zh">出遊愛拍照分享、買名產</div><div class="prof-en" id="e-p5-en">Photo sharing & souvenir shopping</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p6-ico">🥘</div><div class="prof-zh" id="e-p6-zh">偶爾自炊，定期採買食材</div><div class="prof-en" id="e-p6-en">Home cooking, grocery shopping</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p7-ico">🔍</div><div class="prof-zh" id="e-p7-zh">有時忘記東西放在哪裡</div><div class="prof-en" id="e-p7-en">Forgetting where items are placed</div></div>
+    </div>
+  </div>
+
+  <!-- S3: PAIN POINTS -->
+  <div class="slide sl-pain" id="s3">
+    <div class="sl-head">
+      <div class="sl-badge">五大生活痛點</div>
+      <div class="sl-title" id="e-s3-title">退休生活的隱形困擾</div>
+      <div class="sl-sub" id="e-s3-sub">源於真實生活觀察，每個痛點都對應可驗證的行為情境</div>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card"><div class="pain-ico" id="e-pa1-ico">💊</div><div class="pain-title" id="e-pa1-title">用藥復健時間混亂</div><div class="pain-desc" id="e-pa1-desc">每日固定時間吃藥難以持守，復健預約容易忘記或搞混頻率</div></div>
+      <div class="pain-card"><div class="pain-ico" id="e-pa2-ico">🛒</div><div class="pain-title" id="e-pa2-title">採購旅遊忘記清單</div><div class="pain-desc" id="e-pa2-desc">出門買菜想買的沒買到，出遊想買的名產臨時想不起來</div></div>
+      <div class="pain-card"><div class="pain-ico" id="e-pa3-ico">🔍</div><div class="pain-title" id="e-pa3-title">家中物品不知去向</div><div class="pain-desc" id="e-pa3-desc">遙控器、藥盒、鑰匙，翻遍全家找不到，耗費精力又焦慮</div></div>
+      <div class="pain-card"><div class="pain-ico" id="e-pa4-ico">🗺️</div><div class="pain-title" id="e-pa4-title">出遊集合時間焦慮</div><div class="pain-desc" id="e-pa4-desc">進香團或旅遊自由活動時，不確定何時出發才能趕上集合</div></div>
+      <div class="pain-card"><div class="pain-ico" id="e-pa5-ico">📸</div><div class="pain-title" id="e-pa5-title">美好回憶無人喚起</div><div class="pain-desc" id="e-pa5-desc">照片影片存在設備裡從不翻看，珍貴的記憶隨時間漸漸淡忘</div></div>
+    </div>
+  </div>
+
+  <!-- S4: FEATURES -->
+  <div class="slide sl-feature" id="s4">
+    <div class="sl-head">
+      <div class="sl-badge">五大核心功能</div>
+      <div class="sl-title" id="e-s4-title">Ai·Eki 如何解決這些問題</div>
+      <div class="sl-sub" id="e-s4-sub">每個功能精準對應一個真實痛點，以 PC 產品生態為底層支撐</div>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-num">01</div>
+        <div class="feat-ico-wrap fi1" id="e-f1-ico">⏰</div>
+        <div class="feat-title" id="e-f1-title">時間觸發提醒</div>
+        <div class="feat-desc" id="e-f1-desc">每日服藥、復健預約、固定行程，精準時間自動提醒，主機語音播報不遺漏</div>
+        <div class="feat-tags"><span class="ftag ftag-i">解決痛點 1</span></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-num">02</div>
+        <div class="feat-ico-wrap fi2" id="e-f2-ico">📍</div>
+        <div class="feat-title" id="e-f2-title">地點地理圍欄</div>
+        <div class="feat-desc" id="e-f2-desc">靠近超市推送購物清單，離家觸發行程提示，抵達特定地點喚起舊回憶</div>
+        <div class="feat-tags"><span class="ftag ftag-i">解決痛點 2</span><span class="ftag ftag-i">痛點 4</span></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-num">03</div>
+        <div class="feat-ico-wrap fi3" id="e-f3-ico">🤖</div>
+        <div class="feat-title" id="e-f3-title">AI 自動建立任務</div>
+        <div class="feat-desc" id="e-f3-desc">拍藥單照片 AI 自動建每日提醒，語音輸入即建任務，截圖自動解析零手動</div>
+        <div class="feat-tags"><span class="ftag ftag-i">解決痛點 1</span><span class="ftag ftag-i">痛點 2</span></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-num">04</div>
+        <div class="feat-ico-wrap fi4" id="e-f4-ico">🏠</div>
+        <div class="feat-title" id="e-f4-title">家庭 AI 中樞</div>
+        <div class="feat-desc" id="e-f4-desc">低功耗主機 24/7 語音播報提醒、BLE 室內物品定位、本地 AI 保護隱私</div>
+        <div class="feat-tags"><span class="ftag ftag-i">解決痛點 3</span><span class="ftag ftag-o">公司產品</span></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-num">05</div>
+        <div class="feat-ico-wrap fi5" id="e-f5-ico">📸</div>
+        <div class="feat-title" id="e-f5-title">照片回憶觸發</div>
+        <div class="feat-desc" id="e-f5-desc">照片存於家中主機，到達舊地點或特定日期，自動喚起美好回憶</div>
+        <div class="feat-tags"><span class="ftag ftag-i">解決痛點 5</span><span class="ftag ftag-g">情感連結</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5: DEVICES -->
+  <div class="slide sl-device" id="s5">
+    <div class="sl-head">
+      <div class="sl-badge">裝置生態</div>
+      <div class="sl-title" id="e-s5-title">以公司 PC 產品為核心的裝置生態</div>
+      <div class="sl-sub" id="e-s5-sub">平板 + 低功耗主機為差異化核心，手機與手錶為輔助延伸</div>
+    </div>
+    <div class="device-grid">
+      <div class="dev-card">
+        <div class="dev-ico-wrap" style="background:#eef2ff">📱</div>
+        <div><div class="dev-role">家中固定</div><div class="dev-name" id="e-d1-name">平板電腦</div><div class="dev-en" id="e-d1-en">Android / Windows Tablet</div></div>
+        <div class="dev-uses">
+          <div class="du" id="e-d1-u1">全螢幕強制提醒，無法忽略</div>
+          <div class="du" id="e-d1-u2">大字介面，視力友善</div>
+          <div class="du" id="e-d1-u3">固定擺放，不怕忘帶</div>
+          <div class="du" id="e-d1-u4">家人視訊、回憶相簿</div>
+        </div>
+        <div class="dev-badge">vs 手機：通知易被滑掉</div>
+      </div>
+      <div class="dev-card highlight">
+        <div class="dev-ico-wrap" style="background:#fef3c7">🖥️</div>
+        <div><div class="dev-role">AI 中樞 ★ 核心差異化</div><div class="dev-name" id="e-d2-name">低功耗主機</div><div class="dev-en" id="e-d2-en">Mini PC / Chromebox · 15–35W · 24/7</div></div>
+        <div class="dev-uses">
+          <div class="du" id="e-d2-u1">語音播報提醒，傳遍全室</div>
+          <div class="du" id="e-d2-u2">本地 AI 運算，健康數據不上雲</div>
+          <div class="du" id="e-d2-u3">BLE 接收，室內物品定位</div>
+          <div class="du" id="e-d2-u4">照片影片存儲，回憶觸發中樞</div>
+        </div>
+        <div class="dev-badge" style="background:#fde68a;color:#92400e">公司核心產品</div>
+      </div>
+      <div class="dev-card">
+        <div class="dev-ico-wrap" style="background:#f0fdf4">⌚</div>
+        <div><div class="dev-role">外出配戴</div><div class="dev-name" id="e-d3-name">智慧手錶</div><div class="dev-en" id="e-d3-en">Smartwatch — Wearable</div></div>
+        <div class="dev-uses">
+          <div class="du" id="e-d3-u1">GPS 定位，集合點計時</div>
+          <div class="du" id="e-d3-u2">跌倒偵測，SOS 一鍵</div>
+          <div class="du" id="e-d3-u3">購物清單推播</div>
+          <div class="du" id="e-d3-u4">行為異常偵測</div>
+        </div>
+      </div>
+      <div class="dev-card">
+        <div class="dev-ico-wrap" style="background:#fff7ed">📲</div>
+        <div><div class="dev-role">家人遠端</div><div class="dev-name" id="e-d4-name">家人手機</div><div class="dev-en" id="e-d4-en">Family Mobile</div></div>
+        <div class="dev-uses">
+          <div class="du" id="e-d4-u1">異常即時通知</div>
+          <div class="du" id="e-d4-u2">GPS 位置共享</div>
+          <div class="du" id="e-d4-u3">遠端設定提醒</div>
+          <div class="du" id="e-d4-u4">截圖上傳建任務</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6: SCENARIO HEALTH -->
+  <div class="slide sl-scene" id="s6">
+    <div class="sl-head">
+      <div class="sl-badge">場景一：健康照護</div>
+      <div class="sl-title" id="e-s6-title">每天的健康任務，AI 自動完成</div>
+      <div class="sl-sub" id="e-s6-sub">從用藥到復健，主機語音提醒 + 平板確認 + 未回應通知家人</div>
+    </div>
+    <div class="scene-cols">
+      <div class="scene-card">
+        <div class="scene-emoji" id="e-sc1-ico">💊</div>
+        <div class="scene-title" id="e-sc1-title">晨間用藥，不再遺漏</div>
+        <div class="scene-sub" id="e-sc1-sub">時間觸發 × 語音播報 × 平板確認</div>
+        <div class="scene-steps">
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc1-s1">08:00 主機時間觸發，語音播報「早安，記得吃早上的藥」</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc1-s2">平板顯示全螢幕確認畫面，語音引導操作</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc1-s3">60 秒未確認 → 自動通知家人，附上未回應提示</div></div>
+        </div>
+        <div class="scene-tags">
+          <span class="stag" style="background:#eef2ff;color:#4338ca">⏰ 時間觸發</span>
+          <span class="stag" style="background:#f0fdf4;color:#065f46">🏠 AI 中樞播報</span>
+          <span class="stag" style="background:#fff7ed;color:#c2410c">👨‍👩‍👦 家人通知</span>
+        </div>
+      </div>
+      <div class="scene-card">
+        <div class="scene-emoji" id="e-sc2-ico">🏃</div>
+        <div class="scene-title" id="e-sc2-title">出門前，復健提醒</div>
+        <div class="scene-sub" id="e-sc2-sub">地點 × 時段 × 智慧提示</div>
+        <div class="scene-steps">
+          <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><div class="sc-text" id="e-sc2-s1">GPS 偵測到長者準備外出（離家圍欄）</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><div class="sc-text" id="e-sc2-s2">比對行事曆：今天週三下午有復健課</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc2-s3">手錶推播「記得帶復健毛巾，14:00 有預約」</div></div>
+        </div>
+        <div class="scene-tags">
+          <span class="stag" style="background:#eef2ff;color:#4338ca">📍 離家觸發</span>
+          <span class="stag" style="background:#f0fdf4;color:#065f46">📅 行事曆整合</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S7: SCENARIO TRAVEL -->
+  <div class="slide sl-scene" id="s7">
+    <div class="sl-head">
+      <div class="sl-badge">場景二：智慧出遊</div>
+      <div class="sl-title" id="e-s7-title">出遊放心玩，回憶更生動</div>
+      <div class="sl-sub" id="e-s7-sub">集合時間自動計算回程 × 到達舊地點喚起美好照片</div>
+    </div>
+    <div class="scene-cols">
+      <div class="scene-card">
+        <div class="scene-emoji" id="e-sc3-ico">🗺️</div>
+        <div class="scene-title" id="e-sc3-title">進香團集合時間提醒</div>
+        <div class="scene-sub" id="e-sc3-sub">自由活動盡興，AI 計算最佳回程時機</div>
+        <div class="scene-steps">
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc3-s1">行前設定集合點位置 + 集合時間 14:00</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc3-s2">AI 持續計算當前位置到集合點所需步行時間</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc3-s3">13:35 推播「距集合 25 分鐘，建議現在出發」</div></div>
+        </div>
+        <div class="scene-tags">
+          <span class="stag" style="background:#eef2ff;color:#4338ca">📍 即時定位</span>
+          <span class="stag" style="background:#fff7ed;color:#c2410c">⏱️ 回程計時</span>
+        </div>
+      </div>
+      <div class="scene-card">
+        <div class="scene-emoji" id="e-sc4-ico">📸</div>
+        <div class="scene-title" id="e-sc4-title">舊地重遊，回憶自動出現</div>
+        <div class="scene-sub" id="e-sc4-sub">照片存於家中主機，地點觸發情感連結</div>
+        <div class="scene-steps">
+          <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><div class="sc-text" id="e-sc4-s1">GPS 偵測到達日月潭景區</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><div class="sc-text" id="e-sc4-s2">主機比對照片地點標記，找到 3 年前在此拍攝的影片</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc4-s3">手錶推播「3 年前您在這裡的美好回憶 📸 點擊觀看」</div></div>
+        </div>
+        <div class="scene-tags">
+          <span class="stag" style="background:#fef2f2;color:#991b1b">📸 地點回憶</span>
+          <span class="stag" style="background:#f5f3ff;color:#5b21b6">🖥️ 主機儲存</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S8: SCENARIO DAILY -->
+  <div class="slide sl-scene" id="s8">
+    <div class="sl-head">
+      <div class="sl-badge">場景三：居家日常</div>
+      <div class="sl-title" id="e-s8-title">居家生活，輕鬆掌握每件事</div>
+      <div class="sl-sub" id="e-s8-sub">出門採買自動提示 × 語音查詢物品位置</div>
+    </div>
+    <div class="scene-cols">
+      <div class="scene-card">
+        <div class="scene-emoji" id="e-sc5-ico">🛒</div>
+        <div class="scene-title" id="e-sc5-title">出門偵測，購物清單推送</div>
+        <div class="scene-sub" id="e-sc5-sub">地點觸發 × 清單自動推播</div>
+        <div class="scene-steps">
+          <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><div class="sc-text" id="e-sc5-s1">GPS 偵測長者離開居家圍欄範圍</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><div class="sc-text" id="e-sc5-s2">符合平日早上採買時段條件</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc5-s3">手錶推播今日清單：雞蛋、牛奶、魚…</div></div>
+        </div>
+        <div class="scene-tags">
+          <span class="stag" style="background:#fff7ed;color:#c2410c">📍 離家觸發</span>
+          <span class="stag" style="background:#fef3c7;color:#92400e">📋 清單推播</span>
+        </div>
+      </div>
+      <div class="scene-card">
+        <div class="scene-emoji" id="e-sc6-ico">🔍</div>
+        <div class="scene-title" id="e-sc6-title">語音查詢，找回遺失物品</div>
+        <div class="scene-sub" id="e-sc6-sub">BLE 室內定位 × 語音問答</div>
+        <div class="scene-steps">
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc6-s1">長者對主機說「我的遙控器在哪裡？」</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc6-s2">主機查詢 BLE 信標最後偵測位置（各房間感應器）</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc6-s3">語音回應「遙控器上次在客廳沙發附近」</div></div>
+        </div>
+        <div class="scene-tags">
+          <span class="stag" style="background:#eef2ff;color:#4338ca">🔍 BLE 定位</span>
+          <span class="stag" style="background:#f0fdf4;color:#065f46">🎙️ 語音問答</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S9: EXTEND 80% -->
+  <div class="slide sl-extend" id="s9">
+    <div class="sl-head">
+      <div class="sl-badge">延伸受眾 80%</div>
+      <div class="sl-title" id="e-s9-title">同一套技術，服務每一個人</div>
+      <div class="sl-sub" id="e-s9-sub">長者場景驗證核心功能，相同平台延伸至全年齡層的日常需求</div>
+    </div>
+    <div class="extend-grid">
+      <div class="ext-card">
+        <div class="ext-head"><div class="ext-emoji" id="e-ex1-ico">📦</div><div><div class="ext-audience" id="e-ex1-who">上班族 — 網購取貨</div><div class="ext-audience-en">Working adults & online shoppers</div></div></div>
+        <div class="ext-points">
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex1-p1">蝦皮截圖 → AI 自動解析取貨碼、門市、期限</span></div>
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex1-p2">路過超商時推播取貨碼，免翻手機找截圖</span></div>
+        </div>
+        <div class="ext-tags"><span class="etag">🤖 OCR 辨識</span><span class="etag">📍 路過觸發</span></div>
+      </div>
+      <div class="ext-card">
+        <div class="ext-head"><div class="ext-emoji" id="e-ex2-ico">👪</div><div><div class="ext-audience" id="e-ex2-who">家庭 — 共享清單</div><div class="ext-audience-en">Families & households</div></div></div>
+        <div class="ext-points">
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex2-p1">家人共用購物清單，任一人路過超市時同步提醒</span></div>
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex2-p2">語音輸入「買牛奶」→ 自動加入家庭清單</span></div>
+        </div>
+        <div class="ext-tags"><span class="etag">👥 共享清單</span><span class="etag">🎙️ 語音輸入</span></div>
+      </div>
+      <div class="ext-card">
+        <div class="ext-head"><div class="ext-emoji" id="e-ex3-ico">✈️</div><div><div class="ext-audience" id="e-ex3-who">旅遊族 — 自由行</div><div class="ext-audience-en">Travelers & group tours</div></div></div>
+        <div class="ext-points">
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex3-p1">設定集合點，AI 自動計算最佳回程時機</span></div>
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex3-p2">抵達舊地點，喚起上次造訪的照片回憶</span></div>
+        </div>
+        <div class="ext-tags"><span class="etag">📍 集合提醒</span><span class="etag">📸 地點回憶</span></div>
+      </div>
+      <div class="ext-card">
+        <div class="ext-head"><div class="ext-emoji" id="e-ex4-ico">🏃</div><div><div class="ext-audience" id="e-ex4-who">運動族 — 習慣養成</div><div class="ext-audience-en">Fitness enthusiasts</div></div></div>
+        <div class="ext-points">
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex4-p1">路過健身房 + 符合設定時段 → 推播習慣提醒</span></div>
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex4-p2">連續打卡記錄，AI 生成鼓勵訊息</span></div>
+        </div>
+        <div class="ext-tags"><span class="etag">📍 地點觸發</span><span class="etag">🔁 習慣追蹤</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S10: SUMMARY -->
+  <div class="slide sl-summary" id="s10">
+    <div class="sl-head">
+      <div class="sl-badge">提案總結</div>
+      <div class="sl-title" id="e-s10-title">從長者出發，打造全民 AI 生活夥伴</div>
+      <div class="sl-sub" id="e-s10-sub">以公司 PC 產品為核心，20% 深度驗證，80% 市場延伸</div>
+    </div>
+    <div class="sum-cols">
+      <div class="sum-points">
+        <div class="sum-point">
+          <div class="sp-ico" id="e-sp1-ico">🎯</div>
+          <div><div class="sp-title" id="e-sp1-title">PC 產品差異化核心</div><div class="sp-desc" id="e-sp1-desc">平板固定提醒 + 低功耗主機 AI 中樞，是手機 App 無法複製的硬體優勢</div></div>
+        </div>
+        <div class="sum-point">
+          <div class="sp-ico" id="e-sp2-ico">📊</div>
+          <div><div class="sp-title" id="e-sp2-title">20% 深度需求驗證</div><div class="sp-desc" id="e-sp2-desc">從退休長者真實生活出發，透過訪談問卷精準定義痛點，確保產品切中核心需求</div></div>
+        </div>
+        <div class="sum-point">
+          <div class="sp-ico" id="e-sp3-ico">🚀</div>
+          <div><div class="sp-title" id="e-sp3-title">80% 市場自然延伸</div><div class="sp-desc" id="e-sp3-desc">長者場景驗證的五大功能，在上班族、家庭、旅遊族同樣適用，無需重新開發</div></div>
+        </div>
+      </div>
+      <div class="sum-next">
+        <div class="sn-title">下一步行動 NEXT STEPS</div>
+        <div class="sn-steps">
+          <div class="sn-step"><div class="sn-num">1</div><div class="sn-text" id="e-sn1">設計長者訪談問卷，招募 10–15 位退休長者深度訪談</div></div>
+          <div class="sn-step"><div class="sn-num">2</div><div class="sn-text" id="e-sn2">建立 MVP 原型：平板 + 低功耗主機整合測試</div></div>
+          <div class="sn-step"><div class="sn-num">3</div><div class="sn-text" id="e-sn3">驗證 BLE 室內定位與照片回憶功能可行性</div></div>
+          <div class="sn-step"><div class="sn-num">4</div><div class="sn-text" id="e-sn4">制定 20% → 80% 市場拓展路線圖</div></div>
+        </div>
+        <div class="sum-brand">Ai<span>·</span>Eki</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ── NAV ── -->
+<div class="nav">
+  <button class="nav-btn" id="btn-prev">←</button>
+  <div class="nav-dots" id="nav-dots"></div>
+  <span class="nav-counter" id="nav-counter">1 / 10</span>
+  <button class="nav-btn" id="btn-next">→</button>
+</div>
+
+<!-- ── EDITOR ── -->
+<div class="editor-wrap">
+  <button class="editor-toggle" id="editor-toggle">編輯</button>
+  <div class="editor" id="editor">
+    <div class="editor-header">
+      <div class="editor-title">內容編輯器</div>
+      <div class="editor-slide-label" id="ed-slide-label">第 1 頁：封面</div>
+      <div class="btn-row">
+        <button class="e-btn e-btn-save" id="btn-save">💾 儲存進度</button>
+        <button class="e-btn e-btn-export" id="btn-export">↓ 匯出簡報</button>
+      </div>
+    </div>
+    <div class="editor-body" id="editor-body">
+
+      <!-- S1 -->
+      <div class="esec open" data-slide="1">
+        <div class="esec-head">封面內容 <span>▼</span></div>
+        <div class="esec-body">
+          <div class="field"><label>主標語（中）</label><input type="text" data-target="e-cover-tag"></div>
+          <div class="field"><label>主標語（EN）</label><input type="text" data-target="e-cover-en"></div>
+          <div class="fgroup">標籤</div>
+          <div class="field"><label>標籤 1</label><input type="text" data-target="e-cpill1"></div>
+          <div class="field"><label>標籤 2</label><input type="text" data-target="e-cpill2"></div>
+          <div class="field"><label>標籤 3</label><input type="text" data-target="e-cpill3"></div>
+          <div class="fgroup">數據卡</div>
+          <div class="field"><label>數字 1</label><input type="text" data-target="e-cs1-num"></div>
+          <div class="field"><label>說明 1</label><input type="text" data-target="e-cs1-label"></div>
+          <div class="field"><label>數字 2</label><input type="text" data-target="e-cs2-num"></div>
+          <div class="field"><label>說明 2</label><input type="text" data-target="e-cs2-label"></div>
+          <div class="field"><label>數字 3</label><input type="text" data-target="e-cs3-num"></div>
+          <div class="field"><label>說明 3</label><input type="text" data-target="e-cs3-label"></div>
+          <div class="field"><label>底部說明</label><input type="text" data-target="e-cover-arrow"></div>
+        </div>
+      </div>
+
+      <!-- S2 -->
+      <div class="esec open" data-slide="2">
+        <div class="esec-head">長者輪廓 <span>▼</span></div>
+        <div class="esec-body">
+          <div class="field"><label>標題</label><input type="text" data-target="e-s2-title"></div>
+          <div class="field"><label>副標</label><input type="text" data-target="e-s2-sub"></div>
+          <div class="fgroup">7 個特徵</div>
+          <div class="field"><label>特徵 1</label><input type="text" data-target="e-p1-zh"></div>
+          <div class="field"><label>特徵 2</label><input type="text" data-target="e-p2-zh"></div>
+          <div class="field"><label>特徵 3</label><input type="text" data-target="e-p3-zh"></div>
+          <div class="field"><label>特徵 4</label><input type="text" data-target="e-p4-zh"></div>
+          <div class="field"><label>特徵 5</label><input type="text" data-target="e-p5-zh"></div>
+          <div class="field"><label>特徵 6</label><input type="text" data-target="e-p6-zh"></div>
+          <div class="field"><label>特徵 7</label><input type="text" data-target="e-p7-zh"></div>
+        </div>
+      </div>
+
+      <!-- S3 -->
+      <div class="esec open" data-slide="3">
+        <div class="esec-head">五大痛點 <span>▼</span></div>
+        <div class="esec-body">
+          <div class="field"><label>標題</label><input type="text" data-target="e-s3-title"></div>
+          <div class="field"><label>副標</label><input type="text" data-target="e-s3-sub"></div>
+          <div class="fgroup">痛點 1</div>
+          <div class="field"><label>標題</label><input type="text" data-target="e-pa1-title"></div>
+          <div class="field"><label>說明</label><textarea data-target="e-pa1-desc"></textarea></div>
+          <div class="fgroup">痛點 2</div>
+          <div class="field"><label>標題</label><input type="text" data-target="e-pa2-title"></div>
+          <div class="field"><label>說明</label><textarea data-target="e-pa2-desc"></textarea></div>
+          <div class="fgroup">痛點 3</div>
+          <div class="field"><label>標題</label><input type="text" data-target="e-pa3-title"></div>
+          <div class="field"><label>說明</label><textarea data-target="e-pa3-desc"></textarea></div>
+          <div class="fgroup">痛點 4</div>
+          <div class="field"><label>標題</label><input type="text" data-target="e-pa4-title"></div>
+          <div class="field"><label>說明</label><textarea data-target="e-pa4-desc"></textarea></div>
+          <div class="fgroup">痛點 5</div>
+          <div class="field"><label>標題</label><input type="text" data-target="e-pa5-title"></div>
+          <div class="field"><label>說明</label><textarea data-target="e-pa5-desc"></textarea></div>
+        </div>
+      </div>
+
+      <!-- S4 -->
+      <div class="esec open" data-slide="4">
+        <div class="esec-head">五大功能 <span>▼</span></div>
+        <div class="esec-body">
+          <div class="field"><label>標題</label><input type="text" data-target="e-s4-title"></div>
+          <div class="field"><label>副標</label><input type="text" data-target="e-s4-sub"></div>
+          <div class="fgroup">功能 1</div>
+          <div class="field"><label>名稱</label><input type="text" data-target="e-f1-title"></div>
+          <div class="field"><label>說明</label><textarea data-target="e-f1-desc"></textarea></div>
+          <div class="fgroup">功能 2</div>
+          <div class="field"><label>名稱</label><input type="text" data-target="e-f2-title"></div>
+          <div class="field"><label>說明</label><textarea data-target="e-f2-desc"></textarea></div>
+          <div class="fgroup">功能 3</div>
+          <div class="field"><label>名稱</label><input type="text" data-target="e-f3-title"></div>
+          <div class="field"><label>說明</label><textarea data-target="e-f3-desc"></textarea></div>
+          <div class="fgroup">功能 4</div>
+          <div class="field"><label>名稱</label><input type="text" data-target="e-f4-title"></div>
+          <div class="field"><label>說明</label><textarea data-target="e-f4-desc"></textarea></div>
+          <div class="fgroup">功能 5</div>
+          <div class="field"><label>名稱</label><input type="text" data-target="e-f5-title"></div>
+          <div class="field"><label>說明</label><textarea data-target="e-f5-desc"></textarea></div>
+        </div>
+      </div>
+
+      <!-- S5 -->
+      <div class="esec open" data-slide="5">
+        <div class="esec-head">裝置生態 <span>▼</span></div>
+        <div class="esec-body">
+          <div class="field"><label>標題</label><input type="text" data-target="e-s5-title"></div>
+          <div class="field"><label>副標</label><input type="text" data-target="e-s5-sub"></div>
+          <div class="fgroup">平板電腦</div>
+          <div class="field"><label>功能 1</label><input type="text" data-target="e-d1-u1"></div>
+          <div class="field"><label>功能 2</label><input type="text" data-target="e-d1-u2"></div>
+          <div class="field"><label>功能 3</label><input type="text" data-target="e-d1-u3"></div>
+          <div class="field"><label>功能 4</label><input type="text" data-target="e-d1-u4"></div>
+          <div class="fgroup">低功耗主機</div>
+          <div class="field"><label>功能 1</label><input type="text" data-target="e-d2-u1"></div>
+          <div class="field"><label>功能 2</label><input type="text" data-target="e-d2-u2"></div>
+          <div class="field"><label>功能 3</label><input type="text" data-target="e-d2-u3"></div>
+          <div class="field"><label>功能 4</label><input type="text" data-target="e-d2-u4"></div>
+        </div>
+      </div>
+
+      <!-- S6 -->
+      <div class="esec open" data-slide="6">
+        <div class="esec-head">場景一：健康 <span>▼</span></div>
+        <div class="esec-body">
+          <div class="field"><label>標題</label><input type="text" data-target="e-s6-title"></div>
+          <div class="field"><label>副標</label><input type="text" data-target="e-s6-sub"></div>
+          <div class="fgroup">用藥提醒</div>
+          <div class="field"><label>情境標題</label><input type="text" data-target="e-sc1-title"></div>
+          <div class="field"><label>步驟 1</label><textarea data-target="e-sc1-s1"></textarea></div>
+          <div class="field"><label>步驟 2</label><textarea data-target="e-sc1-s2"></textarea></div>
+          <div class="field"><label>結果</label><textarea data-target="e-sc1-s3"></textarea></div>
+          <div class="fgroup">復健提醒</div>
+          <div class="field"><label>情境標題</label><input type="text" data-target="e-sc2-title"></div>
+          <div class="field"><label>步驟 1</label><textarea data-target="e-sc2-s1"></textarea></div>
+          <div class="field"><label>步驟 2</label><textarea data-target="e-sc2-s2"></textarea></div>
+          <div class="field"><label>結果</label><textarea data-target="e-sc2-s3"></textarea></div>
+        </div>
+      </div>
+
+      <!-- S7 -->
+      <div class="esec open" data-slide="7">
+        <div class="esec-head">場景二：出遊 <span>▼</span></div>
+        <div class="esec-body">
+          <div class="field"><label>標題</label><input type="text" data-target="e-s7-title"></div>
+          <div class="field"><label>副標</label><input type="text" data-target="e-s7-sub"></div>
+          <div class="fgroup">集合提醒</div>
+          <div class="field"><label>情境標題</label><input type="text" data-target="e-sc3-title"></div>
+          <div class="field"><label>步驟 1</label><textarea data-target="e-sc3-s1"></textarea></div>
+          <div class="field"><label>步驟 2</label><textarea data-target="e-sc3-s2"></textarea></div>
+          <div class="field"><label>結果</label><textarea data-target="e-sc3-s3"></textarea></div>
+          <div class="fgroup">照片回憶</div>
+          <div class="field"><label>情境標題</label><input type="text" data-target="e-sc4-title"></div>
+          <div class="field"><label>步驟 1</label><textarea data-target="e-sc4-s1"></textarea></div>
+          <div class="field"><label>步驟 2</label><textarea data-target="e-sc4-s2"></textarea></div>
+          <div class="field"><label>結果</label><textarea data-target="e-sc4-s3"></textarea></div>
+        </div>
+      </div>
+
+      <!-- S8 -->
+      <div class="esec open" data-slide="8">
+        <div class="esec-head">場景三：居家 <span>▼</span></div>
+        <div class="esec-body">
+          <div class="field"><label>標題</label><input type="text" data-target="e-s8-title"></div>
+          <div class="field"><label>副標</label><input type="text" data-target="e-s8-sub"></div>
+          <div class="fgroup">購物清單</div>
+          <div class="field"><label>情境標題</label><input type="text" data-target="e-sc5-title"></div>
+          <div class="field"><label>步驟 1</label><textarea data-target="e-sc5-s1"></textarea></div>
+          <div class="field"><label>步驟 2</label><textarea data-target="e-sc5-s2"></textarea></div>
+          <div class="field"><label>結果</label><textarea data-target="e-sc5-s3"></textarea></div>
+          <div class="fgroup">物品尋找</div>
+          <div class="field"><label>情境標題</label><input type="text" data-target="e-sc6-title"></div>
+          <div class="field"><label>步驟 1</label><textarea data-target="e-sc6-s1"></textarea></div>
+          <div class="field"><label>步驟 2</label><textarea data-target="e-sc6-s2"></textarea></div>
+          <div class="field"><label>結果</label><textarea data-target="e-sc6-s3"></textarea></div>
+        </div>
+      </div>
+
+      <!-- S9 -->
+      <div class="esec open" data-slide="9">
+        <div class="esec-head">延伸 80% <span>▼</span></div>
+        <div class="esec-body">
+          <div class="field"><label>標題</label><input type="text" data-target="e-s9-title"></div>
+          <div class="field"><label>副標</label><input type="text" data-target="e-s9-sub"></div>
+          <div class="fgroup">受眾 1（上班族）</div>
+          <div class="field"><label>受眾名稱</label><input type="text" data-target="e-ex1-who"></div>
+          <div class="field"><label>應用 1</label><textarea data-target="e-ex1-p1"></textarea></div>
+          <div class="field"><label>應用 2</label><textarea data-target="e-ex1-p2"></textarea></div>
+          <div class="fgroup">受眾 2（家庭）</div>
+          <div class="field"><label>受眾名稱</label><input type="text" data-target="e-ex2-who"></div>
+          <div class="field"><label>應用 1</label><textarea data-target="e-ex2-p1"></textarea></div>
+          <div class="field"><label>應用 2</label><textarea data-target="e-ex2-p2"></textarea></div>
+          <div class="fgroup">受眾 3（旅遊）</div>
+          <div class="field"><label>受眾名稱</label><input type="text" data-target="e-ex3-who"></div>
+          <div class="field"><label>應用 1</label><textarea data-target="e-ex3-p1"></textarea></div>
+          <div class="field"><label>應用 2</label><textarea data-target="e-ex3-p2"></textarea></div>
+          <div class="fgroup">受眾 4（運動）</div>
+          <div class="field"><label>受眾名稱</label><input type="text" data-target="e-ex4-who"></div>
+          <div class="field"><label>應用 1</label><textarea data-target="e-ex4-p1"></textarea></div>
+          <div class="field"><label>應用 2</label><textarea data-target="e-ex4-p2"></textarea></div>
+        </div>
+      </div>
+
+      <!-- S10 -->
+      <div class="esec open" data-slide="10">
+        <div class="esec-head">提案總結 <span>▼</span></div>
+        <div class="esec-body">
+          <div class="field"><label>標題</label><input type="text" data-target="e-s10-title"></div>
+          <div class="field"><label>副標</label><input type="text" data-target="e-s10-sub"></div>
+          <div class="fgroup">三大亮點</div>
+          <div class="field"><label>亮點 1 標題</label><input type="text" data-target="e-sp1-title"></div>
+          <div class="field"><label>亮點 1 說明</label><textarea data-target="e-sp1-desc"></textarea></div>
+          <div class="field"><label>亮點 2 標題</label><input type="text" data-target="e-sp2-title"></div>
+          <div class="field"><label>亮點 2 說明</label><textarea data-target="e-sp2-desc"></textarea></div>
+          <div class="field"><label>亮點 3 標題</label><input type="text" data-target="e-sp3-title"></div>
+          <div class="field"><label>亮點 3 說明</label><textarea data-target="e-sp3-desc"></textarea></div>
+          <div class="fgroup">下一步行動</div>
+          <div class="field"><label>行動 1</label><textarea data-target="e-sn1"></textarea></div>
+          <div class="field"><label>行動 2</label><textarea data-target="e-sn2"></textarea></div>
+          <div class="field"><label>行動 3</label><textarea data-target="e-sn3"></textarea></div>
+          <div class="field"><label>行動 4</label><textarea data-target="e-sn4"></textarea></div>
+        </div>
+      </div>
+
+    </div><!-- /editor-body -->
+  </div><!-- /editor -->
+</div><!-- /editor-wrap -->
+
+<script>
+const TOTAL = 10;
+const LABELS = ['封面','核心受眾','五大痛點','五大功能','裝置生態','場景一：健康','場景二：出遊','場景三：居家','延伸 80%','提案總結'];
+let current = 1;
+
+// ── Init field sync
+document.querySelectorAll('[data-target]').forEach(el => {
+  const t = document.getElementById(el.dataset.target);
+  if (!t) return;
+  el.value = t.textContent.trim();
+  el.addEventListener('input', () => { t.textContent = el.value; });
+});
+
+// ── Section collapse
+document.querySelectorAll('.esec-head').forEach(h => {
+  h.addEventListener('click', () => h.closest('.esec').classList.toggle('open'));
+});
+
+// ── Dots
+const dotsEl = document.getElementById('nav-dots');
+for (let i = 1; i <= TOTAL; i++) {
+  const d = document.createElement('button');
+  d.className = 'nav-dot' + (i === 1 ? ' on' : '');
+  d.dataset.n = i;
+  d.title = LABELS[i-1];
+  d.addEventListener('click', () => goTo(parseInt(d.dataset.n)));
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  document.querySelector('.slide.active')?.classList.remove('active');
+  document.getElementById('s' + n)?.classList.add('active');
+  document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('on', i+1 === n));
+  document.getElementById('nav-counter').textContent = n + ' / ' + TOTAL;
+  document.getElementById('ed-slide-label').textContent = '第 ' + n + ' 頁：' + LABELS[n-1];
+  // Show only current slide's editor sections
+  document.querySelectorAll('.esec[data-slide]').forEach(s => {
+    s.style.display = s.dataset.slide == n ? 'block' : 'none';
+  });
+  current = n;
+}
+goTo(1);
+
+document.getElementById('btn-prev').addEventListener('click', () => { if (current > 1) goTo(current - 1); });
+document.getElementById('btn-next').addEventListener('click', () => { if (current < TOTAL) goTo(current + 1); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if (current < TOTAL) goTo(current + 1); }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { if (current > 1) goTo(current - 1); }
+});
+
+// ── Editor toggle
+const editorEl = document.getElementById('editor');
+const toggleBtn = document.getElementById('editor-toggle');
+toggleBtn.addEventListener('click', () => {
+  editorEl.classList.toggle('collapsed');
+  toggleBtn.textContent = editorEl.classList.contains('collapsed') ? '展開' : '編輯';
+});
+
+// ── Save progress (full editor)
+document.getElementById('btn-save').addEventListener('click', () => {
+  document.querySelectorAll('.editor input, .editor textarea').forEach(el => {
+    if (el.tagName === 'TEXTAREA') el.textContent = el.value;
+    else el.setAttribute('value', el.value);
+  });
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const ts = new Date().toISOString().slice(0,10);
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'), { href: url, download: `ai-eki-slides-${ts}.html` }).click();
+  URL.revokeObjectURL(url);
+});
+
+// ── Export presentation (no editor)
+document.getElementById('btn-export').addEventListener('click', () => {
+  const style = document.querySelector('style').textContent
+    .replace(/\/\* ── EDITOR[\s\S]*$/, '')
+    .replace(/body\s*\{[^}]*\}/, 'body{font-family:"Segoe UI","PingFang TC","Noto Sans TC",sans-serif;display:flex;height:100vh;overflow:hidden;color:#1e293b;font-size:15px;}');
+  const deck  = document.querySelector('.deck').outerHTML;
+  const nav   = document.querySelector('.nav').outerHTML;
+  const exportScript = `<script>
+const TOTAL=10,LABELS=${JSON.stringify(LABELS)};let current=1;
+const dotsEl=document.getElementById('nav-dots');
+for(let i=1;i<=TOTAL;i++){const d=document.createElement('button');d.className='nav-dot'+(i===1?' on':'');d.dataset.n=i;d.title=LABELS[i-1];d.addEventListener('click',()=>goTo(parseInt(d.dataset.n)));dotsEl.appendChild(d);}
+function goTo(n){document.querySelector('.slide.active')?.classList.remove('active');document.getElementById('s'+n)?.classList.add('active');document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('on',i+1===n));document.getElementById('nav-counter').textContent=n+' / '+TOTAL;current=n;}
+goTo(1);
+document.getElementById('btn-prev').addEventListener('click',()=>{if(current>1)goTo(current-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(current<TOTAL)goTo(current+1);});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'){if(current<TOTAL)goTo(current+1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){if(current>1)goTo(current-1);}});
+<\/script>`;
+  const html = `<!DOCTYPE html>\n<html lang="zh-TW">\n<head>\n<meta charset="UTF-8">\n<title>Ai·Eki 商業提案</title>\n<style>${style}\n.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #e2e8f0;border-radius:40px;padding:9px 18px;box-shadow:0 4px 16px rgba(0,0,0,.08);}\n</style>\n</head>\n<body>\n${deck}\n${nav}\n${exportScript}\n</body>\n</html>`;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'), { href: url, download: 'ai-eki-presentation.html' }).click();
+  URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>

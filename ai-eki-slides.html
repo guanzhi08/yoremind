@@ -9,7 +9,7 @@
 body {
   font-family: "Segoe UI","PingFang TC","Noto Sans TC",sans-serif;
   display: flex; height: 100vh; overflow: hidden;
-  color: #1e293b; font-size: 15px;
+  color: #1e293b; font-size: 18px;
 }
 
 /* ── DECK ── */
@@ -17,7 +17,7 @@ body {
 .slide {
   position: absolute; inset: 0;
   display: flex; flex-direction: column;
-  padding: 44px 64px 80px;
+  padding: 40px 60px 76px;
   opacity: 0; pointer-events: none;
   transition: opacity 0.22s;
 }
@@ -34,55 +34,55 @@ body {
 .sl-summary { background: #faf5ff; }
 
 /* Slide header */
-.sl-head { margin-bottom: 28px; }
+.sl-head { margin-bottom: 24px; }
 .sl-badge {
   display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
   text-transform: uppercase; color: #6366f1;
-  background: #eef2ff; padding: 4px 12px; border-radius: 20px;
+  background: #eef2ff; padding: 4px 14px; border-radius: 20px;
   margin-bottom: 10px;
 }
-.sl-title { font-size: 30px; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 6px; }
-.sl-sub   { font-size: 15px; color: #64748b; }
+.sl-title { font-size: 36px; font-weight: 800; color: #0f172a; line-height: 1.15; margin-bottom: 6px; }
+.sl-sub   { font-size: 17px; color: #64748b; }
 
 /* ── COVER SLIDE ── */
 .cover-body { flex: 1; display: flex; align-items: center; justify-content: space-between; }
-.cover-left { max-width: 600px; }
-.cover-logo { font-size: 80px; font-weight: 900; color: #0f172a; letter-spacing: -4px; line-height: 1; margin-bottom: 16px; }
+.cover-left { max-width: 580px; }
+.cover-logo { font-size: 86px; font-weight: 900; color: #0f172a; letter-spacing: -4px; line-height: 1; margin-bottom: 16px; }
 .cover-logo span { color: #6366f1; }
-.cover-tag  { font-size: 22px; font-weight: 600; color: #334155; margin-bottom: 8px; }
-.cover-en   { font-size: 14px; color: #94a3b8; font-style: italic; margin-bottom: 28px; }
+.cover-tag  { font-size: 24px; font-weight: 600; color: #334155; margin-bottom: 8px; }
+.cover-en   { font-size: 15px; color: #94a3b8; font-style: italic; margin-bottom: 28px; }
 .cover-pills { display: flex; gap: 10px; flex-wrap: wrap; }
-.cpill { padding: 7px 18px; border-radius: 24px; font-size: 13px; font-weight: 600; }
+.cpill { padding: 8px 20px; border-radius: 24px; font-size: 15px; font-weight: 600; }
 .cpill-i { background: #6366f1; color: #fff; }
 .cpill-g { background: #e2e8f0; color: #475569; }
 .cover-right { display: flex; flex-direction: column; gap: 12px; min-width: 240px; }
 .cover-stat { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px 18px; }
-.cs-num { font-size: 32px; font-weight: 800; color: #6366f1; }
-.cs-label { font-size: 12px; color: #64748b; }
-.cover-arrow { text-align: center; margin-top: 12px; color: #c7d2fe; font-size: 13px; }
+.cs-num { font-size: 34px; font-weight: 800; color: #6366f1; }
+.cs-label { font-size: 14px; color: #64748b; }
+.cover-arrow { text-align: center; margin-top: 12px; color: #818cf8; font-size: 15px; font-weight: 600; }
 
 /* ── PROFILE SLIDE ── */
 .profile-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; flex: 1;
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; flex: 1;
 }
 .prof-card {
   background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
-  padding: 18px 16px; display: flex; flex-direction: column; gap: 8px;
+  padding: 18px 10px; display: flex; flex-direction: column; align-items: center; gap: 12px;
+  text-align: center;
 }
-.prof-emoji { font-size: 28px; }
-.prof-zh { font-size: 14px; font-weight: 700; color: #1e293b; }
-.prof-en { font-size: 11px; color: #94a3b8; }
+.prof-emoji { font-size: 36px; }
+.prof-zh { font-size: 16px; font-weight: 700; color: #1e293b; line-height: 1.4; }
 
 /* ── PAIN SLIDE ── */
 .pain-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; flex: 1; }
 .pain-card {
   background: #fff; border: 1px solid #fca5a5; border-top: 3px solid #f87171;
-  border-radius: 14px; padding: 20px 16px; display: flex; flex-direction: column; gap: 10px;
+  border-radius: 14px; padding: 20px 16px; display: flex; flex-direction: column; gap: 12px;
 }
-.pain-ico { font-size: 30px; }
-.pain-title { font-size: 15px; font-weight: 700; color: #1e293b; }
-.pain-desc  { font-size: 12px; color: #64748b; line-height: 1.6; flex: 1; }
+.pain-ico { font-size: 34px; }
+.pain-title { font-size: 18px; font-weight: 700; color: #1e293b; }
+.pain-desc  { font-size: 14px; color: #64748b; line-height: 1.6; flex: 1; }
 
 /* ── FEATURE SLIDE ── */
 .feat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; flex: 1; }
@@ -90,17 +90,17 @@ body {
   background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
   padding: 20px 16px; display: flex; flex-direction: column; gap: 10px;
 }
-.feat-num { font-size: 11px; font-weight: 800; color: #6366f1; letter-spacing: 1px; }
+.feat-num { font-size: 12px; font-weight: 800; color: #6366f1; letter-spacing: 1px; }
 .feat-ico-wrap {
-  width: 44px; height: 44px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 24px;
 }
 .fi1 { background: #eef2ff; } .fi2 { background: #eff6ff; }
 .fi3 { background: #f5f3ff; } .fi4 { background: #fffbeb; } .fi5 { background: #f0fdf4; }
-.feat-title { font-size: 15px; font-weight: 700; color: #1e293b; }
-.feat-desc  { font-size: 12px; color: #64748b; line-height: 1.6; flex: 1; }
+.feat-title { font-size: 18px; font-weight: 700; color: #1e293b; }
+.feat-desc  { font-size: 14px; color: #64748b; line-height: 1.6; flex: 1; }
 .feat-tags  { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-.ftag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+.ftag { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
 .ftag-i { background: #eef2ff; color: #4338ca; }
 .ftag-g { background: #f0fdf4; color: #065f46; }
 .ftag-o { background: #fff7ed; color: #c2410c; }
@@ -112,14 +112,14 @@ body {
   padding: 22px 18px; display: flex; flex-direction: column; gap: 10px;
 }
 .dev-card.highlight { border-color: #fde68a; background: #fffbeb; }
-.dev-ico-wrap { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
-.dev-role { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #94a3b8; margin-bottom: 2px; }
-.dev-name { font-size: 16px; font-weight: 700; color: #1e293b; }
-.dev-en   { font-size: 11px; color: #94a3b8; margin-bottom: 4px; }
-.dev-uses { display: flex; flex-direction: column; gap: 5px; flex: 1; }
-.du { font-size: 12px; color: #475569; display: flex; align-items: flex-start; gap: 6px; }
+.dev-ico-wrap { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+.dev-role { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #94a3b8; margin-bottom: 2px; }
+.dev-name { font-size: 18px; font-weight: 700; color: #1e293b; }
+.dev-en   { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+.dev-uses { display: flex; flex-direction: column; gap: 7px; flex: 1; }
+.du { font-size: 14px; color: #475569; display: flex; align-items: flex-start; gap: 6px; }
 .du::before { content: "·"; color: #6366f1; font-weight: 700; flex-shrink: 0; }
-.dev-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: #fef3c7; color: #92400e; margin-top: auto; width: fit-content; }
+.dev-badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; background: #fef3c7; color: #92400e; margin-top: auto; width: fit-content; }
 
 /* ── SCENARIO SLIDE ── */
 .scene-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
@@ -127,32 +127,32 @@ body {
   background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 16px;
   padding: 24px 22px; display: flex; flex-direction: column;
 }
-.scene-emoji { font-size: 32px; margin-bottom: 12px; }
-.scene-title { font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
-.scene-sub   { font-size: 12px; color: #94a3b8; margin-bottom: 18px; }
+.scene-emoji { font-size: 36px; margin-bottom: 10px; }
+.scene-title { font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+.scene-sub   { font-size: 13px; color: #94a3b8; margin-bottom: 16px; }
 .scene-steps { display: flex; flex-direction: column; gap: 0; flex: 1; }
 .sc-step { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; }
-.sc-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-.sc-text { font-size: 14px; color: #334155; line-height: 1.5; }
-.sc-div  { width: 1px; height: 10px; background: #e2e8f0; margin-left: 3px; }
+.sc-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.sc-text { font-size: 16px; color: #334155; line-height: 1.5; }
+.sc-div  { width: 1px; height: 10px; background: #e2e8f0; margin-left: 4px; }
 .scene-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #e8ecf0; }
-.stag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.stag { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
 
 /* ── EXTEND SLIDE ── */
 .extend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1; }
 .ext-card {
   background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
-  padding: 20px 20px; display: flex; flex-direction: column; gap: 10px;
+  padding: 22px 20px; display: flex; flex-direction: column; gap: 12px;
 }
 .ext-head { display: flex; align-items: center; gap: 12px; }
-.ext-emoji { font-size: 26px; }
-.ext-audience { font-size: 15px; font-weight: 700; color: #1e293b; }
-.ext-audience-en { font-size: 11px; color: #94a3b8; }
-.ext-points { display: flex; flex-direction: column; gap: 6px; }
-.ep { font-size: 13px; color: #475569; display: flex; align-items: flex-start; gap: 7px; }
-.ep-dot { width: 6px; height: 6px; border-radius: 50%; background: #6ee7b7; flex-shrink: 0; margin-top: 5px; }
+.ext-emoji { font-size: 30px; }
+.ext-audience { font-size: 17px; font-weight: 700; color: #1e293b; }
+.ext-audience-en { font-size: 12px; color: #94a3b8; }
+.ext-points { display: flex; flex-direction: column; gap: 8px; }
+.ep { font-size: 15px; color: #475569; display: flex; align-items: flex-start; gap: 8px; }
+.ep-dot { width: 7px; height: 7px; border-radius: 50%; background: #6ee7b7; flex-shrink: 0; margin-top: 6px; }
 .ext-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-.etag { font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 20px; background: #f0fdf4; color: #065f46; }
+.etag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: #f0fdf4; color: #065f46; }
 
 /* ── SUMMARY SLIDE ── */
 .sum-cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; flex: 1; }
@@ -161,39 +161,39 @@ body {
   background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
   padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px;
 }
-.sp-ico { font-size: 24px; flex-shrink: 0; }
-.sp-title { font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
-.sp-desc  { font-size: 13px; color: #64748b; line-height: 1.6; }
+.sp-ico { font-size: 28px; flex-shrink: 0; }
+.sp-title { font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+.sp-desc  { font-size: 14px; color: #64748b; line-height: 1.6; }
 .sum-next {
   background: #fff; border: 1px solid #e8ecf0; border-radius: 14px;
   padding: 22px 20px; display: flex; flex-direction: column;
 }
-.sn-title { font-size: 14px; font-weight: 700; color: #4338ca; letter-spacing: 0.5px; margin-bottom: 14px; }
-.sn-steps { display: flex; flex-direction: column; gap: 10px; }
-.sn-step { display: flex; align-items: flex-start; gap: 11px; }
-.sn-num { width: 24px; height: 24px; border-radius: 50%; background: #eef2ff; color: #6366f1; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.sn-text { font-size: 13px; color: #334155; line-height: 1.6; }
-.sum-brand { text-align: right; margin-top: auto; padding-top: 14px; font-size: 36px; font-weight: 900; color: #0f172a; letter-spacing: -2px; }
+.sn-title { font-size: 15px; font-weight: 700; color: #4338ca; letter-spacing: 0.5px; margin-bottom: 14px; }
+.sn-steps { display: flex; flex-direction: column; gap: 12px; }
+.sn-step { display: flex; align-items: flex-start; gap: 12px; }
+.sn-num { width: 26px; height: 26px; border-radius: 50%; background: #eef2ff; color: #6366f1; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sn-text { font-size: 15px; color: #334155; line-height: 1.6; }
+.sum-brand { text-align: right; margin-top: auto; padding-top: 14px; font-size: 40px; font-weight: 900; color: #0f172a; letter-spacing: -2px; }
 .sum-brand span { color: #6366f1; }
 
 /* ── NAV ── */
 .nav {
   position: fixed; bottom: 20px;
-  left: calc(50% - 160px); /* adjusted for editor */
+  left: calc(50% - 160px);
   display: flex; align-items: center; gap: 16px;
   background: #fff; border: 1px solid #e2e8f0; border-radius: 40px;
   padding: 9px 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);
 }
 .nav-btn {
-  width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #e2e8f0;
-  background: #f8fafc; color: #374151; font-size: 16px; cursor: pointer;
+  width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #e2e8f0;
+  background: #f8fafc; color: #374151; font-size: 17px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
 }
 .nav-btn:hover { background: #eef2ff; border-color: #a5b4fc; color: #6366f1; }
 .nav-dots { display: flex; gap: 5px; align-items: center; }
 .nav-dot { width: 7px; height: 7px; border-radius: 50%; background: #e2e8f0; border: none; cursor: pointer; padding: 0; }
 .nav-dot.on { background: #6366f1; width: 20px; border-radius: 4px; }
-.nav-counter { font-size: 12px; font-weight: 600; color: #64748b; min-width: 40px; text-align: center; }
+.nav-counter { font-size: 13px; font-weight: 600; color: #64748b; min-width: 44px; text-align: center; }
 
 /* ── EDITOR PANEL ── */
 .editor-wrap { position: relative; flex-shrink: 0; }
@@ -269,11 +269,11 @@ body {
       <div class="cover-right">
         <div class="cover-stat">
           <div class="cs-num" id="e-cs1-num">20%</div>
-          <div class="cs-label" id="e-cs1-label">核心受眾 — 退休長者，真實需求深度驗證</div>
+          <div class="cs-label" id="e-cs1-label">核心受眾：退休長者，深度驗證需求</div>
         </div>
         <div class="cover-stat">
           <div class="cs-num" id="e-cs2-num">80%</div>
-          <div class="cs-label" id="e-cs2-label">延伸受眾 — 同一平台服務全年齡層</div>
+          <div class="cs-label" id="e-cs2-label">延伸受眾：同一平台服務全年齡層</div>
         </div>
         <div class="cover-stat">
           <div class="cs-num" id="e-cs3-num">5</div>
@@ -287,18 +287,17 @@ body {
   <!-- S2: PROFILE -->
   <div class="slide sl-profile" id="s2">
     <div class="sl-head">
-      <div class="sl-badge">核心受眾 20%</div>
+      <div class="sl-badge">核心受眾 20% — 台灣 65 歲以上人口約佔總人口 20%，達 480 萬人</div>
       <div class="sl-title" id="e-s2-title">誰是我們的核心用戶？</div>
-      <div class="sl-sub" id="e-s2-sub">以退休長者為設計核心，打造真正理解他們需求的 AI 生活夥伴</div>
+      <div class="sl-sub" id="e-s2-sub">以退休長者為設計核心，透過真實生活情境打造 AI 生活夥伴</div>
     </div>
-    <div class="profile-grid">
-      <div class="prof-card"><div class="prof-emoji" id="e-p1-ico">👨‍👩‍👧</div><div class="prof-zh" id="e-p1-zh">兒女長大各自忙碌</div><div class="prof-en" id="e-p1-en">Empty nesters, living independently</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p2-ico">💊</div><div class="prof-zh" id="e-p2-zh">定期用藥或保健食品</div><div class="prof-en" id="e-p2-en">Regular medication & supplements</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p3-ico">🏥</div><div class="prof-zh" id="e-p3-zh">定期復健或健康檢查</div><div class="prof-en" id="e-p3-en">Periodic rehab & health checkups</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p4-ico">🚌</div><div class="prof-zh" id="e-p4-zh">常與同齡友人結伴出遊</div><div class="prof-en" id="e-p4-en">Regular group outings with peers</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p5-ico">📸</div><div class="prof-zh" id="e-p5-zh">出遊愛拍照分享、買名產</div><div class="prof-en" id="e-p5-en">Photo sharing & souvenir shopping</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p6-ico">🥘</div><div class="prof-zh" id="e-p6-zh">偶爾自炊，定期採買食材</div><div class="prof-en" id="e-p6-en">Home cooking, grocery shopping</div></div>
-      <div class="prof-card"><div class="prof-emoji" id="e-p7-ico">🔍</div><div class="prof-zh" id="e-p7-zh">有時忘記東西放在哪裡</div><div class="prof-en" id="e-p7-en">Forgetting where items are placed</div></div>
+    <div class="profile-grid" style="grid-template-columns:repeat(6,1fr)">
+      <div class="prof-card"><div class="prof-emoji" id="e-p2-ico">💊</div><div class="prof-zh" id="e-p2-zh">定期用藥或保健食品</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p3-ico">🏥</div><div class="prof-zh" id="e-p3-zh">定期復健或健康檢查</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p4-ico">🚌</div><div class="prof-zh" id="e-p4-zh">常與同齡友人結伴出遊</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p5-ico">📸</div><div class="prof-zh" id="e-p5-zh">出遊愛拍照分享買名產</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p6-ico">🥘</div><div class="prof-zh" id="e-p6-zh">偶爾自炊，定期採買</div></div>
+      <div class="prof-card"><div class="prof-emoji" id="e-p7-ico">🔍</div><div class="prof-zh" id="e-p7-zh">有時忘記東西放在哪</div></div>
     </div>
   </div>
 
@@ -307,14 +306,14 @@ body {
     <div class="sl-head">
       <div class="sl-badge">五大生活痛點</div>
       <div class="sl-title" id="e-s3-title">退休生活的隱形困擾</div>
-      <div class="sl-sub" id="e-s3-sub">源於真實生活觀察，每個痛點都對應可驗證的行為情境</div>
+      <div class="sl-sub" id="e-s3-sub">源自真實生活，每個痛點都有可驗證的行為場景</div>
     </div>
     <div class="pain-grid">
-      <div class="pain-card"><div class="pain-ico" id="e-pa1-ico">💊</div><div class="pain-title" id="e-pa1-title">用藥復健時間混亂</div><div class="pain-desc" id="e-pa1-desc">每日固定時間吃藥難以持守，復健預約容易忘記或搞混頻率</div></div>
-      <div class="pain-card"><div class="pain-ico" id="e-pa2-ico">🛒</div><div class="pain-title" id="e-pa2-title">採購旅遊忘記清單</div><div class="pain-desc" id="e-pa2-desc">出門買菜想買的沒買到，出遊想買的名產臨時想不起來</div></div>
-      <div class="pain-card"><div class="pain-ico" id="e-pa3-ico">🔍</div><div class="pain-title" id="e-pa3-title">家中物品不知去向</div><div class="pain-desc" id="e-pa3-desc">遙控器、藥盒、鑰匙，翻遍全家找不到，耗費精力又焦慮</div></div>
-      <div class="pain-card"><div class="pain-ico" id="e-pa4-ico">🗺️</div><div class="pain-title" id="e-pa4-title">出遊集合時間焦慮</div><div class="pain-desc" id="e-pa4-desc">進香團或旅遊自由活動時，不確定何時出發才能趕上集合</div></div>
-      <div class="pain-card"><div class="pain-ico" id="e-pa5-ico">📸</div><div class="pain-title" id="e-pa5-title">美好回憶無人喚起</div><div class="pain-desc" id="e-pa5-desc">照片影片存在設備裡從不翻看，珍貴的記憶隨時間漸漸淡忘</div></div>
+      <div class="pain-card"><div class="pain-ico" id="e-pa1-ico">💊</div><div class="pain-title" id="e-pa1-title">用藥復健時間混亂</div><div class="pain-desc" id="e-pa1-desc">吃藥時間難以持守，復健預約容易遺忘</div></div>
+      <div class="pain-card"><div class="pain-ico" id="e-pa2-ico">🛒</div><div class="pain-title" id="e-pa2-title">採購旅遊忘記清單</div><div class="pain-desc" id="e-pa2-desc">出門買菜漏買，出遊名產臨時想不起來</div></div>
+      <div class="pain-card"><div class="pain-ico" id="e-pa3-ico">🔍</div><div class="pain-title" id="e-pa3-title">家中物品不知去向</div><div class="pain-desc" id="e-pa3-desc">遙控器、藥盒、鑰匙翻遍全家找不到</div></div>
+      <div class="pain-card"><div class="pain-ico" id="e-pa4-ico">🗺️</div><div class="pain-title" id="e-pa4-title">出遊集合時間焦慮</div><div class="pain-desc" id="e-pa4-desc">進香團自由活動，不確定何時出發才能趕上</div></div>
+      <div class="pain-card"><div class="pain-ico" id="e-pa5-ico">📸</div><div class="pain-title" id="e-pa5-title">美好回憶無人喚起</div><div class="pain-desc" id="e-pa5-desc">照片影片存在裝置裡，珍貴記憶隨時間淡忘</div></div>
     </div>
   </div>
 
@@ -330,35 +329,35 @@ body {
         <div class="feat-num">01</div>
         <div class="feat-ico-wrap fi1" id="e-f1-ico">⏰</div>
         <div class="feat-title" id="e-f1-title">時間觸發提醒</div>
-        <div class="feat-desc" id="e-f1-desc">每日服藥、復健預約、固定行程，精準時間自動提醒，主機語音播報不遺漏</div>
+        <div class="feat-desc" id="e-f1-desc">服藥、復健、固定行程由主機語音精準播報，不再遺漏</div>
         <div class="feat-tags"><span class="ftag ftag-i">解決痛點 1</span></div>
       </div>
       <div class="feat-card">
         <div class="feat-num">02</div>
         <div class="feat-ico-wrap fi2" id="e-f2-ico">📍</div>
         <div class="feat-title" id="e-f2-title">地點地理圍欄</div>
-        <div class="feat-desc" id="e-f2-desc">靠近超市推送購物清單，離家觸發行程提示，抵達特定地點喚起舊回憶</div>
+        <div class="feat-desc" id="e-f2-desc">靠近超市推送清單，抵達舊地點喚起回憶，集合時倒數提示</div>
         <div class="feat-tags"><span class="ftag ftag-i">解決痛點 2</span><span class="ftag ftag-i">痛點 4</span></div>
       </div>
       <div class="feat-card">
         <div class="feat-num">03</div>
         <div class="feat-ico-wrap fi3" id="e-f3-ico">🤖</div>
         <div class="feat-title" id="e-f3-title">AI 自動建立任務</div>
-        <div class="feat-desc" id="e-f3-desc">拍藥單照片 AI 自動建每日提醒，語音輸入即建任務，截圖自動解析零手動</div>
+        <div class="feat-desc" id="e-f3-desc">拍藥單照片或語音輸入即自動建立提醒，零手動操作</div>
         <div class="feat-tags"><span class="ftag ftag-i">解決痛點 1</span><span class="ftag ftag-i">痛點 2</span></div>
       </div>
       <div class="feat-card">
         <div class="feat-num">04</div>
         <div class="feat-ico-wrap fi4" id="e-f4-ico">🏠</div>
         <div class="feat-title" id="e-f4-title">家庭 AI 中樞</div>
-        <div class="feat-desc" id="e-f4-desc">低功耗主機 24/7 語音播報提醒、BLE 室內物品定位、本地 AI 保護隱私</div>
+        <div class="feat-desc" id="e-f4-desc">低功耗主機 24/7 語音播報、BLE 室內物品定位、本地 AI 護隱私</div>
         <div class="feat-tags"><span class="ftag ftag-i">解決痛點 3</span><span class="ftag ftag-o">公司產品</span></div>
       </div>
       <div class="feat-card">
         <div class="feat-num">05</div>
         <div class="feat-ico-wrap fi5" id="e-f5-ico">📸</div>
         <div class="feat-title" id="e-f5-title">照片回憶觸發</div>
-        <div class="feat-desc" id="e-f5-desc">照片存於家中主機，到達舊地點或特定日期，自動喚起美好回憶</div>
+        <div class="feat-desc" id="e-f5-desc">到舊地點或紀念日期，主機自動推播家中珍藏的美好回憶</div>
         <div class="feat-tags"><span class="ftag ftag-i">解決痛點 5</span><span class="ftag ftag-g">情感連結</span></div>
       </div>
     </div>
@@ -369,19 +368,19 @@ body {
     <div class="sl-head">
       <div class="sl-badge">裝置生態</div>
       <div class="sl-title" id="e-s5-title">以公司 PC 產品為核心的裝置生態</div>
-      <div class="sl-sub" id="e-s5-sub">平板 + 低功耗主機為差異化核心，手機與手錶為輔助延伸</div>
+      <div class="sl-sub" id="e-s5-sub">平板外出定位 + 低功耗主機居家中樞，手錶與家人手機輔助延伸</div>
     </div>
     <div class="device-grid">
-      <div class="dev-card">
+      <div class="dev-card highlight">
         <div class="dev-ico-wrap" style="background:#eef2ff">📱</div>
-        <div><div class="dev-role">家中固定</div><div class="dev-name" id="e-d1-name">平板電腦</div><div class="dev-en" id="e-d1-en">Android / Windows Tablet</div></div>
+        <div><div class="dev-role">外出隨身 ★ 定位終端</div><div class="dev-name" id="e-d1-name">平板電腦</div><div class="dev-en" id="e-d1-en">Android / Windows Tablet · GPS</div></div>
         <div class="dev-uses">
-          <div class="du" id="e-d1-u1">全螢幕強制提醒，無法忽略</div>
-          <div class="du" id="e-d1-u2">大字介面，視力友善</div>
-          <div class="du" id="e-d1-u3">固定擺放，不怕忘帶</div>
-          <div class="du" id="e-d1-u4">家人視訊、回憶相簿</div>
+          <div class="du" id="e-d1-u1">隨身攜帶，持續 GPS 定位</div>
+          <div class="du" id="e-d1-u2">地理圍欄觸發，到點推播清單</div>
+          <div class="du" id="e-d1-u3">大螢幕顯示集合倒數與回憶</div>
+          <div class="du" id="e-d1-u4">大字介面，操作視力友善</div>
         </div>
-        <div class="dev-badge">vs 手機：通知易被滑掉</div>
+        <div class="dev-badge" style="background:#e0e7ff;color:#3730a3">外出定位核心</div>
       </div>
       <div class="dev-card highlight">
         <div class="dev-ico-wrap" style="background:#fef3c7">🖥️</div>
@@ -398,9 +397,9 @@ body {
         <div class="dev-ico-wrap" style="background:#f0fdf4">⌚</div>
         <div><div class="dev-role">外出配戴</div><div class="dev-name" id="e-d3-name">智慧手錶</div><div class="dev-en" id="e-d3-en">Smartwatch — Wearable</div></div>
         <div class="dev-uses">
-          <div class="du" id="e-d3-u1">GPS 定位，集合點計時</div>
+          <div class="du" id="e-d3-u1">振動推播，靜音場合不失禮</div>
           <div class="du" id="e-d3-u2">跌倒偵測，SOS 一鍵</div>
-          <div class="du" id="e-d3-u3">購物清單推播</div>
+          <div class="du" id="e-d3-u3">集合倒數顯示</div>
           <div class="du" id="e-d3-u4">行為異常偵測</div>
         </div>
       </div>
@@ -422,7 +421,7 @@ body {
     <div class="sl-head">
       <div class="sl-badge">場景一：健康照護</div>
       <div class="sl-title" id="e-s6-title">每天的健康任務，AI 自動完成</div>
-      <div class="sl-sub" id="e-s6-sub">從用藥到復健，主機語音提醒 + 平板確認 + 未回應通知家人</div>
+      <div class="sl-sub" id="e-s6-sub">主機語音提醒 + 平板確認 + 未回應通知家人</div>
     </div>
     <div class="scene-cols">
       <div class="scene-card">
@@ -430,11 +429,11 @@ body {
         <div class="scene-title" id="e-sc1-title">晨間用藥，不再遺漏</div>
         <div class="scene-sub" id="e-sc1-sub">時間觸發 × 語音播報 × 平板確認</div>
         <div class="scene-steps">
-          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc1-s1">08:00 主機時間觸發，語音播報「早安，記得吃早上的藥」</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc1-s1">08:00 主機語音播報「早安，記得吃早上的藥」</div></div>
           <div class="sc-div"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc1-s2">平板顯示全螢幕確認畫面，語音引導操作</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc1-s2">平板顯示全螢幕確認畫面，點擊完成</div></div>
           <div class="sc-div"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc1-s3">60 秒未確認 → 自動通知家人，附上未回應提示</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc1-s3">60 秒未確認 → 自動通知家人</div></div>
         </div>
         <div class="scene-tags">
           <span class="stag" style="background:#eef2ff;color:#4338ca">⏰ 時間觸發</span>
@@ -445,13 +444,13 @@ body {
       <div class="scene-card">
         <div class="scene-emoji" id="e-sc2-ico">🏃</div>
         <div class="scene-title" id="e-sc2-title">出門前，復健提醒</div>
-        <div class="scene-sub" id="e-sc2-sub">地點 × 時段 × 智慧提示</div>
+        <div class="scene-sub" id="e-sc2-sub">離家偵測 × 行事曆整合 × 智慧提示</div>
         <div class="scene-steps">
-          <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><div class="sc-text" id="e-sc2-s1">GPS 偵測到長者準備外出（離家圍欄）</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><div class="sc-text" id="e-sc2-s1">GPS 偵測長者準備外出（離家圍欄觸發）</div></div>
           <div class="sc-div"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><div class="sc-text" id="e-sc2-s2">比對行事曆：今天週三下午有復健課</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#34d399"></div><div class="sc-text" id="e-sc2-s2">比對行事曆：今天下午有復健預約</div></div>
           <div class="sc-div"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc2-s3">手錶推播「記得帶復健毛巾，14:00 有預約」</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc2-s3">推播「記得帶復健毛巾，14:00 有預約」</div></div>
         </div>
         <div class="scene-tags">
           <span class="stag" style="background:#eef2ff;color:#4338ca">📍 離家觸發</span>
@@ -466,17 +465,17 @@ body {
     <div class="sl-head">
       <div class="sl-badge">場景二：智慧出遊</div>
       <div class="sl-title" id="e-s7-title">出遊放心玩，回憶更生動</div>
-      <div class="sl-sub" id="e-s7-sub">集合時間自動計算回程 × 到達舊地點喚起美好照片</div>
+      <div class="sl-sub" id="e-s7-sub">AI 計算最佳回程時機 × 舊地點自動喚起照片記憶</div>
     </div>
     <div class="scene-cols">
       <div class="scene-card">
         <div class="scene-emoji" id="e-sc3-ico">🗺️</div>
-        <div class="scene-title" id="e-sc3-title">進香團集合時間提醒</div>
+        <div class="scene-title" id="e-sc3-title">進香團集合，智慧提醒</div>
         <div class="scene-sub" id="e-sc3-sub">自由活動盡興，AI 計算最佳回程時機</div>
         <div class="scene-steps">
           <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc3-s1">行前設定集合點位置 + 集合時間 14:00</div></div>
           <div class="sc-div"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc3-s2">AI 持續計算當前位置到集合點所需步行時間</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc3-s2">AI 持續計算當前位置到集合點步行時間</div></div>
           <div class="sc-div"></div>
           <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc3-s3">13:35 推播「距集合 25 分鐘，建議現在出發」</div></div>
         </div>
@@ -490,11 +489,11 @@ body {
         <div class="scene-title" id="e-sc4-title">舊地重遊，回憶自動出現</div>
         <div class="scene-sub" id="e-sc4-sub">照片存於家中主機，地點觸發情感連結</div>
         <div class="scene-steps">
-          <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><div class="sc-text" id="e-sc4-s1">GPS 偵測到達日月潭景區</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><div class="sc-text" id="e-sc4-s1">GPS 偵測抵達日月潭景區</div></div>
           <div class="sc-div"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><div class="sc-text" id="e-sc4-s2">主機比對照片地點標記，找到 3 年前在此拍攝的影片</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#f87171"></div><div class="sc-text" id="e-sc4-s2">主機比對照片標記，找到 3 年前在此的影片</div></div>
           <div class="sc-div"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc4-s3">手錶推播「3 年前您在這裡的美好回憶 📸 點擊觀看」</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc4-s3">推播「3 年前您在這裡的美好回憶 📸」</div></div>
         </div>
         <div class="scene-tags">
           <span class="stag" style="background:#fef2f2;color:#991b1b">📸 地點回憶</span>
@@ -509,7 +508,7 @@ body {
     <div class="sl-head">
       <div class="sl-badge">場景三：居家日常</div>
       <div class="sl-title" id="e-s8-title">居家生活，輕鬆掌握每件事</div>
-      <div class="sl-sub" id="e-s8-sub">出門採買自動提示 × 語音查詢物品位置</div>
+      <div class="sl-sub" id="e-s8-sub">出門採買自動提示 × 語音查詢找回物品</div>
     </div>
     <div class="scene-cols">
       <div class="scene-card">
@@ -517,11 +516,11 @@ body {
         <div class="scene-title" id="e-sc5-title">出門偵測，購物清單推送</div>
         <div class="scene-sub" id="e-sc5-sub">地點觸發 × 清單自動推播</div>
         <div class="scene-steps">
-          <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><div class="sc-text" id="e-sc5-s1">GPS 偵測長者離開居家圍欄範圍</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><div class="sc-text" id="e-sc5-s1">GPS 偵測長者離開居家圍欄</div></div>
           <div class="sc-div"></div>
           <div class="sc-step"><div class="sc-dot" style="background:#fb923c"></div><div class="sc-text" id="e-sc5-s2">符合平日早上採買時段條件</div></div>
           <div class="sc-div"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc5-s3">手錶推播今日清單：雞蛋、牛奶、魚…</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc5-s3">推播今日清單：雞蛋、牛奶、魚…</div></div>
         </div>
         <div class="scene-tags">
           <span class="stag" style="background:#fff7ed;color:#c2410c">📍 離家觸發</span>
@@ -530,12 +529,12 @@ body {
       </div>
       <div class="scene-card">
         <div class="scene-emoji" id="e-sc6-ico">🔍</div>
-        <div class="scene-title" id="e-sc6-title">語音查詢，找回遺失物品</div>
+        <div class="scene-title" id="e-sc6-title">語音查詢，找回物品</div>
         <div class="scene-sub" id="e-sc6-sub">BLE 室內定位 × 語音問答</div>
         <div class="scene-steps">
-          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc6-s1">長者對主機說「我的遙控器在哪裡？」</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc6-s1">對主機說「我的遙控器在哪裡？」</div></div>
           <div class="sc-div"></div>
-          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc6-s2">主機查詢 BLE 信標最後偵測位置（各房間感應器）</div></div>
+          <div class="sc-step"><div class="sc-dot" style="background:#818cf8"></div><div class="sc-text" id="e-sc6-s2">主機查詢 BLE 信標最後偵測位置</div></div>
           <div class="sc-div"></div>
           <div class="sc-step"><div class="sc-dot" style="background:#fbbf24"></div><div class="sc-text" id="e-sc6-s3">語音回應「遙控器上次在客廳沙發附近」</div></div>
         </div>
@@ -552,21 +551,21 @@ body {
     <div class="sl-head">
       <div class="sl-badge">延伸受眾 80%</div>
       <div class="sl-title" id="e-s9-title">同一套技術，服務每一個人</div>
-      <div class="sl-sub" id="e-s9-sub">長者場景驗證核心功能，相同平台延伸至全年齡層的日常需求</div>
+      <div class="sl-sub" id="e-s9-sub">長者場景驗證核心功能，相同平台延伸至全年齡層日常需求</div>
     </div>
     <div class="extend-grid">
       <div class="ext-card">
         <div class="ext-head"><div class="ext-emoji" id="e-ex1-ico">📦</div><div><div class="ext-audience" id="e-ex1-who">上班族 — 網購取貨</div><div class="ext-audience-en">Working adults & online shoppers</div></div></div>
         <div class="ext-points">
-          <div class="ep"><div class="ep-dot"></div><span id="e-ex1-p1">蝦皮截圖 → AI 自動解析取貨碼、門市、期限</span></div>
-          <div class="ep"><div class="ep-dot"></div><span id="e-ex1-p2">路過超商時推播取貨碼，免翻手機找截圖</span></div>
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex1-p1">蝦皮截圖 → AI 自動解析取貨碼與門市</span></div>
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex1-p2">路過超商時推播取貨碼，免翻手機</span></div>
         </div>
         <div class="ext-tags"><span class="etag">🤖 OCR 辨識</span><span class="etag">📍 路過觸發</span></div>
       </div>
       <div class="ext-card">
         <div class="ext-head"><div class="ext-emoji" id="e-ex2-ico">👪</div><div><div class="ext-audience" id="e-ex2-who">家庭 — 共享清單</div><div class="ext-audience-en">Families & households</div></div></div>
         <div class="ext-points">
-          <div class="ep"><div class="ep-dot"></div><span id="e-ex2-p1">家人共用購物清單，任一人路過超市時同步提醒</span></div>
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex2-p1">家人共用購物清單，路過超市同步提醒</span></div>
           <div class="ep"><div class="ep-dot"></div><span id="e-ex2-p2">語音輸入「買牛奶」→ 自動加入家庭清單</span></div>
         </div>
         <div class="ext-tags"><span class="etag">👥 共享清單</span><span class="etag">🎙️ 語音輸入</span></div>
@@ -582,8 +581,8 @@ body {
       <div class="ext-card">
         <div class="ext-head"><div class="ext-emoji" id="e-ex4-ico">🏃</div><div><div class="ext-audience" id="e-ex4-who">運動族 — 習慣養成</div><div class="ext-audience-en">Fitness enthusiasts</div></div></div>
         <div class="ext-points">
-          <div class="ep"><div class="ep-dot"></div><span id="e-ex4-p1">路過健身房 + 符合設定時段 → 推播習慣提醒</span></div>
-          <div class="ep"><div class="ep-dot"></div><span id="e-ex4-p2">連續打卡記錄，AI 生成鼓勵訊息</span></div>
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex4-p1">路過健身房 + 符合設定時段 → 推播提醒</span></div>
+          <div class="ep"><div class="ep-dot"></div><span id="e-ex4-p2">連續打卡，AI 生成鼓勵訊息</span></div>
         </div>
         <div class="ext-tags"><span class="etag">📍 地點觸發</span><span class="etag">🔁 習慣追蹤</span></div>
       </div>
@@ -601,11 +600,11 @@ body {
       <div class="sum-points">
         <div class="sum-point">
           <div class="sp-ico" id="e-sp1-ico">🎯</div>
-          <div><div class="sp-title" id="e-sp1-title">PC 產品差異化核心</div><div class="sp-desc" id="e-sp1-desc">平板固定提醒 + 低功耗主機 AI 中樞，是手機 App 無法複製的硬體優勢</div></div>
+          <div><div class="sp-title" id="e-sp1-title">PC 產品差異化核心</div><div class="sp-desc" id="e-sp1-desc">平板外出定位 + 低功耗主機 AI 中樞，是手機 App 無法複製的硬體優勢</div></div>
         </div>
         <div class="sum-point">
           <div class="sp-ico" id="e-sp2-ico">📊</div>
-          <div><div class="sp-title" id="e-sp2-title">20% 深度需求驗證</div><div class="sp-desc" id="e-sp2-desc">從退休長者真實生活出發，透過訪談問卷精準定義痛點，確保產品切中核心需求</div></div>
+          <div><div class="sp-title" id="e-sp2-title">20% 深度需求驗證</div><div class="sp-desc" id="e-sp2-desc">從退休長者真實生活出發，訪談問卷精準定義痛點，確保產品切中核心</div></div>
         </div>
         <div class="sum-point">
           <div class="sp-ico" id="e-sp3-ico">🚀</div>
@@ -616,7 +615,7 @@ body {
         <div class="sn-title">下一步行動 NEXT STEPS</div>
         <div class="sn-steps">
           <div class="sn-step"><div class="sn-num">1</div><div class="sn-text" id="e-sn1">設計長者訪談問卷，招募 10–15 位退休長者深度訪談</div></div>
-          <div class="sn-step"><div class="sn-num">2</div><div class="sn-text" id="e-sn2">建立 MVP 原型：平板 + 低功耗主機整合測試</div></div>
+          <div class="sn-step"><div class="sn-num">2</div><div class="sn-text" id="e-sn2">建立 MVP：平板 + 低功耗主機整合測試</div></div>
           <div class="sn-step"><div class="sn-num">3</div><div class="sn-text" id="e-sn3">驗證 BLE 室內定位與照片回憶功能可行性</div></div>
           <div class="sn-step"><div class="sn-num">4</div><div class="sn-text" id="e-sn4">制定 20% → 80% 市場拓展路線圖</div></div>
         </div>
@@ -676,14 +675,13 @@ body {
         <div class="esec-body">
           <div class="field"><label>標題</label><input type="text" data-target="e-s2-title"></div>
           <div class="field"><label>副標</label><input type="text" data-target="e-s2-sub"></div>
-          <div class="fgroup">7 個特徵</div>
-          <div class="field"><label>特徵 1</label><input type="text" data-target="e-p1-zh"></div>
-          <div class="field"><label>特徵 2</label><input type="text" data-target="e-p2-zh"></div>
-          <div class="field"><label>特徵 3</label><input type="text" data-target="e-p3-zh"></div>
-          <div class="field"><label>特徵 4</label><input type="text" data-target="e-p4-zh"></div>
-          <div class="field"><label>特徵 5</label><input type="text" data-target="e-p5-zh"></div>
-          <div class="field"><label>特徵 6</label><input type="text" data-target="e-p6-zh"></div>
-          <div class="field"><label>特徵 7</label><input type="text" data-target="e-p7-zh"></div>
+          <div class="fgroup">6 個特徵</div>
+          <div class="field"><label>特徵 1</label><input type="text" data-target="e-p2-zh"></div>
+          <div class="field"><label>特徵 2</label><input type="text" data-target="e-p3-zh"></div>
+          <div class="field"><label>特徵 3</label><input type="text" data-target="e-p4-zh"></div>
+          <div class="field"><label>特徵 4</label><input type="text" data-target="e-p5-zh"></div>
+          <div class="field"><label>特徵 5</label><input type="text" data-target="e-p6-zh"></div>
+          <div class="field"><label>特徵 6</label><input type="text" data-target="e-p7-zh"></div>
         </div>
       </div>
 
@@ -866,7 +864,6 @@ const TOTAL = 10;
 const LABELS = ['封面','核心受眾','五大痛點','五大功能','裝置生態','場景一：健康','場景二：出遊','場景三：居家','延伸 80%','提案總結'];
 let current = 1;
 
-// ── Init field sync
 document.querySelectorAll('[data-target]').forEach(el => {
   const t = document.getElementById(el.dataset.target);
   if (!t) return;
@@ -874,12 +871,10 @@ document.querySelectorAll('[data-target]').forEach(el => {
   el.addEventListener('input', () => { t.textContent = el.value; });
 });
 
-// ── Section collapse
 document.querySelectorAll('.esec-head').forEach(h => {
   h.addEventListener('click', () => h.closest('.esec').classList.toggle('open'));
 });
 
-// ── Dots
 const dotsEl = document.getElementById('nav-dots');
 for (let i = 1; i <= TOTAL; i++) {
   const d = document.createElement('button');
@@ -896,7 +891,6 @@ function goTo(n) {
   document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('on', i+1 === n));
   document.getElementById('nav-counter').textContent = n + ' / ' + TOTAL;
   document.getElementById('ed-slide-label').textContent = '第 ' + n + ' 頁：' + LABELS[n-1];
-  // Show only current slide's editor sections
   document.querySelectorAll('.esec[data-slide]').forEach(s => {
     s.style.display = s.dataset.slide == n ? 'block' : 'none';
   });
@@ -911,7 +905,6 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { if (current > 1) goTo(current - 1); }
 });
 
-// ── Editor toggle
 const editorEl = document.getElementById('editor');
 const toggleBtn = document.getElementById('editor-toggle');
 toggleBtn.addEventListener('click', () => {
@@ -919,7 +912,6 @@ toggleBtn.addEventListener('click', () => {
   toggleBtn.textContent = editorEl.classList.contains('collapsed') ? '展開' : '編輯';
 });
 
-// ── Save progress (full editor)
 document.getElementById('btn-save').addEventListener('click', () => {
   document.querySelectorAll('.editor input, .editor textarea').forEach(el => {
     if (el.tagName === 'TEXTAREA') el.textContent = el.value;
@@ -933,11 +925,10 @@ document.getElementById('btn-save').addEventListener('click', () => {
   URL.revokeObjectURL(url);
 });
 
-// ── Export presentation (no editor)
 document.getElementById('btn-export').addEventListener('click', () => {
   const style = document.querySelector('style').textContent
     .replace(/\/\* ── EDITOR[\s\S]*$/, '')
-    .replace(/body\s*\{[^}]*\}/, 'body{font-family:"Segoe UI","PingFang TC","Noto Sans TC",sans-serif;display:flex;height:100vh;overflow:hidden;color:#1e293b;font-size:15px;}');
+    .replace(/body\s*\{[^}]*\}/, 'body{font-family:"Segoe UI","PingFang TC","Noto Sans TC",sans-serif;display:flex;height:100vh;overflow:hidden;color:#1e293b;font-size:18px;}');
   const deck  = document.querySelector('.deck').outerHTML;
   const nav   = document.querySelector('.nav').outerHTML;
   const exportScript = `<script>
